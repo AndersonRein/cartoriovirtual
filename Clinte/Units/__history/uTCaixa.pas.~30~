@@ -1,0 +1,153 @@
+unit uTCaixa;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, Mask, ComCtrls, FMTBcd, DBCtrls, uDM, CheckLst,
+  SqlExpr, DB;
+
+type
+  TFCaixa = Class
+  private
+
+  public
+    function getCaixaAberto(): Integer;
+    procedure abrirCaixa(abertura: TDateTime);
+    procedure fechaCaixa(codigo: Integer; obs: string);
+    function temCaixaAberto: Boolean;
+    function getTotalEntradas(caixa: Integer): Double;
+    function setSuprimento(caixa, operacao: Integer; valor: Double;
+      descricao: string): Boolean;
+    function getTotalSaida(caixa: Integer): Double;
+    function getTotalSuprimento(caixa: Integer): Double;
+
+  const
+    CAIXA_ABERTO = 'Já existe um caixa aberto.';
+    CAIXA_FECHADO_SUCESSO = 'Caixa fechado com sucesso.';
+    CAIXA_FECHADO = 'Este caixa já esta fechado.';
+    NAO_EXISTE_CAIXA_ABERTO = 'Não existe caixa aberto.';
+  End;
+
+implementation
+
+{ TFServico }
+
+procedure TFCaixa.abrirCaixa(abertura: TDateTime);
+var
+  sql: TSQLDataSet;
+begin
+  sql := TSQLDataSet.Create(nil);
+  sql.SQLConnection := DM.SQLConnection;
+  sql.CommandText :=
+    'INSERT INTO CAIXA_SB (CODIGO, ABERTURA) VALUES (0,:ABERTURA)';
+  sql.Params[0].AsDateTime := abertura;
+  sql.ExecSQL;
+end;
+
+procedure TFCaixa.fechaCaixa(codigo: Integer; obs: string);
+var
+  sql: TSQLDataSet;
+begin
+  sql := TSQLDataSet.Create(nil);
+  sql.SQLConnection := DM.SQLConnection;
+  sql.CommandText :=
+    'UPDATE CAIXA_SB SET FECHAMENTO = :FECHAMENTO, OBSERVACAO =:OBSERVACAO WHERE CODIGO =:CODIGO';
+  sql.Params[0].AsDateTime := Now;
+  sql.Params[1].AsString := obs;
+  sql.Params[2].AsInteger := codigo;
+  sql.ExecSQL;
+end;
+
+function TFCaixa.getCaixaAberto(): Integer;
+var
+  sql: TSQLDataSet;
+begin
+  sql := TSQLDataSet.Create(nil);
+  sql.SQLConnection := DM.SQLConnection;
+  sql.CommandText := 'SELECT CODIGO FROM VCAIXA_SB WHERE FECHAMENTO IS NULL';
+  sql.Open;
+
+  Result := sql.FieldByName('CODIGO').AsInteger;
+end;
+
+function TFCaixa.getTotalEntradas(caixa: Integer): Double;
+var
+  sql: TSQLDataSet;
+begin
+  sql := TSQLDataSet.Create(nil);
+  sql.SQLConnection := DM.SQLConnection;
+  sql.CommandText :=
+    'SELECT COALESCE(SUM(TOTAL - DESCONTO),0) + (SELECT COALESCE(SUM(VALOR),0) FROM SUPRIMENTO WHERE OPERACAO = 0 AND CAIXA = :CAIXA) AS TOTAL FROM VVENDAS_SB WHERE CAIXA =:CAIXA';
+  sql.Params[0].AsInteger := caixa;
+  sql.Open;
+
+  Result := sql.FieldByName('TOTAL').AsFloat;
+end;
+
+function TFCaixa.getTotalSaida(caixa: Integer): Double;
+var
+  sql: TSQLDataSet;
+begin
+  sql := TSQLDataSet.Create(nil);
+  sql.SQLConnection := DM.SQLConnection;
+  sql.CommandText :=
+    'SELECT COALESCE(SUM(VALOR),0) AS TOTAL FROM SUPRIMENTO WHERE OPERACAO = 1 AND CAIXA = :CAIXA';
+  sql.Params[0].AsInteger := caixa;
+  sql.Open;
+
+  Result := sql.FieldByName('TOTAL').AsFloat;
+end;
+
+function TFCaixa.getTotalSuprimento(caixa: Integer): Double;
+var
+  sql: TSQLDataSet;
+begin
+  sql := TSQLDataSet.Create(nil);
+  sql.SQLConnection := DM.SQLConnection;
+  sql.CommandText :=
+    'SELECT (SELECT COALESCE(SUM(VALOR),0) AS VALOR FROM SUPRIMENTO WHERE CAIXA =:CAIXA AND OPERACAO = 0) as ENTRADAS, (SELECT COALESCE(SUM(VALOR),0) AS VALOR FROM SUPRIMENTO WHERE CAIXA =:CAIXA AND OPERACAO = 1) AS SAIDAS FROM SUPRIMENTO GROUP BY ENTRADAS, SAIDA';
+  sql.Open;
+
+  Result := False
+end;
+
+function TFCaixa.setSuprimento(caixa, operacao: Integer; valor: Double;
+  descricao: string): Boolean;
+var
+  sql: TSQLDataSet;
+begin
+  try
+    sql := TSQLDataSet.Create(nil);
+    sql.SQLConnection := DM.SQLConnection;
+    sql.CommandText :=
+      'INSERT INTO SUPRIMENTO VALUES(0,:CAIXA, :VALOR, :DESCRICAO, :OPERACAO)';
+    sql.Params[0].AsInteger := caixa;
+    sql.Params[1].AsFloat := valor;
+    sql.Params[2].AsString := descricao;
+    sql.Params[3].AsInteger := operacao;
+    sql.ExecSQL;
+
+    Result := True;
+
+  except
+    Result := False
+  end
+end;
+
+function TFCaixa.temCaixaAberto: Boolean;
+var
+  sql: TSQLDataSet;
+begin
+  sql := TSQLDataSet.Create(nil);
+  sql.SQLConnection := DM.SQLConnection;
+  sql.CommandText := 'SELECT * FROM CAIXA_SB WHERE FECHAMENTO IS NULL';
+  sql.Open;
+
+  if sql.RecordCount = 0 then
+    Result := False
+  else
+    Result := True;
+end;
+
+end.

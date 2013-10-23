@@ -1,0 +1,39 @@
+unit uSMProtocolo;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, Datasnap.DSServer, Datasnap.DSAuth, uTProtocolo;
+
+type
+  TsmProtocolo = class(TDSServerModule)
+    procedure DSServerModuleCreate(Sender: TObject);
+  private
+    { Private declarations }
+    protocolo: TProtocolo;
+  public
+    { Public declarations }
+    function protocolarProtesto(apresentante, devedor:Integer; ocorencia:SmallInt):Integer;
+  end;
+
+implementation
+
+{$R *.dfm}
+
+uses uDM;
+
+{ TsmProtocolo }
+
+procedure TsmProtocolo.DSServerModuleCreate(Sender: TObject);
+begin
+ protocolo := TProtocolo.Create;
+end;
+
+function TsmProtocolo.protocolarProtesto(apresentante, devedor: Integer;
+  ocorencia: SmallInt): Integer;
+begin
+  Result := protocolo.protocolarProtesto(apresentante, devedor, ocorencia);
+end;
+
+end.
+

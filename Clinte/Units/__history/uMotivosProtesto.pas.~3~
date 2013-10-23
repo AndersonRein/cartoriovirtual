@@ -1,0 +1,45 @@
+unit uMotivosProtesto;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uAcessoPadrao, Data.DB,
+  Datasnap.DBClient, Datasnap.DSConnect, Vcl.StdCtrls, Vcl.Buttons, Vcl.Grids,
+  Vcl.DBGrids;
+
+type
+  TFMotivosProtesto = class(TFAcessoCadPadrao)
+    cdsConsultaCODIGO: TIntegerField;
+    cdsConsultaSIGLA: TStringField;
+    cdsConsultaNOME: TStringField;
+    cdsConsultaDESCRICAO: TStringField;
+    cdsConsultaSTATUS: TSmallintField;
+    procedure btbInserirClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FMotivosProtesto: TFMotivosProtesto;
+
+implementation
+
+{$R *.dfm}
+
+uses uCadMotivosProtesto;
+
+procedure TFMotivosProtesto.btbInserirClick(Sender: TObject);
+var
+CadMotivos: TFCadMotivosProtesto;
+begin
+  inherited;
+CadMotivos := TFCadMotivosProtesto.Create(nil);
+CadMotivos.inserir;
+cdsConsulta.Refresh;
+CadMotivos.Free;
+end;
+
+end.

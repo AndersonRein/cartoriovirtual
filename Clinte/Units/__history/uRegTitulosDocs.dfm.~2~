@@ -1,0 +1,20 @@
+inherited FRegTitulosDocs: TFRegTitulosDocs
+  Caption = 'Registro de t'#237'tulos e documentos'
+  ExplicitWidth = 742
+  ExplicitHeight = 503
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited cdsConsulta: TClientDataSet
+    Params = <
+      item
+        DataType = ftString
+        Name = 'nome'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspConsulta'
+    RemoteServer = dspConection
+  end
+  inherited dspConection: TDSProviderConnection
+    ServerClassName = 'TsmRegTitulosDocs'
+  end
+end

@@ -1,0 +1,411 @@
+unit uNovaVenda;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, uPadraoVazio, StdCtrls, FMTBcd, Provider, DBClient, DB, SqlExpr,
+  Mask, DBCtrls, ExtCtrls, uTCliente, Buttons, Grids, DBGrids, ComCtrls,
+  uTServico, uTProdutos, uTVenda, uPadrao;
+
+type
+  TFNovaVenda = class(TFPadraoVazio)
+    GroupBox1: TGroupBox;
+    edCliente: TEdit;
+    sqsVenda: TSQLDataSet;
+    dsVenda: TDataSource;
+    cdsVenda: TClientDataSet;
+    dspVenda: TDataSetProvider;
+    cdsVendaCODIGO: TIntegerField;
+    cdsVendaCLIENTE: TIntegerField;
+    cdsVendaDATA: TDateField;
+    cdsVendaDESCONTO: TFMTBCDField;
+    cdsVendaSTATUS: TSmallintField;
+    dbCliente: TDBEdit;
+    GroupBox2: TGroupBox;
+    lblNascimento: TLabel;
+    spbNovoCliente: TSpeedButton;
+    GroupBox3: TGroupBox;
+    PageControl: TPageControl;
+    TabSheet1: TTabSheet;
+    GroupBox4: TGroupBox;
+    GroupBox5: TGroupBox;
+    DBGrid1: TDBGrid;
+    GroupBox6: TGroupBox;
+    edCodServico: TEdit;
+    edServico: TEdit;
+    GroupBox7: TGroupBox;
+    edValorServico: TEdit;
+    spbServico: TSpeedButton;
+    GroupBox8: TGroupBox;
+    edObsServico: TEdit;
+    GroupBox9: TGroupBox;
+    edQuantidadeServico: TEdit;
+    cdsItens: TClientDataSet;
+    dsItens: TDataSource;
+    dspItens: TDataSetProvider;
+    sqsItens: TSQLDataSet;
+    cdsItensCODIGO: TIntegerField;
+    cdsItensVENDA: TIntegerField;
+    cdsItensPRODUTO: TStringField;
+    cdsItensCODSERVICO: TIntegerField;
+    cdsItensSERVICO: TStringField;
+    cdsItensQUANTIDADE: TSingleField;
+    cdsItensVALOR: TFMTBCDField;
+    cdsItensUNIDADE: TStringField;
+    cdsItensTOTAL: TFloatField;
+    cdsItensVALIDADE: TDateField;
+    GroupBox10: TGroupBox;
+    spbSalvar: TSpeedButton;
+    TabSheet2: TTabSheet;
+    GroupBox11: TGroupBox;
+    spbProduto: TSpeedButton;
+    GroupBox12: TGroupBox;
+    edCodProduto: TEdit;
+    edProduto: TEdit;
+    GroupBox13: TGroupBox;
+    edValorProduto: TEdit;
+    GroupBox15: TGroupBox;
+    edQuantidadeProduto: TEdit;
+    GroupBox16: TGroupBox;
+    DBGrid2: TDBGrid;
+    sqsProduto: TSQLDataSet;
+    dspProtuos: TDataSetProvider;
+    cdsProdutos: TClientDataSet;
+    IntegerField1: TIntegerField;
+    IntegerField2: TIntegerField;
+    StringField1: TStringField;
+    IntegerField4: TIntegerField;
+    StringField2: TStringField;
+    SingleField1: TSingleField;
+    FMTBCDField1: TFMTBCDField;
+    StringField3: TStringField;
+    FloatField1: TFloatField;
+    DateField1: TDateField;
+    dsProdutos: TDataSource;
+    Produtos: TGroupBox;
+    lblTotalProdutos: TLabel;
+    Serviços: TGroupBox;
+    lblTotalServicos: TLabel;
+    cdsItensCODPRODUTO: TIntegerField;
+    cdsItensOBSERVACAO: TStringField;
+    cdsProdutosCODPRODUTO: TIntegerField;
+    cdsProdutosOBSERVACAO: TStringField;
+    GroupBox17: TGroupBox;
+    lblDesconto: TLabel;
+    GroupBox18: TGroupBox;
+    lblTotalVenda: TLabel;
+    spbDesconto: TSpeedButton;
+    procedure cdsVendaNewRecord(DataSet: TDataSet);
+    procedure dbClienteClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure dbClienteKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure spbNovoClienteClick(Sender: TObject);
+    procedure edCodServicoClick(Sender: TObject);
+    procedure spbServicoClick(Sender: TObject);
+    procedure edCodServicoKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure edQuantidadeServicoKeyPress(Sender: TObject; var Key: Char);
+    procedure edCodServicoEnter(Sender: TObject);
+    procedure edCodProdutoClick(Sender: TObject);
+    procedure edQuantidadeProdutoKeyPress(Sender: TObject; var Key: Char);
+    procedure edCodProdutoKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure spbDescontoClick(Sender: TObject);
+    procedure spbSalvarClick(Sender: TObject);
+  private
+    { Private declarations }
+    cliente: TFCliente;
+    servico: TFServico;
+    produto: TFProduto;
+    venda: TFVenda;
+    codAlteracao: Integer;
+    padrao: TFPadrao;
+    procedure abrirCadastro;
+    procedure editarCadastro;
+    procedure salvar;
+    procedure mostraItens;
+    procedure limpaCamposProduto;
+    procedure limpaCamposServico;
+  public
+    { Public declarations }
+    procedure inserir;
+    procedure alterar(codigo: Integer);
+  end;
+
+var
+  FNovaVenda: TFNovaVenda;
+
+implementation
+
+uses uDM, uBusca, uCadClientes, uCadServicos;
+{$R *.dfm}
+
+procedure TFNovaVenda.abrirCadastro;
+begin
+  cdsVenda.Close;
+  cdsVenda.Params[0].AsInteger := 0;
+  cdsVenda.Open;
+  cdsVenda.Insert;
+end;
+
+procedure TFNovaVenda.alterar(codigo: Integer);
+begin
+  codAlteracao := codigo;
+  editarCadastro;
+  mostraItens;
+  Self.ShowModal;
+end;
+
+procedure TFNovaVenda.cdsVendaNewRecord(DataSet: TDataSet);
+begin
+  inherited;
+  codAlteracao := venda.getCodigoVenda;
+  cdsVendaCODIGO.AsInteger := codAlteracao;
+  cdsVendaFORMAPAGAMENTO.AsInteger := 0;
+  cdsVendaDATA.AsDateTime := Date;
+  cdsVendaSTATUS.AsInteger := 1;
+end;
+
+procedure TFNovaVenda.dbClienteClick(Sender: TObject);
+var
+  busca: TFBusca;
+begin
+  inherited;
+  busca := TFBusca.Create(nil);
+  busca.new('Cliente', 'VCLIENTES', 'CODIGO, NOME', 'NOME');
+  cdsVendaCLIENTE.AsInteger := busca.getCodigo;
+  edCliente.Text := busca.getNome;
+  busca.Free;
+  lblNascimento.Caption := DateToStr
+    (cliente.getNascimento(cdsVendaCLIENTE.AsInteger));
+end;
+
+procedure TFNovaVenda.dbClienteKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  if dbCliente.Text = '' then
+  begin
+    edCliente.Clear;
+    lblNascimento.Caption := '';
+    Exit;
+  end;
+  edCliente.Text := cliente.getNomeCliente(StrToInt(dbCliente.Text));
+  if cliente.getNascimento(StrToInt(dbCliente.Text)) > StrToDate('01/01/1900')
+    then
+    lblNascimento.Caption := DateToStr
+      (cliente.getNascimento(StrToInt(dbCliente.Text)));
+end;
+
+procedure TFNovaVenda.edCodProdutoClick(Sender: TObject);
+var
+  busca: TFBusca;
+begin
+  inherited;
+  busca := TFBusca.Create(nil);
+  busca.new('Produtos', 'VPRODUTOS_SB', 'CODIGO, NOME, MARCA', 'NOME');
+  edCodProduto.Text := IntToStr(busca.getCodigo);
+  edProduto.Text := busca.getNome;
+  busca.Free;
+  edValorProduto.Text := FormatFloat('###.00', produto.getValor
+      (StrToInt(edCodProduto.Text)));
+end;
+
+procedure TFNovaVenda.edCodProdutoKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  if edCodProduto.Text = '' then
+  begin
+    limpaCamposProduto;
+    Exit
+  end;
+  edProduto.Text := produto.getNome(StrToInt(edCodProduto.Text));
+  edValorProduto.Text := FloatToStr
+    (produto.getValor(StrToInt(edCodProduto.Text)));
+end;
+
+procedure TFNovaVenda.edCodServicoClick(Sender: TObject);
+var
+  busca: TFBusca;
+begin
+  inherited;
+  busca := TFBusca.Create(nil);
+  busca.new('Serviço', 'VSERVICOS_SB', 'CODIGO, NOME, VALOR', 'NOME');
+  edCodServico.Text := IntToStr(busca.getCodigo);
+  edServico.Text := busca.getNome;
+  busca.Free;
+  edValorServico.Text := FormatFloat('###.00', servico.getValor
+      (StrToInt(edCodServico.Text)));
+end;
+
+procedure TFNovaVenda.edCodServicoEnter(Sender: TObject);
+begin
+  inherited;
+  salvar;
+  editarCadastro;
+end;
+
+procedure TFNovaVenda.edCodServicoKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  if edCodServico.Text = '' then
+  begin
+    limpaCamposServico;
+    Exit;
+  end;
+  edServico.Text := servico.getNome(StrToInt(edCodServico.Text));
+  edValorServico.Text := FormatFloat('###.00', servico.getValor
+      (StrToInt(edCodServico.Text)));
+end;
+
+procedure TFNovaVenda.editarCadastro;
+begin
+  cdsVenda.Close;
+  cdsVenda.Params[0].AsInteger := codAlteracao;
+  cdsVenda.Open;
+  cdsVenda.Edit;
+
+  edCliente.Text := cliente.getNomeCliente(StrToInt(dbCliente.Text));
+  if cliente.getNascimento(StrToInt(dbCliente.Text)) > StrToDate('01/01/1900')
+    then
+    lblNascimento.Caption := DateToStr
+      (cliente.getNascimento(StrToInt(dbCliente.Text)));
+end;
+
+procedure TFNovaVenda.edQuantidadeProdutoKeyPress
+  (Sender: TObject; var Key: Char);
+begin
+  inherited;
+  if Key = #13 then
+  begin
+    if venda.inseriIten(cdsVendaCODIGO.AsInteger, StrToInt(edCodProduto.Text),
+      0, StrToFloat(edValorProduto.Text), StrToFloat(edQuantidadeProduto.Text),
+      produto.getUnidade(StrToInt(edCodProduto.Text)), ' ') then
+    begin
+      mostraItens;
+      limpaCamposProduto;
+      edCodProduto.SetFocus;
+    end;
+  end;
+end;
+
+procedure TFNovaVenda.edQuantidadeServicoKeyPress
+  (Sender: TObject; var Key: Char);
+begin
+  inherited;
+  if Key = #13 then
+  begin
+    if venda.inseriIten(cdsVendaCODIGO.AsInteger, 0, StrToInt(edCodServico.Text)
+        , StrToFloat(edValorServico.Text), StrToFloat(edQuantidadeServico.Text)
+        , '', edObsServico.Text) then
+    begin
+      mostraItens;
+      limpaCamposServico;
+      edCodServico.SetFocus;
+    end;
+  end;
+end;
+
+procedure TFNovaVenda.FormCreate(Sender: TObject);
+begin
+  inherited;
+  cliente := TFCliente.Create;
+  servico := TFServico.Create;
+  venda := TFVenda.Create;
+  produto := TFProduto.Create;
+end;
+
+procedure TFNovaVenda.inserir;
+begin
+  abrirCadastro;
+  Self.ShowModal;
+end;
+
+procedure TFNovaVenda.limpaCamposProduto;
+begin
+  edProduto.Clear;
+  edValorProduto.Clear;
+  edQuantidadeProduto.Clear;
+end;
+
+procedure TFNovaVenda.limpaCamposServico;
+begin
+  edServico.Clear;
+  edValorServico.Clear;
+  edObsServico.Clear;
+  edCodServico.Clear;
+  edQuantidadeServico.Clear;
+end;
+
+procedure TFNovaVenda.mostraItens;
+begin
+  cdsItens.Close;
+  cdsItens.Params[0].AsInteger := cdsVendaCODIGO.AsInteger;
+  cdsItens.Open;
+
+  cdsProdutos.Close;
+  cdsProdutos.Params[0].AsInteger := cdsVendaCODIGO.AsInteger;
+  cdsProdutos.Open;
+
+  lblTotalProdutos.Caption := FormatFloat('###0.00', venda.getTotalProdutos
+      (cdsVendaCODIGO.AsInteger));
+  lblTotalServicos.Caption := FormatFloat('###0.00', venda.getTotalServicos
+      (cdsVendaCODIGO.AsInteger));
+  lblDesconto.Caption := FormatFloat('###0.00', cdsVendaDESCONTO.AsFloat);
+  lblTotalVenda.Caption := FormatFloat('###0.00', venda.getTotalVenda
+      (cdsVendaCODIGO.AsInteger) - cdsVendaDESCONTO.AsFloat);
+end;
+
+procedure TFNovaVenda.salvar;
+begin
+  cdsVenda.Post;
+  cdsVenda.ApplyUpdates(-1);
+end;
+
+procedure TFNovaVenda.spbDescontoClick(Sender: TObject);
+var
+  vlr: string;
+begin
+  inherited;
+  vlr := InputBox('Salão de Beleza', 'Informe o desconto', '');
+  if vlr = '' then
+    Exit;
+  cdsVendaDESCONTO.AsFloat := StrToFloat(vlr);
+  mostraItens;
+end;
+
+procedure TFNovaVenda.spbNovoClienteClick(Sender: TObject);
+var
+  cliente: TFCadClientes;
+begin
+  inherited;
+  cliente := TFCadClientes.Create(nil);
+  cliente.inserir(0);
+  cliente.Free;
+end;
+
+procedure TFNovaVenda.spbSalvarClick(Sender: TObject);
+begin
+  inherited;
+  salvar;
+  ShowMessage(padrao.SUCESSO);
+  abrirCadastro;
+  mostraItens;
+  dbCliente.SetFocus;
+end;
+
+procedure TFNovaVenda.spbServicoClick(Sender: TObject);
+var
+  servicos: TFCadServicos;
+begin
+  inherited;
+  servicos := TFCadServicos.Create(nil);
+  servicos.inserir;
+  servicos.Free;
+end;
+
+end.

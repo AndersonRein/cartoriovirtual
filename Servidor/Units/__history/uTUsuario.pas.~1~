@@ -1,0 +1,59 @@
+unit uTUsuario;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, Mask, ComCtrls, FMTBcd, DBCtrls, uDM, CheckLst,
+  SqlExpr, DB;
+
+type
+  TUsuario = Class
+  private
+    nome: string;
+    codigo: Integer;
+  public
+    function getNome():string;
+    procedure setNome(nome: string);
+    procedure setCodigo(codigo: Integer);
+    function getCodigo():Integer;
+    procedure desativar(codigo:Integer);
+  End;
+
+implementation
+
+{ TFCliente }
+
+function TUsuario.getNome: string;
+begin
+Result := nome;
+end;
+
+procedure TUsuario.desativar(codigo: Integer);
+var
+sql: TSqlServerMethod;
+begin
+sql := TSqlServerMethod.Create(nil);
+sql.SQLConnection := DM.SQLConnection;
+sql.ServerMethodName := '';
+sql.Params[0].AsInteger := codigo;
+sql.ExecuteMethod;
+sql.Free;
+end;
+
+function TUsuario.getCodigo: Integer;
+begin
+Result := codigo;
+end;
+
+procedure TUsuario.setCodigo(codigo: Integer);
+begin
+  Self.codigo := codigo;
+end;
+
+procedure TUsuario.setNome(nome: string);
+begin
+  Self.nome := nome;
+end;
+
+end.

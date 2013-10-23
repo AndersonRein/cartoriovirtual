@@ -1,0 +1,87 @@
+unit uCadRegistroSelos;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uCadastroPadrao, Data.DB, uTRegistoSelos,
+  Datasnap.DBClient, Datasnap.DSConnect, Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask,
+  Vcl.DBCtrls;
+
+type
+  TFCadRegistroSelo = class(TFCadastroPadrao)
+    cdsCadastroCODIGO: TIntegerField;
+    cdsCadastroKITSELO: TIntegerField;
+    cdsCadastroQUANTIDADEKIT: TIntegerField;
+    cdsCadastroENTREGA: TDateField;
+    cdsCadastroSERIEINI: TLargeintField;
+    cdsCadastroSERIEFIM: TLargeintField;
+    Label1: TLabel;
+    lbl1: TLabel;
+    dbQuantidade: TDBEdit;
+    lbl2: TLabel;
+    dbEntrega: TDBEdit;
+    lbl3: TLabel;
+    dbSerieInicial: TDBEdit;
+    lbl4: TLabel;
+    dbSerieFinal: TDBEdit;
+    dbKitSelo: TDBLookupComboBox;
+    cdsKitSelo: TClientDataSet;
+    dsKitSelo: TDataSource;
+    cdsKitSeloCODIGO: TIntegerField;
+    cdsKitSeloNOME: TStringField;
+    cdsKitSeloQUANTIDADE: TIntegerField;
+    procedure FormCreate(Sender: TObject);
+    procedure cdsCadastroNewRecord(DataSet: TDataSet);
+    procedure dbQuantidadeKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure dbSerieInicialKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+  private
+    { Private declarations }
+    registroSelo: TRegistroSelos;
+
+  public
+    { Public declarations }
+  end;
+
+var
+  FCadRegistroSelo: TFCadRegistroSelo;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFCadRegistroSelo.cdsCadastroNewRecord(DataSet: TDataSet);
+begin
+  inherited;
+  cdsCadastroSERIEINI.AsInteger := registroSelo.getProxNumSerie;
+end;
+
+procedure TFCadRegistroSelo.dbQuantidadeKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+if dbQuantidade.Text = '' then
+  Exit;
+  cdsCadastroSERIEFIM.AsInteger := registroSelo.calcularSerieFinal(cdsKitSeloQUANTIDADE.AsInteger, StrToIntDef(dbQuantidade.Text,0), cdsCadastroSERIEINI.AsInteger);
+end;
+
+procedure TFCadRegistroSelo.dbSerieInicialKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+if dbSerieInicial.Text = '' then
+  Exit;
+  cdsCadastroSERIEFIM.AsInteger := registroSelo.calcularSerieFinal(cdsKitSeloQUANTIDADE.AsInteger, StrToIntDef(dbQuantidade.Text,0), cdsCadastroSERIEINI.AsInteger);
+end;
+
+procedure TFCadRegistroSelo.FormCreate(Sender: TObject);
+begin
+  inherited;
+  registroSelo := TRegistroSelos.Create;
+  cdsKitSelo.Close;
+  cdsKitSelo.Open;
+end;
+
+end.

@@ -1,0 +1,262 @@
+inherited FCadTransportadora: TFCadTransportadora
+  Caption = 'Cadastro de Transportadora'
+  ClientHeight = 270
+  ClientWidth = 444
+  ExplicitWidth = 450
+  ExplicitHeight = 298
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited gpbCadastro: TGroupBox
+    Width = 444
+    Height = 221
+    ExplicitWidth = 488
+    ExplicitHeight = 221
+    object Label1: TLabel
+      Left = 8
+      Top = 15
+      Width = 60
+      Height = 13
+      Caption = 'Raz'#227'o Social'
+      FocusControl = dbRazaoSocial
+    end
+    object Label2: TLabel
+      Left = 8
+      Top = 56
+      Width = 25
+      Height = 13
+      Caption = 'CNPJ'
+      FocusControl = dbCNPJ
+    end
+    object Label3: TLabel
+      Left = 238
+      Top = 56
+      Width = 68
+      Height = 13
+      Caption = 'Insc. Estadual'
+      FocusControl = dbInscEst
+    end
+    object Label4: TLabel
+      Left = 8
+      Top = 96
+      Width = 45
+      Height = 13
+      Caption = 'Endere'#231'o'
+      FocusControl = dbEndereco
+    end
+    object Label5: TLabel
+      Left = 8
+      Top = 135
+      Width = 33
+      Height = 13
+      Caption = 'Cidade'
+      FocusControl = dbCidade
+    end
+    object Label6: TLabel
+      Left = 310
+      Top = 135
+      Width = 42
+      Height = 13
+      Caption = 'Telefone'
+      FocusControl = dbTelefone
+    end
+    object Label7: TLabel
+      Left = 8
+      Top = 175
+      Width = 26
+      Height = 13
+      Caption = 'ANTT'
+      FocusControl = dbANTT
+    end
+    object Label8: TLabel
+      Left = 238
+      Top = 175
+      Width = 25
+      Height = 13
+      Caption = 'Placa'
+      FocusControl = dbPlaca
+    end
+    object dbRazaoSocial: TDBEdit
+      Left = 8
+      Top = 31
+      Width = 430
+      Height = 21
+      CharCase = ecUpperCase
+      DataField = 'RAZAOSOCIAL'
+      DataSource = dsTransportadora
+      TabOrder = 0
+    end
+    object dbCNPJ: TDBEdit
+      Left = 8
+      Top = 72
+      Width = 200
+      Height = 21
+      CharCase = ecUpperCase
+      DataField = 'CNPJ'
+      DataSource = dsTransportadora
+      TabOrder = 1
+    end
+    object dbInscEst: TDBEdit
+      Left = 238
+      Top = 72
+      Width = 200
+      Height = 21
+      CharCase = ecUpperCase
+      DataField = 'ISCEST'
+      DataSource = dsTransportadora
+      TabOrder = 2
+    end
+    object dbEndereco: TDBEdit
+      Left = 8
+      Top = 112
+      Width = 430
+      Height = 21
+      CharCase = ecUpperCase
+      DataField = 'ENDERECO'
+      DataSource = dsTransportadora
+      TabOrder = 3
+    end
+    object dbCidade: TDBEdit
+      Left = 8
+      Top = 151
+      Width = 60
+      Height = 21
+      CharCase = ecUpperCase
+      Color = clSilver
+      DataField = 'CIDADE'
+      DataSource = dsTransportadora
+      ReadOnly = True
+      TabOrder = 4
+      OnClick = dbCidadeClick
+      OnEnter = dbCidadeClick
+    end
+    object edCidade: TEdit
+      Left = 67
+      Top = 151
+      Width = 239
+      Height = 21
+      CharCase = ecUpperCase
+      ReadOnly = True
+      TabOrder = 5
+      OnClick = dbCidadeClick
+    end
+    object dbTelefone: TDBEdit
+      Left = 310
+      Top = 151
+      Width = 128
+      Height = 21
+      CharCase = ecUpperCase
+      DataField = 'TELEFONE'
+      DataSource = dsTransportadora
+      TabOrder = 6
+    end
+    object dbANTT: TDBEdit
+      Left = 8
+      Top = 191
+      Width = 200
+      Height = 21
+      CharCase = ecUpperCase
+      DataField = 'ANTT'
+      DataSource = dsTransportadora
+      TabOrder = 7
+    end
+    object dbPlaca: TDBEdit
+      Left = 238
+      Top = 191
+      Width = 200
+      Height = 21
+      CharCase = ecUpperCase
+      DataField = 'PLACA'
+      DataSource = dsTransportadora
+      TabOrder = 8
+    end
+  end
+  inherited btSalvar: TBitBtn
+    Left = 116
+    Top = 227
+    OnClick = btSalvarClick
+    ExplicitLeft = 116
+    ExplicitTop = 227
+  end
+  inherited btCancelar: TBitBtn
+    Left = 223
+    Top = 227
+    ExplicitLeft = 223
+    ExplicitTop = 227
+  end
+  object cdsTransportadora: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'codigo'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspTransportadora'
+    OnNewRecord = cdsTransportadoraNewRecord
+    Left = 296
+    Top = 8
+    object cdsTransportadoraCODIGO: TIntegerField
+      FieldName = 'CODIGO'
+      Required = True
+    end
+    object cdsTransportadoraRAZAOSOCIAL: TStringField
+      DisplayLabel = 'Raz'#227'o Social'
+      FieldName = 'RAZAOSOCIAL'
+      Size = 100
+    end
+    object cdsTransportadoraCNPJ: TStringField
+      FieldName = 'CNPJ'
+      EditMask = '00.000.000/0000-00;0;_'
+    end
+    object cdsTransportadoraISCEST: TStringField
+      DisplayLabel = 'Insc. Estadual'
+      FieldName = 'ISCEST'
+    end
+    object cdsTransportadoraENDERECO: TStringField
+      DisplayLabel = 'Endere'#231'o'
+      FieldName = 'ENDERECO'
+      Size = 100
+    end
+    object cdsTransportadoraCIDADE: TIntegerField
+      DisplayLabel = 'Cidade'
+      FieldName = 'CIDADE'
+    end
+    object cdsTransportadoraTELEFONE: TStringField
+      DisplayLabel = 'Telefone'
+      FieldName = 'TELEFONE'
+      EditMask = '(99)0000-0000;0;_'
+    end
+    object cdsTransportadoraANTT: TStringField
+      FieldName = 'ANTT'
+    end
+    object cdsTransportadoraPLACA: TStringField
+      DisplayLabel = 'Placa'
+      FieldName = 'PLACA'
+    end
+  end
+  object dspTransportadora: TDataSetProvider
+    DataSet = sqsTransportadora
+    Left = 328
+    Top = 48
+  end
+  object dsTransportadora: TDataSource
+    DataSet = cdsTransportadora
+    Left = 288
+    Top = 48
+  end
+  object sqsTransportadora: TSQLDataSet
+    SchemaName = 'sysdba'
+    CommandText = 'select * from TRANSPORTADORA where codigo =:codigo'
+    DbxCommandType = 'Dbx.SQL'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'codigo'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.SQLConnection
+    Left = 328
+    Top = 8
+  end
+end

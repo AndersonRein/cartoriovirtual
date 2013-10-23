@@ -1,0 +1,45 @@
+unit uSMLancDespesas;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, Datasnap.DSServer, Datasnap.DSAuth,
+  Data.FMTBcd, Data.DB, Data.SqlExpr, Datasnap.Provider, uTDespesas;
+
+type
+  TsmLancDespesas = class(TDSServerModule)
+    sqsCadastro: TSQLDataSet;
+    dspCadastro: TDataSetProvider;
+    dspConsulta: TDataSetProvider;
+    sqsConsulta: TSQLDataSet;
+    sqsRelCaixaFerjInd: TSQLDataSet;
+    dspRelCaixaFerjInd: TDataSetProvider;
+    procedure DSServerModuleCreate(Sender: TObject);
+  private
+    { Private declarations }
+    despesas: TDespesas;
+  public
+    { Public declarations }
+    function getTotalDia(data: string):Double;
+  end;
+
+implementation
+
+{$R *.dfm}
+
+uses uDM;
+
+{ TsmLancDespesas }
+
+procedure TsmLancDespesas.DSServerModuleCreate(Sender: TObject);
+begin
+despesas := TDespesas.Create;
+end;
+
+function TsmLancDespesas.getTotalDia(data: string): Double;
+begin
+Result := despesas.getTotalDia(StrToDate(data));
+end;
+
+end.
+

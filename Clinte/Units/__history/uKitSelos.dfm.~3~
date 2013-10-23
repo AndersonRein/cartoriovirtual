@@ -1,0 +1,20 @@
+inherited FKitSelo: TFKitSelo
+  Caption = 'Kit de Selos'
+  ExplicitWidth = 742
+  ExplicitHeight = 503
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited cdsConsulta: TClientDataSet
+    Params = <
+      item
+        DataType = ftString
+        Name = 'NOME'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspConsulta'
+    RemoteServer = dspConection
+  end
+  inherited dspConection: TDSProviderConnection
+    ServerClassName = 'TsmKitSelo'
+  end
+end

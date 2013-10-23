@@ -1,0 +1,134 @@
+unit uRelGeralCaixa;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uRelatorioPadrao, frxClass,
+  frxExportPDF, frxDBSet, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.Buttons, Data.DB,
+  Datasnap.DBClient, Datasnap.DSConnect, uTBoletim, uTDespesas;
+
+type
+  TFRelGeralCaixa = class(TFRelatorioPadrao)
+    dspDespesas: TDSProviderConnection;
+    dspEmpresa: TDSProviderConnection;
+    dspConection: TDSProviderConnection;
+    cdsRelIndSemana: TClientDataSet;
+    cdsRelIndSemanaCODCLIENTE: TIntegerField;
+    cdsRelIndSemanaCLIENTE: TStringField;
+    cdsRelIndSemanaDATAATO: TDateField;
+    cdsRelIndSemanaCODLEI: TStringField;
+    cdsRelIndSemanaNUMATO: TStringField;
+    cdsRelIndSemanaNUMLIVRO: TStringField;
+    cdsRelIndSemanaNUMFOLHA: TStringField;
+    cdsRelIndSemanaSELO: TLargeintField;
+    cdsRelIndSemanaVLREMOLUMENTOS: TFMTBCDField;
+    cdsRelIndSemanaVLRFERJ: TFMTBCDField;
+    cdsRelIndSemanaRECEITASFERJ: TFMTBCDField;
+    cdsRelIndSemanaVLRFERC: TFMTBCDField;
+    cdsRelIndSemanaTIPOATO: TStringField;
+    dbIndSemana: TfrxDBDataset;
+    cdsTotalSemana: TClientDataSet;
+    cdsTotalSemanaDATAATO: TDateField;
+    cdsTotalSemanaCODLEI: TStringField;
+    cdsTotalSemanaSELOINI: TLargeintField;
+    cdsTotalSemanaSELOFIM: TLargeintField;
+    cdsTotalSemanaEMOLUNIDADE: TFMTBCDField;
+    cdsTotalSemanaVLRFERJ: TFMTBCDField;
+    cdsTotalSemanaRECEITASFERJ: TFMTBCDField;
+    cdsTotalSemanaVLRFERC: TFMTBCDField;
+    cdsTotalSemanaTIPOATO: TStringField;
+    dbTotalSemana: TfrxDBDataset;
+    dbDespSemana: TfrxDBDataset;
+    cdsDespSemana: TClientDataSet;
+    cdsDespSemanaCODIGO: TIntegerField;
+    cdsDespSemanaDATA: TDateField;
+    cdsDespSemanaDESCRICAO: TStringField;
+    cdsDespSemanaCODSUBGRUPODESPSA: TIntegerField;
+    cdsDespSemanaSUBGRUPODESPSA: TStringField;
+    cdsDespSemanaVALOR: TFMTBCDField;
+    cdsDespSemanaCODGRUPODESPESA: TIntegerField;
+    cdsDespSemanaGRUPODESPESA: TStringField;
+    cdsDespSemanaCARNELEAO: TIntegerField;
+    cdsEmpresa: TClientDataSet;
+    cdsEmpresaCODIGO: TIntegerField;
+    cdsEmpresaNOME: TStringField;
+    cdsEmpresaRESPONSAVEL: TStringField;
+    cdsEmpresaREGISTRO: TStringField;
+    cdsEmpresaCODFERF: TIntegerField;
+    cdsEmpresaCODNACIONAL: TIntegerField;
+    dbEmpresa: TfrxDBDataset;
+    procedure RelatorioGetValue(const VarName: string; var Value: Variant);
+    procedure spbImprimirClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+  private
+    { Private declarations }
+    boletim: TBoletim;
+    despesa: TDespesas;
+    tRecitas, tDespesa: Double;
+  public
+    { Public declarations }
+  end;
+
+var
+  FRelGeralCaixa: TFRelGeralCaixa;
+
+implementation
+
+{$R *.dfm}
+
+uses uDM;
+
+procedure TFRelGeralCaixa.FormCreate(Sender: TObject);
+begin
+  inherited;
+  boletim := TBoletim.Create;
+  despesa := TDespesas.Create;
+ cdsEmpresa.Close;
+ cdsEmpresa.Params[0].AsInteger := 1;
+ cdsEmpresa.Open;
+end;
+
+procedure TFRelGeralCaixa.RelatorioGetValue(const VarName: string;
+  var Value: Variant);
+begin
+  inherited;
+  if VarName = 'DTINI' then
+    Value := DateToStr(dataInicio.Date);
+  if VarName = 'DTFIM' then
+    Value := DateToStr(dataFinal.Date);
+  if VarName = 'TRECEITAS' then
+    begin
+      tRecitas := boletim.getTotalRecitasFerjSemana(dataInicio.Date, dataFinal.Date);
+      Value := tRecitas;
+    end;
+  if VarName = 'TDESPESAS' then
+    begin
+      tDespesa := despesa.getTotalSemanaFerj(dataInicio.Date, dataFinal.Date);
+      Value := tDespesa;
+    end;
+  if VarName = 'TTOTAL' then
+    Value := tRecitas - tDespesa;
+end;
+
+procedure TFRelGeralCaixa.spbImprimirClick(Sender: TObject);
+begin
+  inherited;
+  cdsRelIndSemana.Close;
+  cdsRelIndSemana.Params[0].AsDate := dataInicio.Date;
+  cdsRelIndSemana.Params[1].AsDate := dataFinal.Date;
+  cdsRelIndSemana.Open;
+
+  cdsTotalSemana.Close;
+  cdsTotalSemana.Params[0].AsDate := dataInicio.Date;
+  cdsTotalSemana.Params[1].AsDate := dataFinal.Date;
+  cdsTotalSemana.Open;
+
+  cdsDespSemana.Close;
+  cdsDespSemana.Params[0].AsDate := dataInicio.Date;
+  cdsDespSemana.Params[1].AsDate := dataFinal.Date;
+  cdsDespSemana.Open;
+  Relatorio.ShowReport();
+end;
+
+end.

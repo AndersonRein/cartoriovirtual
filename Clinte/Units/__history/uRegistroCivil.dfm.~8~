@@ -1,0 +1,148 @@
+inherited FRegistroCivil: TFRegistroCivil
+  Caption = 'Registro Civil'
+  ExplicitWidth = 742
+  ExplicitHeight = 504
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited dbgCadastros: TDBGrid
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'CODIGO'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'NOME'
+        Visible = True
+      end>
+  end
+  inherited gpbCadastro: TGroupBox
+    inherited btbInserir: TBitBtn
+      OnClick = btbInserirClick
+    end
+    inherited btbAlterar: TBitBtn
+      OnClick = btbAlterarClick
+    end
+    inherited btbExcluir: TBitBtn
+      OnClick = btbExcluirClick
+    end
+  end
+  inherited cdsConsulta: TClientDataSet
+    Params = <
+      item
+        DataType = ftString
+        Name = 'nome'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspConsulta'
+    RemoteServer = dspConection
+    object cdsConsultaCODIGO: TIntegerField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'CODIGO'
+    end
+    object cdsConsultaNOME: TStringField
+      DisplayLabel = 'Nome'
+      FieldName = 'NOME'
+      Size = 100
+    end
+    object cdsConsultaENDERECO: TStringField
+      FieldName = 'ENDERECO'
+      Size = 100
+    end
+    object cdsConsultaNUMERO: TStringField
+      FieldName = 'NUMERO'
+    end
+    object cdsConsultaBAIRRO: TStringField
+      FieldName = 'BAIRRO'
+      Size = 100
+    end
+    object cdsConsultaNASCIMENTO: TDateField
+      FieldName = 'NASCIMENTO'
+    end
+    object cdsConsultaRG_IE: TStringField
+      FieldName = 'RG_IE'
+    end
+    object cdsConsultaCPF_CNPJ: TStringField
+      FieldName = 'CPF_CNPJ'
+    end
+    object cdsConsultaPROFISSAO: TStringField
+      FieldName = 'PROFISSAO'
+      Size = 100
+    end
+    object cdsConsultaNACIONALIDADE: TStringField
+      FieldName = 'NACIONALIDADE'
+      Size = 100
+    end
+    object cdsConsultaCADASTRO: TDateField
+      FieldName = 'CADASTRO'
+    end
+    object cdsConsultaCELULAR: TStringField
+      FieldName = 'CELULAR'
+    end
+    object cdsConsultaEMAIL: TStringField
+      FieldName = 'EMAIL'
+      Size = 100
+    end
+    object cdsConsultaCEP: TStringField
+      FieldName = 'CEP'
+    end
+    object cdsConsultaCODCIDADE: TIntegerField
+      FieldName = 'CODCIDADE'
+    end
+    object cdsConsultaCIDADE: TStringField
+      FieldName = 'CIDADE'
+      Size = 100
+    end
+    object cdsConsultaUF: TStringField
+      FieldName = 'UF'
+      FixedChar = True
+      Size = 2
+    end
+    object cdsConsultaPESSOA: TSmallintField
+      FieldName = 'PESSOA'
+    end
+    object cdsConsultaTELEFONE: TStringField
+      FieldName = 'TELEFONE'
+    end
+    object cdsConsultaCODESTADOCIVIL: TSmallintField
+      FieldName = 'CODESTADOCIVIL'
+    end
+    object cdsConsultaESTADOCIVIL: TStringField
+      FieldName = 'ESTADOCIVIL'
+      FixedChar = True
+      Size = 13
+    end
+    object cdsConsultaSEQ: TStringField
+      FieldName = 'SEQ'
+      Size = 50
+    end
+    object cdsConsultaIMAGEM1: TBlobField
+      FieldName = 'IMAGEM1'
+      Size = 1
+    end
+    object cdsConsultaIMAGEM2: TBlobField
+      FieldName = 'IMAGEM2'
+      Size = 1
+    end
+    object cdsConsultaIMAGEM3: TBlobField
+      FieldName = 'IMAGEM3'
+      Size = 1
+    end
+    object cdsConsultaIMAGEM4: TBlobField
+      FieldName = 'IMAGEM4'
+      Size = 1
+    end
+    object cdsConsultaCODREGIMECASAMENTO: TSmallintField
+      FieldName = 'CODREGIMECASAMENTO'
+    end
+    object cdsConsultaREGIMECASAMENTO: TStringField
+      FieldName = 'REGIMECASAMENTO'
+      FixedChar = True
+      Size = 31
+    end
+  end
+  inherited dspConection: TDSProviderConnection
+    ServerClassName = 'TsmRegistroCivil'
+  end
+end

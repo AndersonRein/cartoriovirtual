@@ -1,0 +1,189 @@
+inherited FCadRegistroSelo: TFCadRegistroSelo
+  Caption = 'Cadastro de Registro de Selos'
+  ClientHeight = 185
+  ClientWidth = 286
+  OnCreate = FormCreate
+  ExplicitWidth = 292
+  ExplicitHeight = 213
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited gpbCadastro: TGroupBox
+    Width = 286
+    Height = 141
+    ExplicitWidth = 286
+    ExplicitHeight = 141
+    object Label1: TLabel
+      Left = 8
+      Top = 13
+      Width = 49
+      Height = 13
+      Caption = 'Kit de selo'
+    end
+    object lbl1: TLabel
+      Left = 8
+      Top = 53
+      Width = 56
+      Height = 13
+      Caption = 'Quantidade'
+      FocusControl = dbQuantidade
+    end
+    object lbl2: TLabel
+      Left = 144
+      Top = 53
+      Width = 38
+      Height = 13
+      Caption = 'Entrega'
+      FocusControl = dbEntrega
+    end
+    object lbl3: TLabel
+      Left = 8
+      Top = 93
+      Width = 52
+      Height = 13
+      Caption = 'S'#233'rie inicial'
+      FocusControl = dbSerieInicial
+    end
+    object lbl4: TLabel
+      Left = 144
+      Top = 93
+      Width = 49
+      Height = 13
+      Caption = 'S'#233'rie Final'
+      FocusControl = dbSerieFinal
+    end
+    object dbQuantidade: TDBEdit
+      Left = 8
+      Top = 69
+      Width = 130
+      Height = 21
+      DataField = 'QUANTIDADEKIT'
+      DataSource = dsCadastro
+      TabOrder = 0
+      OnKeyUp = dbQuantidadeKeyUp
+    end
+    object dbEntrega: TDBEdit
+      Left = 144
+      Top = 69
+      Width = 134
+      Height = 21
+      DataField = 'ENTREGA'
+      DataSource = dsCadastro
+      TabOrder = 1
+    end
+    object dbSerieInicial: TDBEdit
+      Left = 8
+      Top = 109
+      Width = 130
+      Height = 21
+      DataField = 'SERIEINI'
+      DataSource = dsCadastro
+      TabOrder = 2
+      OnKeyUp = dbSerieInicialKeyUp
+    end
+    object dbSerieFinal: TDBEdit
+      Left = 144
+      Top = 109
+      Width = 134
+      Height = 21
+      DataField = 'SERIEFIM'
+      DataSource = dsCadastro
+      ReadOnly = True
+      TabOrder = 3
+    end
+    object dbKitSelo: TDBLookupComboBox
+      Left = 8
+      Top = 28
+      Width = 270
+      Height = 21
+      DataField = 'KITSELO'
+      DataSource = dsCadastro
+      KeyField = 'CODIGO'
+      ListField = 'NOME'
+      ListSource = dsKitSelo
+      TabOrder = 4
+      OnClick = dbKitSeloClick
+    end
+  end
+  inherited btSalvar: TBitBtn
+    Left = 38
+    Top = 146
+    ExplicitLeft = 38
+    ExplicitTop = 146
+  end
+  inherited btCancelar: TBitBtn
+    Left = 144
+    Top = 146
+    ExplicitLeft = 144
+    ExplicitTop = 146
+  end
+  inherited cdsCadastro: TClientDataSet
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'codigo'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspCadastro'
+    Left = 136
+    Top = 16
+    object cdsCadastroCODIGO: TIntegerField
+      FieldName = 'CODIGO'
+      Required = True
+    end
+    object cdsCadastroKITSELO: TIntegerField
+      DisplayLabel = 'Kit de selo'
+      FieldName = 'KITSELO'
+      Required = True
+    end
+    object cdsCadastroQUANTIDADEKIT: TIntegerField
+      DisplayLabel = 'Quantidade'
+      FieldName = 'QUANTIDADEKIT'
+    end
+    object cdsCadastroENTREGA: TDateField
+      DisplayLabel = 'Entrega'
+      FieldName = 'ENTREGA'
+      EditMask = '99/99/0000;1;_'
+    end
+    object cdsCadastroSERIEINI: TLargeintField
+      DisplayLabel = 'S'#233'rie inicial'
+      FieldName = 'SERIEINI'
+    end
+    object cdsCadastroSERIEFIM: TLargeintField
+      DisplayLabel = 'S'#233'rie Final'
+      FieldName = 'SERIEFIM'
+    end
+  end
+  inherited dsCadastro: TDataSource
+    Left = 104
+    Top = 16
+  end
+  inherited dspConection: TDSProviderConnection
+    ServerClassName = 'TsmRegistroSelo'
+    Left = 72
+    Top = 16
+  end
+  object cdsKitSelo: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspKitSelo'
+    RemoteServer = dspConection
+    Left = 224
+    Top = 64
+    object cdsKitSeloCODIGO: TIntegerField
+      FieldName = 'CODIGO'
+      Required = True
+    end
+    object cdsKitSeloNOME: TStringField
+      FieldName = 'NOME'
+      Size = 100
+    end
+    object cdsKitSeloQUANTIDADE: TIntegerField
+      FieldName = 'QUANTIDADE'
+    end
+  end
+  object dsKitSelo: TDataSource
+    DataSet = cdsKitSelo
+    Left = 216
+    Top = 24
+  end
+end

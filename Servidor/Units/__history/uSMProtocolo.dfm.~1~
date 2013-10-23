@@ -1,0 +1,6 @@
+object smProtocolo: TsmProtocolo
+  OldCreateOrder = False
+  OnCreate = DSServerModuleCreate
+  Height = 513
+  Width = 791
+end

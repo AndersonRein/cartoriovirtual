@@ -1,0 +1,153 @@
+unit uCadBoletim;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uCadastroPadrao, Data.DB, uTBoletim, uTData,
+  Datasnap.DBClient, Datasnap.DSConnect, Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask,
+  Vcl.DBCtrls;
+
+type
+  TFCadBoletim = class(TFCadastroPadrao)
+    cdsCadastroCODIGO: TIntegerField;
+    cdsCadastroDATAINI: TDateField;
+    cdsCadastroDATAFIM: TDateField;
+    cdsCadastroNUMREMESSA: TStringField;
+    cdsCadastroNUMBOLETOFERJ: TStringField;
+    cdsCadastroDIGVERIFICFERJ: TStringField;
+    cdsCadastroDATAPAGFERJ: TDateField;
+    cdsCadastroNUMBOLETOFERC: TStringField;
+    cdsCadastroDIGVERIFICFERC: TStringField;
+    cdsCadastroDATAPAGFERC: TDateField;
+    cdsCadastroVLRFERJ: TFMTBCDField;
+    cdsCadastroVLRFERC: TFMTBCDField;
+    GroupBox1: TGroupBox;
+    lbl1: TLabel;
+    dbInicial: TDBEdit;
+    lbl2: TLabel;
+    dbFinal: TDBEdit;
+    lbl3: TLabel;
+    dbNumRemessa: TDBEdit;
+    GroupBox2: TGroupBox;
+    cdsCadastroPAGOFERJ: TSmallintField;
+    cdsCadastroPAGOFERC: TSmallintField;
+    dbPagoFerj: TDBCheckBox;
+    lbl4: TLabel;
+    dbNumBoletoFerj: TDBEdit;
+    dbDigVerifFerj: TDBEdit;
+    lbl5: TLabel;
+    dbDataPagFerj: TDBEdit;
+    Label1: TLabel;
+    dbVlrFerj: TDBEdit;
+    grp1: TGroupBox;
+    lbl6: TLabel;
+    lbl7: TLabel;
+    lbl8: TLabel;
+    dbPagoFerc: TDBCheckBox;
+    dbNumBoletoFerc: TDBEdit;
+    dbDigVerFerc: TDBEdit;
+    dbDataPagFerc: TDBEdit;
+    dbVlrFerc: TDBEdit;
+    procedure dbPagoFerjClick(Sender: TObject);
+    procedure dbPagoFercClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure cdsCadastroAfterEdit(DataSet: TDataSet);
+    procedure cdsCadastroNewRecord(DataSet: TDataSet);
+    procedure dbFinalExit(Sender: TObject);
+  private
+    { Private declarations }
+    boletim: TBoletim;
+    datas: TData;
+    procedure ativaFerj();
+    procedure ativaFerc();
+  public
+    { Public declarations }
+  end;
+
+var
+  FCadBoletim: TFCadBoletim;
+
+implementation
+
+{$R *.dfm}
+
+uses uDM;
+
+{ TFCadBoletim }
+
+procedure TFCadBoletim.ativaFerc;
+begin
+if dbPagoFerc.Checked then
+  begin
+    dbNumBoletoFerc.Enabled := True;
+    dbDigVerFerc.Enabled := True;
+  end
+else
+  begin
+    dbNumBoletoFerc.Enabled := False;
+    dbDigVerFerc.Enabled := False;
+  end;
+end;
+
+procedure TFCadBoletim.ativaFerj;
+begin
+if dbPagoFerj.Checked then
+  begin
+    dbNumBoletoFerj.Enabled := True;
+    dbDigVerifFerj.Enabled := True;
+    dbNumBoletoFerj.Color := clWhite;
+    dbDigVerifFerj.Color := clWhite;
+  end
+else
+  begin
+    dbNumBoletoFerj.Enabled := False;
+    dbDigVerifFerj.Enabled := False;
+    dbNumBoletoFerj.Color := clSkyBlue;
+    dbDigVerFerc.Color := clSkyBlue;
+  end;
+end;
+
+procedure TFCadBoletim.cdsCadastroAfterEdit(DataSet: TDataSet);
+begin
+  inherited;
+ cdsCadastroVLRFERJ.AsFloat := boletim.getTotalFerj(cdsCadastroCODIGO.AsInteger);
+ cdsCadastroVLRFERC.AsFloat := boletim.getTotalFerc(cdsCadastroCODIGO.AsInteger);
+end;
+
+procedure TFCadBoletim.cdsCadastroNewRecord(DataSet: TDataSet);
+begin
+  inherited;
+ cdsCadastroNUMREMESSA.AsString := IntToStr(datas.anoAtual)+IntToStr(datas.getSemanaDoAno(Date));
+ cdsCadastroDATAINI.AsDateTime := datas.getSegunda(Date);
+ cdsCadastroDATAFIM.AsDateTime := datas.getSexta(Date);
+ cdsCadastroPAGOFERJ.AsInteger := 1;
+ cdsCadastroPAGOFERC.AsInteger := 1;
+end;
+
+procedure TFCadBoletim.dbFinalExit(Sender: TObject);
+begin
+  inherited;
+cdsCadastroNUMREMESSA.AsString := IntToStr(datas.anoAtual)+IntToStr(datas.getSemanaDoAno(cdsCadastroDATAINI.AsDateTime));
+end;
+
+procedure TFCadBoletim.dbPagoFercClick(Sender: TObject);
+begin
+  inherited;
+ ativaFerc;
+end;
+
+procedure TFCadBoletim.dbPagoFerjClick(Sender: TObject);
+begin
+  inherited;
+ ativaFerj;
+end;
+
+procedure TFCadBoletim.FormCreate(Sender: TObject);
+begin
+  inherited;
+boletim := TBoletim.Create;
+datas := TData.Create;
+end;
+
+end.

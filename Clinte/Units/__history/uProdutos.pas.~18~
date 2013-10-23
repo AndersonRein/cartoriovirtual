@@ -1,0 +1,94 @@
+unit uProdutos;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, uAcessoPadrao, FMTBcd, DB, SqlExpr, Provider, DBClient, StdCtrls,
+  Buttons, Grids, DBGrids, uPadrao;
+
+type
+  TFProdutos = class(TFAcessoCadPadrao)
+    cdsExcluirCODIGO: TIntegerField;
+    cdsExcluirNOME: TStringField;
+    cdsExcluirNCM: TStringField;
+    cdsExcluirICMS: TFMTBCDField;
+    cdsExcluirIPI: TFMTBCDField;
+    cdsExcluirUNIDADE: TStringField;
+    cdsCadastroCODIGO: TIntegerField;
+    cdsCadastroNOME: TStringField;
+    cdsCadastroNCM: TStringField;
+    cdsCadastroICMS: TFMTBCDField;
+    cdsCadastroIPI: TFMTBCDField;
+    cdsCadastroUNIDADE: TStringField;
+    cdsCadastroVALOR: TFMTBCDField;
+    procedure btbExcluirClick(Sender: TObject);
+    procedure btbInserirClick(Sender: TObject);
+    procedure btbAlterarClick(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+  private
+    { Private declarations }
+    padrao: TFPadrao;
+  public
+    { Public declarations }
+  end;
+
+var
+  FProdutos: TFProdutos;
+
+implementation
+
+uses uCadProdutos;
+{$R *.dfm}
+
+procedure TFProdutos.btbAlterarClick(Sender: TObject);
+var
+  produto: TFCadProdutos;
+begin
+  inherited;
+  produto := TFCadProdutos.Create(nil);
+  produto.alterar(1, cdsCadastroCODIGO.AsInteger);
+  produto.Free;
+  atualizaGrid;
+end;
+
+procedure TFProdutos.btbExcluirClick(Sender: TObject);
+begin
+  inherited;
+  if Application.MessageBox(padrao.DESEJA_REALMENTE_EXCLUIR_REGISTRO,
+    'Confirmação', MB_YESNO) = idYES then
+  begin
+      cdsExcluir.Close;
+      cdsExcluir.Params[0].AsInteger := cdsCadastroCODIGO.AsInteger;
+      cdsExcluir.Open;
+      cdsExcluir.Delete;
+      cdsExcluir.ApplyUpdates(-1);
+      ShowMessage(padrao.CADASTRO_EXCLUIDO_SUCESSO);
+      atualizaGrid;
+  end;
+end;
+
+procedure TFProdutos.btbInserirClick(Sender: TObject);
+var
+  produto: TFCadProdutos;
+begin
+  inherited;
+  produto := TFCadProdutos.Create(nil);
+  produto.inserir(0);
+  produto.Free;
+  atualizaGrid;
+end;
+
+procedure TFProdutos.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  if Key = VK_DELETE then
+    btbExcluirClick(Sender);
+  if Key = VK_INSERT then
+    btbInserirClick(Sender);
+  if Key = VK_RETURN then
+    btbAlterarClick(Sender);
+end;
+
+end.

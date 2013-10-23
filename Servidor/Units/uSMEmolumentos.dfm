@@ -1,0 +1,53 @@
+object smEmolumentos: TsmEmolumentos
+  OldCreateOrder = False
+  OnCreate = DSServerModuleCreate
+  Height = 476
+  Width = 717
+  object sqsCadastro: TSQLDataSet
+    SchemaName = 'sysdba'
+    CommandText = 'select * from EMOLUMENTOS where codigo =:codigo'
+    DbxCommandType = 'Dbx.SQL'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'codigo'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.SQLConnection
+    Left = 48
+    Top = 16
+  end
+  object dspCadastro: TDataSetProvider
+    DataSet = sqsCadastro
+    Left = 80
+    Top = 16
+  end
+  object dspConsulta: TDataSetProvider
+    DataSet = sqsConsulta
+    Left = 83
+    Top = 64
+  end
+  object sqsConsulta: TSQLDataSet
+    SchemaName = 'sysdba'
+    CommandText = 
+      'SELECT * FROM VEMOLUMENTOS WHERE (LEI LIKE :NOME) OR (TIPOATO LI' +
+      'KE :NOME)'
+    DbxCommandType = 'Dbx.SQL'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftString
+        Name = 'NOME'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'NOME'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.SQLConnection
+    Left = 45
+    Top = 64
+  end
+end

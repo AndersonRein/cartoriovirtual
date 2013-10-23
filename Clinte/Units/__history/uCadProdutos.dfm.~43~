@@ -1,0 +1,193 @@
+inherited FCadProdutos: TFCadProdutos
+  Caption = 'Cadastro de Produtos'
+  ClientHeight = 144
+  ClientWidth = 432
+  ExplicitWidth = 438
+  ExplicitHeight = 172
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited gpbCadastro: TGroupBox
+    Width = 432
+    Height = 101
+    ExplicitWidth = 442
+    ExplicitHeight = 101
+    object Label1: TLabel
+      Left = 8
+      Top = 15
+      Width = 27
+      Height = 13
+      Caption = 'Nome'
+      FocusControl = dbNome
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label5: TLabel
+      Left = 326
+      Top = 57
+      Width = 39
+      Height = 13
+      Caption = 'Unidade'
+      FocusControl = dbUnidade
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label2: TLabel
+      Left = 8
+      Top = 57
+      Width = 29
+      Height = 13
+      Caption = 'Marca'
+      FocusControl = dbMarca
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label3: TLabel
+      Left = 326
+      Top = 15
+      Width = 40
+      Height = 13
+      Caption = 'Validade'
+      FocusControl = dbValidade
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+    end
+    object dbNome: TDBEdit
+      Left = 8
+      Top = 31
+      Width = 312
+      Height = 21
+      CharCase = ecUpperCase
+      DataField = 'NOME'
+      DataSource = dsProdutos
+      TabOrder = 0
+    end
+    object dbUnidade: TDBEdit
+      Left = 326
+      Top = 73
+      Width = 100
+      Height = 21
+      CharCase = ecUpperCase
+      DataField = 'UNIDADE'
+      DataSource = dsProdutos
+      TabOrder = 1
+    end
+    object dbMarca: TDBEdit
+      Left = 8
+      Top = 73
+      Width = 40
+      Height = 21
+      Color = clSilver
+      DataField = 'MARCA'
+      DataSource = dsProdutos
+      TabOrder = 2
+      OnClick = dbMarcaClick
+    end
+    object edMarca: TEdit
+      Left = 48
+      Top = 73
+      Width = 272
+      Height = 21
+      TabOrder = 3
+    end
+    object dbValidade: TDBEdit
+      Left = 326
+      Top = 31
+      Width = 100
+      Height = 21
+      DataField = 'VALIDADE'
+      DataSource = dsProdutos
+      TabOrder = 4
+    end
+  end
+  inherited btSalvar: TBitBtn
+    Left = 107
+    Top = 104
+    OnClick = btSalvarClick
+    ExplicitLeft = 107
+    ExplicitTop = 104
+  end
+  inherited btCancelar: TBitBtn
+    Left = 214
+    Top = 104
+    ExplicitLeft = 214
+    ExplicitTop = 104
+  end
+  object cdsProdutos: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'CODIGO'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspProdutos'
+    OnNewRecord = cdsProdutosNewRecord
+    Left = 72
+    Top = 8
+    object cdsProdutosCODIGO: TIntegerField
+      FieldName = 'CODIGO'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object cdsProdutosNOME: TStringField
+      DisplayLabel = 'Nome'
+      FieldName = 'NOME'
+      Size = 100
+    end
+    object cdsProdutosMARCA: TIntegerField
+      DisplayLabel = 'Marca'
+      FieldName = 'MARCA'
+    end
+    object cdsProdutosUNIDADE: TStringField
+      DisplayLabel = 'Unidade'
+      FieldName = 'UNIDADE'
+      FixedChar = True
+      Size = 2
+    end
+    object cdsProdutosVALIDADE: TDateField
+      DisplayLabel = 'Validade'
+      FieldName = 'VALIDADE'
+      EditMask = '99/99/0000;1;_'
+    end
+  end
+  object dspProdutos: TDataSetProvider
+    DataSet = sqsProdutos
+    Left = 200
+    Top = 8
+  end
+  object dsProdutos: TDataSource
+    DataSet = cdsProdutos
+    Left = 112
+    Top = 8
+  end
+  object sqsProdutos: TSQLDataSet
+    CommandText = 'select * from PRODUTOS_SB WHERE CODIGO =:CODIGO'
+    DbxCommandType = 'Dbx.SQL'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'CODIGO'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.SQLConnection
+    Left = 160
+    Top = 8
+  end
+end

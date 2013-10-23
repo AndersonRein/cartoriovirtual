@@ -1,0 +1,46 @@
+unit uCadMotivosProtesto;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uCadastroPadrao, Data.DB,
+  Datasnap.DBClient, Datasnap.DSConnect, Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask,
+  Vcl.DBCtrls, Vcl.ExtCtrls;
+
+type
+  TFCadMotivosProtesto = class(TFCadastroPadrao)
+    cdsCadastroCODIGO: TIntegerField;
+    cdsCadastroSIGLA: TStringField;
+    cdsCadastroNOME: TStringField;
+    cdsCadastroDESCRICAO: TStringField;
+    cdsCadastroSTATUS: TSmallintField;
+    Label1: TLabel;
+    dbSigla: TDBEdit;
+    Label2: TLabel;
+    dbNome: TDBEdit;
+    Label3: TLabel;
+    dbDescricao: TDBMemo;
+    cdsCadastroPROTESTAVEL: TSmallintField;
+    dbProtestavel: TDBRadioGroup;
+    procedure btSalvarClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FCadMotivosProtesto: TFCadMotivosProtesto;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFCadMotivosProtesto.btSalvarClick(Sender: TObject);
+begin
+  inherited;
+ dbSigla.SetFocus;
+end;
+
+end.

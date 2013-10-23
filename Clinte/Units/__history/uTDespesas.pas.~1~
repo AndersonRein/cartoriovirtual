@@ -1,0 +1,50 @@
+unit uTDespesas;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, Mask, ComCtrls, FMTBcd, DBCtrls, uDM, CheckLst,
+  SqlExpr, DB, uBusca, DBGrids;
+
+type
+  TKitSelos = class
+
+  private
+
+  public
+    procedure excluir(codigo: Integer);
+    function getTotalDia(data: TDate):Double;
+  end;
+
+implementation
+
+{ TKitSelos }
+
+procedure TKitSelos.excluir(codigo: Integer);
+var
+  sql: TSqlServerMethod;
+begin
+    sql := TSqlServerMethod.Create(nil);
+    sql.SQLConnection := DM.SQLConnection;
+    sql.ServerMethodName := 'TsmKitSelo.excluir';
+    sql.Params[0].AsInteger := codigo;
+    sql.ExecuteMethod;
+    sql.Free;
+end;
+
+
+function TKitSelos.getTotalDia(data: TDate): Double;
+var
+  sql: TSqlServerMethod;
+begin
+    sql := TSqlServerMethod.Create(nil);
+    sql.SQLConnection := DM.SQLConnection;
+    sql.ServerMethodName := 'TsmKitSelo.excluir';
+    sql.Params[0].AsString := DateToStr(data);
+    sql.ExecuteMethod;
+    Result := sql.Params[1].AsInteger;
+    sql.Free;
+end;
+
+end.

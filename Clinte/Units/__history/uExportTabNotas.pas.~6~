@@ -1,0 +1,40 @@
+unit uExportTabNotas;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uPadraoVazio, Vcl.ComCtrls, Vcl.StdCtrls,
+  Vcl.Buttons, Vcl.Grids, Vcl.DBGrids;
+
+type
+  TFExportTabNotas = class(TFPadraoVazio)
+    GroupBox1: TGroupBox;
+    GroupBox2: TGroupBox;
+    GroupBox3: TGroupBox;
+    dtInicio: TDateTimePicker;
+    dtFim: TDateTimePicker;
+    spbExportar: TSpeedButton;
+    DBGrid1: TDBGrid;
+    procedure FormShow(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FExportTabNotas: TFExportTabNotas;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFExportTabNotas.FormShow(Sender: TObject);
+begin
+  inherited;
+ dtInicio.Date := Date - 4;
+ dtFim.Date := Date;
+end;
+
+end.

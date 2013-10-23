@@ -1,0 +1,55 @@
+inherited FMarcas: TFMarcas
+  Caption = 'Marcas'
+  ExplicitWidth = 742
+  ExplicitHeight = 503
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited dbgCadastros: TDBGrid
+    DataSource = dsCadastro
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'CODIGO'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'NOME'
+        Visible = True
+      end>
+  end
+  inherited dsCadastro: TDataSource
+    DataSet = cdsCadastro
+  end
+  inherited cdsCadastro: TClientDataSet
+    Params = <
+      item
+        DataType = ftString
+        Name = 'NOME'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspCadastro'
+    object cdsCadastroCODIGO: TIntegerField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'CODIGO'
+    end
+    object cdsCadastroNOME: TStringField
+      DisplayLabel = 'Nome'
+      FieldName = 'NOME'
+      Size = 100
+    end
+  end
+  inherited dspCadastro: TDataSetProvider
+    DataSet = sqsCadastro
+  end
+  inherited sqsCadastro: TSQLDataSet
+    SchemaName = 'sysdba'
+    CommandText = 'select * from VMARCAS_SB WHERE NOME LIKE :NOME'
+    Params = <
+      item
+        DataType = ftString
+        Name = 'NOME'
+        ParamType = ptInput
+      end>
+  end
+end

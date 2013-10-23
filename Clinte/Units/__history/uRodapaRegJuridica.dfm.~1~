@@ -1,0 +1,25 @@
+inherited FRodapeRegJuridica: TFRodapeRegJuridica
+  Caption = 'Rodap'#233' do registro de pessoas jur'#237'dicas'
+  ClientHeight = 132
+  ClientWidth = 553
+  ExplicitWidth = 559
+  ExplicitHeight = 160
+  PixelsPerInch = 96
+  TextHeight = 13
+  object GroupBox1: TGroupBox
+    Left = 0
+    Top = 0
+    Width = 553
+    Height = 45
+    Align = alTop
+    Caption = 'Descri'#231#227'o'
+    TabOrder = 0
+    object edDescricao: TEdit
+      Left = 8
+      Top = 15
+      Width = 536
+      Height = 21
+      TabOrder = 0
+    end
+  end
+end

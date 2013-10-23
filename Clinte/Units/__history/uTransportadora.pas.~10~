@@ -1,0 +1,84 @@
+unit uTransportadora;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, uAcessoPadrao, FMTBcd, DB, SqlExpr, Provider, DBClient, StdCtrls,
+  Buttons, Grids, DBGrids, uPadrao;
+
+type
+  TFTransportadora = class(TFAcessoCadPadrao)
+    cdsCadastroCODIGO: TIntegerField;
+    cdsCadastroNOME: TStringField;
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure btbExcluirClick(Sender: TObject);
+    procedure btbInserirClick(Sender: TObject);
+    procedure btbAlterarClick(Sender: TObject);
+  private
+    { Private declarations }
+    padrao: TFPadrao;
+  public
+    { Public declarations }
+  end;
+
+var
+  FTransportadora: TFTransportadora;
+
+implementation
+
+uses uCadTransportadora;
+
+{$R *.dfm}
+
+procedure TFTransportadora.btbAlterarClick(Sender: TObject);
+var
+transportadora : TFCadTransportadora;
+begin
+  inherited;
+  transportadora := TFCadTransportadora.Create(nil);
+  transportadora.alterar(1, cdsCadastroCODIGO.AsInteger);
+  transportadora.Free;
+  atualizaGrid;
+end;
+
+procedure TFTransportadora.btbExcluirClick(Sender: TObject);
+begin
+  inherited;
+if Application.MessageBox(padrao.DESEJA_REALMENTE_EXCLUIR_REGISTRO,
+    'Confirmação', MB_YESNO) = idYES then
+  begin
+    cdsExcluir.Close;
+    cdsExcluir.Params[0].AsInteger := cdsCadastroCODIGO.AsInteger;
+    cdsExcluir.Open;
+    cdsExcluir.Delete;
+    cdsExcluir.ApplyUpdates(-1);
+    ShowMessage(padrao.CADASTRO_EXCLUIDO_SUCESSO);
+    atualizaGrid;
+  end;
+end;
+
+procedure TFTransportadora.btbInserirClick(Sender: TObject);
+var
+transportadora : TFCadTransportadora;
+begin
+  inherited;
+  transportadora := TFCadTransportadora.Create(nil);
+  transportadora.inserir(0);
+  transportadora.Free;
+  atualizaGrid;
+end;
+
+procedure TFTransportadora.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  if Key = VK_DELETE then
+    btbExcluirClick(Sender);
+  if Key = VK_INSERT then
+    btbInserirClick(Sender);
+  if Key = VK_RETURN then
+    btbAlterarClick(Sender);
+end;
+
+end.

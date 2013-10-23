@@ -1,0 +1,77 @@
+unit uImportImagens;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uPadraoVazio, Vcl.ExtDlgs, Vcl.Buttons,
+  Vcl.ExtCtrls, Vcl.StdCtrls, jpeg;
+
+type
+  TFImportImagens = class(TFPadraoVazio)
+    GroupBox1: TGroupBox;
+    Panel1: TPanel;
+    Imagem: TImage;
+    spbAdd: TSpeedButton;
+    OpenDialog: TOpenPictureDialog;
+    spbSalvar: TSpeedButton;
+    procedure spbAddClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure spbSalvarClick(Sender: TObject);
+  private
+    { Private declarations }
+    cancelou:Boolean;
+    endereco: string;
+  public
+    { Public declarations }
+    procedure new();
+    function getImagem():string;
+    function getCancelou:Boolean;
+  end;
+
+var
+  FImportImagens: TFImportImagens;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFImportImagens.FormCreate(Sender: TObject);
+begin
+  inherited;
+ cancelou := True;
+end;
+
+function TFImportImagens.getCancelou: Boolean;
+begin
+Result := cancelou;
+end;
+
+function TFImportImagens.getImagem: string;
+begin
+Result := '.\temp\imgTemp.jpg';
+end;
+
+procedure TFImportImagens.new();
+begin
+endereco := FileSearch('imgTemp.jpg','.\temp');
+Imagem.Picture.LoadFromFile(endereco);
+Self.ShowModal;
+end;
+
+procedure TFImportImagens.spbAddClick(Sender: TObject);
+begin
+  inherited;
+if OpenDialog.Execute() then
+    Imagem.Picture.LoadFromFile(OpenDialog.FileName);
+ end;
+
+procedure TFImportImagens.spbSalvarClick(Sender: TObject);
+begin
+  inherited;
+  Imagem.Picture.SaveToFile('\temp\imgTemp.jpg');
+  cancelou := False;
+  Close;
+end;
+
+end.

@@ -1,0 +1,49 @@
+unit uRegTitulosDocs;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uAcessoPadrao, Data.DB,
+  Datasnap.DBClient, Datasnap.DSConnect, Vcl.StdCtrls, Vcl.Buttons, Vcl.Grids,
+  Vcl.DBGrids, uTRegTitulosDocs;
+
+type
+  TFRegTitulosDocs = class(TFAcessoCadPadrao)
+    cdsConsultaCODIGO: TIntegerField;
+    cdsConsultaNOME: TStringField;
+    cdsConsultaDESCRICAO: TStringField;
+    cdsConsultaDATA: TDateField;
+    cdsConsultaUSUARIO: TIntegerField;
+    cdsConsultaTIPO: TSmallintField;
+    cdsConsultaLIVRO: TSmallintField;
+    cdsConsultaPROTOCOLO: TIntegerField;
+    procedure btbInserirClick(Sender: TObject);
+  private
+    { Private declarations }
+    regTitulos : TRegTitulosDocs;
+  public
+    { Public declarations }
+  end;
+
+var
+  FRegTitulosDocs: TFRegTitulosDocs;
+
+implementation
+
+{$R *.dfm}
+
+uses uDM, uCadRegTitulosDocs;
+
+procedure TFRegTitulosDocs.btbInserirClick(Sender: TObject);
+var
+cadReg: TFCadRegTitulosDocs;
+begin
+  inherited;
+  cadReg := TFCadRegTitulosDocs.Create(nil);
+  cadReg.inserir;
+  cadReg.Free;
+  atualizaGrid;
+end;
+
+end.

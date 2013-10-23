@@ -1,0 +1,25 @@
+unit uSubGrupoDespesas;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, Datasnap.DSServer, Datasnap.DSAuth,
+  Data.FMTBcd, Data.DB, Data.SqlExpr;
+
+type
+  TsmSubGrupoDespesas = class(TDSServerModule)
+    sqsCadastro: TSQLDataSet;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+implementation
+
+{$R *.dfm}
+
+uses uDM;
+
+end.
+

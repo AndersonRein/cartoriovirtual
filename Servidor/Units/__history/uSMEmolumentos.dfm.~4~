@@ -1,0 +1,25 @@
+object smEmolumentos: TsmEmolumentos
+  OldCreateOrder = False
+  Height = 476
+  Width = 717
+  object sqsCadastro: TSQLDataSet
+    SchemaName = 'sysdba'
+    CommandText = 'select * from EMOLUMENTOS where codigo =:codigo'
+    DbxCommandType = 'Dbx.SQL'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'codigo'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.SQLConnection
+    Left = 48
+    Top = 16
+  end
+  object dspEmolumentos: TDataSetProvider
+    DataSet = sqsCadastro
+    Left = 80
+    Top = 16
+  end
+end

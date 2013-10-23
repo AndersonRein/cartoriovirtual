@@ -1,0 +1,16 @@
+Cheque com mais de um ano não pode ser protestado. ok
+Cadastro de protestos tem que puxar tanto do autografo quanto do cadastro simples;
+Informar o sexo no cadastro
+no rodape impremi a data que foi cadastrado
+
+Conclusão da intimação
+Botao de concluir intimação mudar para
+botao edtar
+protestar : somente quado confirmar a intimação ou imprimir o edital
+Toda vez que informar o selo pedir o codigo do ferj
+
+serventia codigo = 309
+
+ocorencia deixa campo livra pra testo
+
+aviso pro balao

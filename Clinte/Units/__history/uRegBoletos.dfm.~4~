@@ -1,0 +1,48 @@
+inherited FRegBoletos: TFRegBoletos
+  Caption = 'Registro de Boletos'
+  ExplicitWidth = 742
+  ExplicitHeight = 503
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited cdsConsulta: TClientDataSet
+    Params = <
+      item
+        DataType = ftString
+        Name = 'NOME'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspConsulta'
+    RemoteServer = dspConection
+    object cdsConsultaCODIGO: TIntegerField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'CODIGO'
+    end
+    object cdsConsultaENTREGA: TDateField
+      DisplayLabel = 'Entrega'
+      FieldName = 'ENTREGA'
+    end
+    object cdsConsultaQUANTIDADE: TIntegerField
+      FieldName = 'QUANTIDADE'
+    end
+    object cdsConsultaSERIEFIM: TLargeintField
+      DisplayLabel = 'S'#233'rie final'
+      FieldName = 'SERIEFIM'
+    end
+    object cdsConsultaSERIEINI: TLargeintField
+      DisplayLabel = 'S'#233'rie final'
+      FieldName = 'SERIEINI'
+    end
+    object cdsConsultaCODTIPOBOLETO: TSmallintField
+      FieldName = 'CODTIPOBOLETO'
+    end
+    object cdsConsultaTIPOBOLETO: TStringField
+      DisplayLabel = 'Tipo de Boleto'
+      FieldName = 'TIPOBOLETO'
+      FixedChar = True
+      Size = 4
+    end
+  end
+  inherited dspConection: TDSProviderConnection
+    ServerClassName = 'TsmRegBoletos'
+  end
+end

@@ -1,0 +1,44 @@
+unit uRegPessoaJuridica;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uAcessoPadrao, Data.DB,
+  Datasnap.DBClient, Datasnap.DSConnect, Vcl.StdCtrls, Vcl.Buttons, Vcl.Grids,
+  Vcl.DBGrids;
+
+type
+  TFRegPessoaJuridica = class(TFAcessoCadPadrao)
+    cdsConsultaCODIGO: TIntegerField;
+    cdsConsultaNOME: TStringField;
+    cdsConsultaFICHA: TIntegerField;
+    cdsConsultaDATA: TDateField;
+    procedure btbInserirClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FRegPessoaJuridica: TFRegPessoaJuridica;
+
+implementation
+
+{$R *.dfm}
+
+uses uDM, uCadRegPessoaJuridica;
+
+procedure TFRegPessoaJuridica.btbInserirClick(Sender: TObject);
+var
+registro: TFCadRegPessoaJuridica;
+begin
+  inherited;
+  registro := TFCadRegPessoaJuridica.Create(nil);
+  registro.inserir;
+  registro.Free;
+  atualizaGrid;
+end;
+
+end.

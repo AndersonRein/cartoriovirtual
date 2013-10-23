@@ -1,0 +1,145 @@
+unit uInsertSeloPessoaJuri;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uPadraoVazio, Vcl.StdCtrls, Vcl.Mask,
+  Vcl.Buttons, uTRegistoSelos, uTEmolumentos;
+
+type
+  TFInsertSeloPessoaJuri = class(TFPadraoVazio)
+    GroupBox1: TGroupBox;
+    lblData: TLabel;
+    GroupBox2: TGroupBox;
+    btSalvar: TBitBtn;
+    btCancelar: TBitBtn;
+    edSelo: TEdit;
+    grp1: TGroupBox;
+    edValor: TEdit;
+    GroupBox3: TGroupBox;
+    edCodLei: TEdit;
+    btnEmol: TSpeedButton;
+    procedure FormCreate(Sender: TObject);
+    procedure btSalvarClick(Sender: TObject);
+    procedure btCancelarClick(Sender: TObject);
+    procedure edValorKeyPress(Sender: TObject; var Key: Char);
+    procedure edValorExit(Sender: TObject);
+    procedure btnEmolClick(Sender: TObject);
+  private
+    { Private declarations }
+    cancelou:Boolean;
+    regSelo: TRegistroSelos;
+    emolumento: TEmolumentos;
+    codEmolumento: Integer;
+    selo:Int64;
+  public
+    { Public declarations }
+   function getCancelou:Boolean;
+   function getSelo():Int64;
+   procedure alterar(selo:Int64; valor:Double; data:string);
+   function getValor():Double;
+  end;
+
+var
+  FInsertSeloPessoaJuri: TFInsertSeloPessoaJuri;
+
+implementation
+
+{$R *.dfm}
+
+{ TFInsertSeloPessoaJuri }
+
+procedure TFInsertSeloPessoaJuri.alterar(selo: Int64; valor:Double; data:string);
+begin
+edSelo.Text := IntToStr(selo);
+edValor.Text := FormatFloat('###0.00',valor);
+lblData.Caption := data;
+Self.selo := selo;
+Self.ShowModal;
+end;
+
+procedure TFInsertSeloPessoaJuri.btCancelarClick(Sender: TObject);
+begin
+  inherited;
+Close;
+end;
+
+procedure TFInsertSeloPessoaJuri.btnEmolClick(Sender: TObject);
+begin
+  inherited;
+ codEmolumento := emolumento.getBusca(edCodLei);
+ edValor.Text := FormatFloat('###0.00',emolumento.getVlrFerc(codEmolumento) + emolumento.getValor(codEmolumento));
+end;
+
+procedure TFInsertSeloPessoaJuri.btSalvarClick(Sender: TObject);
+begin
+  inherited;
+ if edSelo.Text = '' then
+    begin
+      Application.MessageBox('Informe uma selo!','Informação',MB_ICONEXCLAMATION);
+      Exit;
+    end;
+ if selo = StrToInt64Def(edSelo.Text,0) then
+    begin
+      cancelou := False;
+      Close;
+    end;
+ if regSelo.seloLancado(StrToInt64Def(edSelo.Text,0)) then
+    begin
+      Application.MessageBox('O selo informado já esta em uso.','Informação',MB_ICONEXCLAMATION);
+      edSelo.SetFocus;
+      Exit;
+    end;
+ if not regSelo.permitirSelo(StrToIntDef(edSelo.Text,0)) then
+  begin
+    Application.MessageBox('O selo informado não esta registrado.','Informação',MB_ICONEXCLAMATION);
+    edSelo.SetFocus;
+    Exit;
+  end;
+ cancelou := False;
+ Close;
+end;
+
+procedure TFInsertSeloPessoaJuri.edValorExit(Sender: TObject);
+begin
+  inherited;
+ edValor.Text := FormatFloat('###0.00',StrToFloatDef(edValor.Text,0));
+end;
+
+procedure TFInsertSeloPessoaJuri.edValorKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  inherited;
+if not (Key in ['0'..'9',',',#8]) then
+  begin
+    Beep;
+    Key := #0;
+  end;
+end;
+
+procedure TFInsertSeloPessoaJuri.FormCreate(Sender: TObject);
+begin
+  inherited;
+ cancelou := True;
+ regSelo := TRegistroSelos.Create;
+ lblData.Caption := DateToStr(Date);
+ emolumento := TEmolumentos.Create;
+end;
+
+function TFInsertSeloPessoaJuri.getCancelou: Boolean;
+begin
+Result := cancelou;
+end;
+
+function TFInsertSeloPessoaJuri.getSelo: Int64;
+begin
+Result := StrToInt64Def(edSelo.Text,0);
+end;
+
+function TFInsertSeloPessoaJuri.getValor: Double;
+begin
+Result := StrToFloatDef(edValor.Text,0);
+end;
+
+end.

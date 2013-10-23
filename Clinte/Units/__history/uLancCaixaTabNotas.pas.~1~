@@ -1,0 +1,25 @@
+unit uLancCaixaTabNotas;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uCadastroPadrao, Data.DB,
+  Datasnap.DBClient, Datasnap.DSConnect, Vcl.StdCtrls, Vcl.Buttons;
+
+type
+  TFLancCaixaTabNotas = class(TFCadastroPadrao)
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FLancCaixaTabNotas: TFLancCaixaTabNotas;
+
+implementation
+
+{$R *.dfm}
+
+end.

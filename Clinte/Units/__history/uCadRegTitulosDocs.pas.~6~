@@ -1,0 +1,63 @@
+unit uCadRegTitulosDocs;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uCadastroPadrao, Data.DB,
+  Datasnap.DBClient, Datasnap.DSConnect, Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask,
+  Vcl.DBCtrls, Vcl.ExtCtrls, uTRegTitulosDocs;
+
+type
+  TFCadRegTitulosDocs = class(TFCadastroPadrao)
+    cdsCadastroCODIGO: TIntegerField;
+    cdsCadastroNOME: TStringField;
+    cdsCadastroDESCRICAO: TStringField;
+    cdsCadastroDATA: TDateField;
+    cdsCadastroUSUARIO: TIntegerField;
+    cdsCadastroTIPO: TSmallintField;
+    cdsCadastroLIVRO: TSmallintField;
+    cdsCadastroPROTOCOLO: TIntegerField;
+    lbl1: TLabel;
+    dbNome: TDBEdit;
+    Label1: TLabel;
+    dbDESCRICAO: TDBEdit;
+    dbTipo: TDBRadioGroup;
+    procedure cdsCadastroNewRecord(DataSet: TDataSet);
+    procedure cdsCadastroBeforePost(DataSet: TDataSet);
+    procedure FormCreate(Sender: TObject);
+  private
+    { Private declarations }
+    regTitulos : TRegTitulosDocs;
+  public
+    { Public declarations }
+  end;
+
+var
+  FCadRegTitulosDocs: TFCadRegTitulosDocs;
+
+implementation
+
+{$R *.dfm}
+
+uses uDM;
+
+procedure TFCadRegTitulosDocs.cdsCadastroBeforePost(DataSet: TDataSet);
+begin
+  inherited;
+  cdsCadastroPROTOCOLO.AsInteger := regTitulos.getProtocolo;
+end;
+
+procedure TFCadRegTitulosDocs.cdsCadastroNewRecord(DataSet: TDataSet);
+begin
+  inherited;
+ cdsCadastroTIPO.AsInteger := 0;
+end;
+
+procedure TFCadRegTitulosDocs.FormCreate(Sender: TObject);
+begin
+  inherited;
+ regTitulos := TRegTitulosDocs.Create;
+end;
+
+end.

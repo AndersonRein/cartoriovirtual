@@ -1,0 +1,31 @@
+unit uCadMarcas;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, uCadastroPadrao, StdCtrls, Buttons, FMTBcd, DB, SqlExpr, Provider,
+  DBClient;
+
+type
+  TFCadMarcas = class(TFCadastroPadrao)
+    cdsMarcas: TClientDataSet;
+    dspMarcas: TDataSetProvider;
+    dsMarcas: TDataSource;
+    sqsMarcas: TSQLDataSet;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FCadMarcas: TFCadMarcas;
+
+implementation
+
+uses uDM;
+
+{$R *.dfm}
+
+end.

@@ -1,0 +1,37 @@
+unit uCNDProtesto;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uPadraoVazio, Vcl.StdCtrls, Vcl.ComCtrls,
+  Data.DB, Datasnap.DBClient, Datasnap.DSConnect, Vcl.Grids, Vcl.DBGrids;
+
+type
+  TFCNDProtesto = class(TFPadraoVazio)
+    GroupBox1: TGroupBox;
+    GroupBox2: TGroupBox;
+    GroupBox3: TGroupBox;
+    GroupBox4: TGroupBox;
+    edAutografo: TEdit;
+    GroupBox5: TGroupBox;
+    dtInicio: TDateTimePicker;
+    dtFim: TDateTimePicker;
+    DBGrid1: TDBGrid;
+    dspConnection: TDSProviderConnection;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FCNDProtesto: TFCNDProtesto;
+
+implementation
+
+{$R *.dfm}
+
+uses uDM;
+
+end.

@@ -1,0 +1,24 @@
+unit uSelecOcorrencia;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uPadraoVazio;
+
+type
+  TFSelecOcorrencia = class(TFPadraoVazio)
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FSelecOcorrencia: TFSelecOcorrencia;
+
+implementation
+
+{$R *.dfm}
+
+end.

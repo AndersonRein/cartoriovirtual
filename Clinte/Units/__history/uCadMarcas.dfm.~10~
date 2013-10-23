@@ -1,0 +1,87 @@
+inherited FCadMarcas: TFCadMarcas
+  Caption = 'Cadastro de Marcas'
+  ClientHeight = 102
+  ExplicitWidth = 434
+  ExplicitHeight = 130
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited gpbCadastro: TGroupBox
+    Height = 59
+    ExplicitHeight = 59
+    object Label1: TLabel
+      Left = 8
+      Top = 14
+      Width = 27
+      Height = 13
+      Caption = 'Nome'
+      FocusControl = dbNome
+    end
+    object dbNome: TDBEdit
+      Left = 8
+      Top = 30
+      Width = 408
+      Height = 21
+      CharCase = ecUpperCase
+      DataField = 'NOME'
+      DataSource = dsMarcas
+      TabOrder = 0
+      OnKeyPress = dbNomeKeyPress
+    end
+  end
+  inherited btSalvar: TBitBtn
+    Top = 64
+    OnClick = btSalvarClick
+    ExplicitTop = 64
+  end
+  inherited btCancelar: TBitBtn
+    Top = 64
+    ExplicitTop = 64
+  end
+  object cdsMarcas: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'codigo'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspMarcas'
+    OnNewRecord = cdsMarcasNewRecord
+    Left = 336
+    Top = 56
+    object cdsMarcasCODIGO: TIntegerField
+      FieldName = 'CODIGO'
+      Required = True
+    end
+    object cdsMarcasNOME: TStringField
+      DisplayLabel = 'Nome'
+      FieldName = 'NOME'
+      Size = 100
+    end
+  end
+  object dspMarcas: TDataSetProvider
+    DataSet = sqsMarcas
+    Left = 376
+    Top = 64
+  end
+  object dsMarcas: TDataSource
+    DataSet = cdsMarcas
+    Left = 328
+    Top = 8
+  end
+  object sqsMarcas: TSQLDataSet
+    SchemaName = 'sysdba'
+    CommandText = 'select * from MARCAS_SB where codigo =:codigo'
+    DbxCommandType = 'Dbx.SQL'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'codigo'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.SQLConnection
+    Left = 376
+    Top = 16
+  end
+end

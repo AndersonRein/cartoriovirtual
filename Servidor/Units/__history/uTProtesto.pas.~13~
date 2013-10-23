@@ -1,0 +1,83 @@
+unit uTProtesto;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, Mask, ComCtrls, FMTBcd, DBCtrls, uDM, CheckLst,
+  SqlExpr, DB, DBGrids;
+
+type
+  TProtesto = class
+
+  private
+
+  public
+    procedure excluir(codigo: Integer);
+    procedure setItem(protesto,titulo:Integer);
+    procedure delItem(protesto:Integer);
+    procedure protestar(protesto, aceite, ferj, protocolo:Integer; selo:string);
+  end;
+
+implementation
+
+{ TUnidadeMedida }
+
+procedure TProtesto.delItem(protesto: Integer);
+var
+  sql: TSQLDataSet;
+begin
+    sql := TSQLDataSet.Create(nil);
+    sql.SQLConnection := DM.SQLConnection;
+    sql.CommandText := 'DELETE FROM IPROTESTO WHERE CODIGO =:CODIGO';
+    sql.Params[0].AsInteger := protesto;
+    sql.ExecSQL;
+end;
+
+procedure TProtesto.excluir(codigo: Integer);
+var
+  sql: TSQLDataSet;
+begin
+    sql := TSQLDataSet.Create(nil);
+    sql.SQLConnection := DM.SQLConnection;
+    sql.CommandText := 'DELETE FROM PROTESTO WHERE CODIGO =:CODIGO';
+    sql.Params[0].AsInteger := codigo;
+    sql.ExecSQL;
+end;
+procedure TProtesto.protestar(protesto, aceite, ferj, protocolo: Integer; selo: string);
+var
+  sql: TSQLDataSet;
+begin
+    sql := TSQLDataSet.Create(nil);
+    sql.SQLConnection := DM.SQLConnection;
+    sql.CommandText := 'INSERT INTO PROTESTO (CODIGO, CADPROTESTO, SELO, ACEITE, FERJ) VALUES (0,:PROTESTO, :SELO, :ACEITE, :FERJ)';
+    sql.Params[0].AsInteger := protesto;
+    sql.Params[1].AsString := selo;
+    sql.Params[2].AsInteger := aceite;
+    sql.Params[3].AsInteger := ferj;
+    sql.ExecSQL;
+
+    sql.CommandText := 'UPDATE CADPROTESTO SET STATUS = 4 WHERE CODIGO =:CODIGO';
+    sql.Params[0].AsInteger := protesto;
+    sql.ExecSQL;
+    sql.Free;
+
+    sql.CommandText := 'UPDATE PROTOCOLO SET OCORRENCIA = 3, DATAOCORENCIA = CURRENT_DATE WHERE SEQ =:CODIGO';
+    sql.Params[0].AsInteger := protocolo;
+    sql.ExecSQL;
+    sql.Free;
+end;
+
+procedure TProtesto.setItem(protesto, titulo: Integer);
+var
+  sql: TSQLDataSet;
+begin
+    sql := TSQLDataSet.Create(nil);
+    sql.SQLConnection := DM.SQLConnection;
+    sql.CommandText := 'INSERT INTO IPROTESTO (CODIGO, PROTESTO, TITULOS) VALUES (0,:PROTESTO, :TITULO)';
+    sql.Params[0].AsInteger := protesto;
+    sql.Params[1].AsInteger := titulo;
+    sql.ExecSQL;
+end;
+
+end.

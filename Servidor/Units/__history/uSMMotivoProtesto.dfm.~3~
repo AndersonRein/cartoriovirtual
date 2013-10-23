@@ -1,0 +1,28 @@
+object smMotivoProtesto: TsmMotivoProtesto
+  OldCreateOrder = False
+  Height = 454
+  Width = 600
+  object sqsCadastro: TSQLDataSet
+    SchemaName = 'sysdba'
+    CommandText = 'select * from MOTIVOPROTESTO WHERE CODIGO =:CODIGO'
+    DbxCommandType = 'Dbx.SQL'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'CODIGO'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.SQLConnection
+    Left = 32
+    Top = 24
+  end
+  object SQLDataSet2: TSQLDataSet
+    DbxCommandType = 'Dbx.SQL'
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.SQLConnection
+    Left = 32
+    Top = 80
+  end
+end

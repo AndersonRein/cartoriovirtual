@@ -1,0 +1,43 @@
+inherited FCadUsuarios: TFCadUsuarios
+  Caption = 'Usu'#225'rios'
+  ExplicitWidth = 434
+  ExplicitHeight = 251
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited cdsCadastro: TClientDataSet
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'codigo'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspCadastro'
+    object cdsCadastroCODIGO: TIntegerField
+      FieldName = 'CODIGO'
+      Required = True
+    end
+    object cdsCadastroFUNCIONARIO: TIntegerField
+      DisplayLabel = 'Funcion'#225'rio'
+      FieldName = 'FUNCIONARIO'
+      Required = True
+    end
+    object cdsCadastroUSUARIO: TStringField
+      DisplayLabel = 'Usu'#225'rio'
+      FieldName = 'USUARIO'
+      Required = True
+      Size = 10
+    end
+    object cdsCadastroSENHA: TStringField
+      DisplayLabel = 'Senha'
+      FieldName = 'SENHA'
+      Required = True
+      Size = 10
+    end
+    object cdsCadastroSTATUS: TSmallintField
+      FieldName = 'STATUS'
+    end
+  end
+  inherited dspConection: TDSProviderConnection
+    ServerClassName = 'TsmUsuario'
+  end
+end

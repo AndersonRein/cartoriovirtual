@@ -1,0 +1,75 @@
+unit uTRegistroSelo;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, Mask, ComCtrls, FMTBcd, DBCtrls, uDM, CheckLst,
+  SqlExpr, DB, DBGrids;
+
+type
+  TRegistroSelo = class
+
+  private
+
+  public
+    procedure excluir(codigo: Integer);
+    function getNome(codigo: Integer): string;
+    function getProxNumSerie(kitSelo:Integer): Integer;
+    function permitirSelo(selo:Integer):Boolean;
+  end;
+
+implementation
+
+{ TRegistroSelo }
+
+procedure TRegistroSelo.excluir(codigo: Integer);
+var
+  sql: TSQLDataSet;
+begin
+    sql := TSQLDataSet.Create(nil);
+    sql.SQLConnection := DM.SQLConnection;
+    sql.CommandText := 'DELETE FROM REGISTROSELO WHERE CODIGO =:CODIGO';
+    sql.Params[0].AsInteger := codigo;
+    sql.ExecSQL;
+end;
+
+function TRegistroSelo.getNome(codigo: Integer): string;
+var
+  sql: TSQLDataSet;
+begin
+  sql := TSQLDataSet.Create(nil);
+  sql.SQLConnection := DM.SQLConnection;
+  sql.CommandText := 'SELECT NOME FROM REGISTROSELO WHERE CODIGO =:CODIGO';
+  sql.Params[0].AsInteger := codigo;
+  sql.Open;
+
+  Result := sql.FieldByName('NOME').AsString;
+end;
+
+function TRegistroSelo.getProxNumSerie(kitSelo:Integer): Integer;
+var
+  sql: TSQLDataSet;
+begin
+  sql := TSQLDataSet.Create(nil);
+  sql.SQLConnection := DM.SQLConnection;
+  sql.CommandText := 'SELECT COALESCE(MAX(SERIEFIM),0) + 1 AS SERIEFIM FROM REGISTROSELO WHERE KITSELO =:KIT';
+  sql.Params[0].AsInteger := kitSelo;
+  sql.Open;
+
+  Result := sql.FieldByName('SERIEFIM').AsInteger;
+end;
+
+function TRegistroSelo.permitirSelo(selo: Integer): Boolean;
+var
+  sql: TSQLDataSet;
+begin
+  sql := TSQLDataSet.Create(nil);
+  sql.SQLConnection := DM.SQLConnection;
+  sql.CommandText := 'SELECT SERIEINI, SERIEFIM FROM REGISTROSELO WHERE :SELO BETWEEN SERIEINI AND SERIEFIM';
+  sql.Params[0].AsInteger := selo;
+  sql.Open;
+
+end;
+
+end.

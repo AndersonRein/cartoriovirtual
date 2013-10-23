@@ -1,0 +1,28 @@
+unit uSMMotivoProtesto;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, Datasnap.DSServer, Datasnap.DSAuth,
+  Data.FMTBcd, Data.DB, Data.SqlExpr, Datasnap.Provider;
+
+type
+  TsmMotivoProtesto = class(TDSServerModule)
+    sqsCadastro: TSQLDataSet;
+    sqsConsulta: TSQLDataSet;
+    dspCadastro: TDataSetProvider;
+    dspConsulta: TDataSetProvider;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+implementation
+
+{$R *.dfm}
+
+uses uDM;
+
+end.
+

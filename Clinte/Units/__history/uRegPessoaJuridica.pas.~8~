@@ -1,0 +1,69 @@
+unit uRegPessoaJuridica;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uAcessoPadrao, Data.DB,
+  Datasnap.DBClient, Datasnap.DSConnect, Vcl.StdCtrls, Vcl.Buttons, Vcl.Grids,
+  Vcl.DBGrids;
+
+type
+  TFRegPessoaJuridica = class(TFAcessoCadPadrao)
+    cdsConsultaCODIGO: TIntegerField;
+    cdsConsultaNOME: TStringField;
+    cdsConsultaFICHA: TIntegerField;
+    cdsConsultaDATA: TDateField;
+    btbLancar: TBitBtn;
+    procedure btbInserirClick(Sender: TObject);
+    procedure btbAlterarClick(Sender: TObject);
+    procedure btbLancarClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FRegPessoaJuridica: TFRegPessoaJuridica;
+
+implementation
+
+{$R *.dfm}
+
+uses uDM, uCadRegPessoaJuridica, uLancPessoaJuridica;
+
+procedure TFRegPessoaJuridica.btbAlterarClick(Sender: TObject);
+var
+registro: TFCadRegPessoaJuridica;
+begin
+  inherited;
+  registro := TFCadRegPessoaJuridica.Create(nil);
+  registro.alterar(cdsConsultaCODIGO.AsInteger);
+  registro.Free;
+  atualizaGrid;
+end;
+
+procedure TFRegPessoaJuridica.btbInserirClick(Sender: TObject);
+var
+registro: TFCadRegPessoaJuridica;
+begin
+  inherited;
+  registro := TFCadRegPessoaJuridica.Create(nil);
+  registro.inserir;
+  registro.Free;
+  atualizaGrid;
+end;
+
+procedure TFRegPessoaJuridica.btbLancarClick(Sender: TObject);
+var
+lanc: TFLancPessaoJuridica;
+begin
+  inherited;
+  lanc := TFLancPessaoJuridica.Create(nil);
+  lanc.new(cdsConsultaCODIGO.AsInteger,cdsConsultaFICHA.AsInteger,cdsConsultaNOME.AsString,cdsConsultaDATA.AsDateTime);
+  lanc.Free;
+  atualizaGrid;
+end;
+
+end.

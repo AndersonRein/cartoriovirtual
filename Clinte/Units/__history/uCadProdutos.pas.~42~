@@ -1,0 +1,139 @@
+unit uCadProdutos;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, uCadastroPadrao, StdCtrls, Buttons, FMTBcd, DB, SqlExpr, Provider,
+  DBClient, Mask, DBCtrls, uPadrao;
+
+type
+  TFCadProdutos = class(TFCadastroPadrao)
+    cdsProdutos: TClientDataSet;
+    dspProdutos: TDataSetProvider;
+    dsProdutos: TDataSource;
+    sqsProdutos: TSQLDataSet;
+    Label1: TLabel;
+    dbNome: TDBEdit;
+    Label5: TLabel;
+    dbUnidade: TDBEdit;
+    cdsProdutosCODIGO: TIntegerField;
+    cdsProdutosNOME: TStringField;
+    cdsProdutosMARCA: TIntegerField;
+    cdsProdutosUNIDADE: TStringField;
+    cdsProdutosVALIDADE: TDateField;
+    Label2: TLabel;
+    dbMarca: TDBEdit;
+    edMarca: TEdit;
+    Label3: TLabel;
+    dbValidade: TDBEdit;
+    procedure cdsProdutosNewRecord(DataSet: TDataSet);
+    procedure btSalvarClick(Sender: TObject);
+    procedure dbValorKeyPress(Sender: TObject; var Key: Char);
+    procedure dbMarcaClick(Sender: TObject);
+  private
+    { Private declarations }
+    modo: Integer;
+    padrao: TFPadrao;
+    codAlteracao: Integer;
+    procedure abrirCadastro;
+    procedure salvar;
+    procedure editarCadastro;
+    procedure buscaMarca;
+  public
+    { Public declarations }
+    procedure inserir(md: Integer);
+    procedure alterar(md, codigo: Integer);
+  end;
+
+var
+  FCadProdutos: TFCadProdutos;
+
+implementation
+
+uses uDM, uBusca;
+
+{$R *.dfm}
+
+{ TFCadProdutos }
+
+procedure TFCadProdutos.abrirCadastro;
+begin
+cdsProdutos.Close;
+cdsProdutos.Params[0].AsInteger := 0;
+cdsProdutos.Open;
+cdsProdutos.Insert;
+end;
+
+procedure TFCadProdutos.alterar(md, codigo: Integer);
+begin
+modo := md;
+codAlteracao := codigo;
+editarCadastro;
+Self.ShowModal;
+end;
+
+procedure TFCadProdutos.btSalvarClick(Sender: TObject);
+begin
+  inherited;
+salvar;
+if modo = 0 then
+   abrirCadastro
+else
+   editarCadastro;
+end;
+
+procedure TFCadProdutos.buscaMarca;
+begin
+
+end;
+
+procedure TFCadProdutos.cdsProdutosNewRecord(DataSet: TDataSet);
+begin
+  inherited;
+ cdsProdutosCODIGO.AsInteger := 0;
+end;
+
+procedure TFCadProdutos.dbMarcaClick(Sender: TObject);
+var
+  busca: TFBusca;
+begin
+  inherited;
+  busca := TFBusca.Create(nil);
+  busca.new('Marcas', 'MARCAS_SB', 'CODIGO, NOME', 'NOME');
+  edMarca.Text := busca.getNome;
+  cdsProdutosMARCA.AsInteger := busca.getCodigo;
+  busca.Free;
+end;
+
+procedure TFCadProdutos.dbValorKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+  if key = #13 then
+    btSalvarClick(Sender);
+end;
+
+procedure TFCadProdutos.editarCadastro;
+begin
+ cdsProdutos.Close;
+ cdsProdutos.Params[0].AsInteger := codAlteracao;
+ cdsProdutos.Open;
+ cdsProdutos.Edit;
+
+end;
+
+procedure TFCadProdutos.inserir(md: Integer);
+begin
+ modo := md;
+ abrirCadastro;
+ Self.ShowModal;
+end;
+
+procedure TFCadProdutos.salvar;
+begin
+cdsProdutos.Post;
+cdsProdutos.ApplyUpdates(-1);
+ShowMessage(padrao.SUCESSO);
+end;
+
+end.

@@ -1,0 +1,91 @@
+inherited FRegistroSelo: TFRegistroSelo
+  Caption = 'Registro de Selo'
+  ExplicitWidth = 742
+  ExplicitHeight = 503
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited dbgCadastros: TDBGrid
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'CODIGO'
+        Width = 80
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'KITSELO'
+        Width = 330
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ENTREGA'
+        Width = 80
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'SERIEINI'
+        Width = 100
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'SERIEFIM'
+        Width = 100
+        Visible = True
+      end>
+  end
+  inherited gpbCadastro: TGroupBox
+    inherited btbInserir: TBitBtn
+      OnClick = btbInserirClick
+    end
+    inherited btbAlterar: TBitBtn
+      OnClick = btbAlterarClick
+    end
+    inherited btbExcluir: TBitBtn
+      OnClick = btbExcluirClick
+    end
+  end
+  inherited cdsConsulta: TClientDataSet
+    Params = <
+      item
+        DataType = ftString
+        Name = 'nome'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspConsulta'
+    RemoteServer = dspConection
+    object cdsConsultaCODIGO: TIntegerField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'CODIGO'
+    end
+    object cdsConsultaCODKITSELO: TIntegerField
+      FieldName = 'CODKITSELO'
+    end
+    object cdsConsultaKITSELO: TStringField
+      DisplayLabel = 'Kit de Selo'
+      FieldName = 'KITSELO'
+      Size = 100
+    end
+    object cdsConsultaQUANTIDADEKIT: TIntegerField
+      FieldName = 'QUANTIDADEKIT'
+    end
+    object cdsConsultaENTREGA: TDateField
+      DisplayLabel = 'Entrega'
+      FieldName = 'ENTREGA'
+    end
+    object cdsConsultaSERIEFIM: TLargeintField
+      DisplayLabel = 'S'#233'rie final'
+      FieldName = 'SERIEFIM'
+    end
+    object cdsConsultaSERIEINI: TLargeintField
+      DisplayLabel = 'S'#233'rie inicial'
+      FieldName = 'SERIEINI'
+    end
+  end
+  inherited dspConection: TDSProviderConnection
+    ServerClassName = 'TsmRegistroSelo'
+  end
+end

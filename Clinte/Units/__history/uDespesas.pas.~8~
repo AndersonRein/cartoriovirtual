@@ -1,0 +1,50 @@
+unit uDespesas;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uPadraoVazio, Vcl.StdCtrls, Vcl.Buttons,
+  Vcl.ComCtrls, Vcl.Grids, Vcl.DBGrids, Data.DB, Datasnap.DBClient,
+  Datasnap.DSConnect;
+
+type
+  TFDespeas = class(TFPadraoVazio)
+    GroupBox1: TGroupBox;
+    GroupBox2: TGroupBox;
+    GroupBox3: TGroupBox;
+    edBusca: TEdit;
+    Label1: TLabel;
+    GroupBox4: TGroupBox;
+    dtpInicio: TDateTimePicker;
+    dtpFinal: TDateTimePicker;
+    btnBuscar: TSpeedButton;
+    DBGrid1: TDBGrid;
+    dspConection: TDSProviderConnection;
+    cdsConsulta: TClientDataSet;
+    dsConsulta: TDataSource;
+    cdsConsultaCODIGO: TIntegerField;
+    cdsConsultaDATA: TDateField;
+    cdsConsultaDESCRICAO: TStringField;
+    cdsConsultaCODSUBGRUPODESPSA: TIntegerField;
+    cdsConsultaSUBGRUPODESPSA: TStringField;
+    cdsConsultaVALOR: TFMTBCDField;
+    cdsConsultaCODGRUPODESPESA: TIntegerField;
+    cdsConsultaGRUPODESPESA: TStringField;
+    cdsConsultaCARNELEAO: TIntegerField;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FDespeas: TFDespeas;
+
+implementation
+
+{$R *.dfm}
+
+uses uDM;
+
+end.

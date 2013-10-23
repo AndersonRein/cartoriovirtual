@@ -1,0 +1,478 @@
+unit uLancPessoaJuridica;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uPadraoVazio, Vcl.StdCtrls, Data.DB,
+  Datasnap.DBClient, Datasnap.DSConnect, Vcl.Grids, Vcl.DBGrids, Vcl.Buttons,
+  Vcl.ComCtrls, Vcl.DBCtrls, frxClass, frxDBSet, frxRich, frxExportPDF,
+  Vcl.ImgList, Vcl.ToolWin, frxCtrls, richedit, uTData;
+
+type
+  TFLancPessaoJuridica = class(TFPadraoVazio)
+    GroupBox1: TGroupBox;
+    GroupBox2: TGroupBox;
+    lblNome: TLabel;
+    GroupBox3: TGroupBox;
+    lblFicha: TLabel;
+    GroupBox4: TGroupBox;
+    lblData: TLabel;
+    GroupBox5: TGroupBox;
+    dspPessoaJuridica: TDSProviderConnection;
+    cdsCadastro: TClientDataSet;
+    cdsCadastroCODIGO: TIntegerField;
+    cdsCadastroREGPESSOAJURIDICA: TIntegerField;
+    cdsCadastroINSCRICAO: TMemoField;
+    cdsCadastroDATA: TDateField;
+    cdsCadastroSELO: TLargeintField;
+    DBGrid1: TDBGrid;
+    dsCadastro: TDataSource;
+    spbNovo: TSpeedButton;
+    spbExcluir: TSpeedButton;
+    spbAlterar: TSpeedButton;
+    GroupBox6: TGroupBox;
+    dbInscricao: TDBRichEdit;
+    spbSalvar: TSpeedButton;
+    spbImprimir: TSpeedButton;
+    Impressao: TfrxReport;
+    dbImpressao: TfrxDBDataset;
+    RichObject: TfrxRichObject;
+    PDFExport: TfrxPDFExport;
+    cdsCadastroVALOR: TFMTBCDField;
+    btbRodape: TSpeedButton;
+    cdsCadastroRODAPE: TStringField;
+    ToolBar1: TToolBar;
+    btnNegrito: TToolButton;
+    btnItalico: TToolButton;
+    btnSublinhado: TToolButton;
+    ToolButton1: TToolButton;
+    btnEsquerda: TToolButton;
+    btnDireita: TToolButton;
+    btnCentro: TToolButton;
+    ImageList: TImageList;
+    FontDialog: TFontDialog;
+    btnFonte: TToolButton;
+    cdsCadastroSEQ: TSmallintField;
+    btnJustificar: TToolButton;
+    cdsCadastroAVERBACAO: TMemoField;
+    ToolButton2: TToolButton;
+    btnInscri: TToolButton;
+    btnAverba: TToolButton;
+    cdsCadastroNATURESA: TStringField;
+    cdsCadastroORDEM: TIntegerField;
+    cdsCadastroTITULACAO: TStringField;
+    cdsCadastroLEI: TStringField;
+    procedure spbNovoClick(Sender: TObject);
+    procedure cdsCadastroNewRecord(DataSet: TDataSet);
+    procedure spbSalvarClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure spbExcluirClick(Sender: TObject);
+    procedure ImpressaoGetValue(const VarName: string; var Value: Variant);
+    procedure spbImprimirClick(Sender: TObject);
+    procedure spbAlterarClick(Sender: TObject);
+    procedure cdsCadastroBeforePost(DataSet: TDataSet);
+    procedure btbRodapeClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure btnNegritoClick(Sender: TObject);
+    procedure btnItalicoClick(Sender: TObject);
+    procedure btnSublinhadoClick(Sender: TObject);
+    procedure btnEsquerdaClick(Sender: TObject);
+    procedure btnCentroClick(Sender: TObject);
+    procedure btnDireitaClick(Sender: TObject);
+    procedure dbInscricaoKeyPress(Sender: TObject; var Key: Char);
+    procedure dbInscricaoClick(Sender: TObject);
+    procedure cdsCadastroBeforeScroll(DataSet: TDataSet);
+    procedure btnFonteClick(Sender: TObject);
+    procedure btnJustificarClick(Sender: TObject);
+    procedure btnInscriClick(Sender: TObject);
+    procedure btnAverbaClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+  private
+    { Private declarations }
+    regJuridico:Integer;
+    datas: TData;
+    function TextoSelecionado: TTextAttributes;
+    procedure AtualizaBotoes;
+    procedure setSequencia();
+  public
+    { Public declarations }
+    procedure new(codigo, ficha:Integer; nome:string; data:TDate);
+  end;
+
+var
+  FLancPessaoJuridica: TFLancPessaoJuridica;
+
+implementation
+
+{$R *.dfm}
+
+uses uDM, uInsertSeloPessoaJuri, uPadrao, uRodapaRegJuridica;
+
+procedure TFLancPessaoJuridica.AtualizaBotoes;
+begin
+  with dbInscricao.Paragraph do
+  try
+  btnNegrito.Down := fsBold in dbInscricao.SelAttributes.Style;
+  btnItalico.Down := fsItalic in dbInscricao.SelAttributes.Style;
+  btnSublinhado.Down := fsUnderline in dbInscricao.SelAttributes.Style;
+
+  if Ord(Alignment) = 0 then
+  begin
+    btnEsquerda.Down := True;
+    btnCentro.Down := False;
+    btnDireita.Down := False;
+    btnJustificar.Down := False;
+  end;
+
+  if Ord(Alignment) = 1 then
+  begin
+    btnEsquerda.Down := False;
+    btnCentro.Down := False;
+    btnDireita.Down := True;
+    btnJustificar.Down := False;
+  end;
+
+  if Ord(Alignment) = 2 then
+  begin
+    btnEsquerda.Down := False;
+    btnCentro.Down := True;
+    btnDireita.Down := False;
+    btnJustificar.Down := False;
+  end;
+
+    if Ord(Alignment) = 3 then
+  begin
+    btnJustificar.Down := True;
+    btnEsquerda.Down := False;
+    btnCentro.Down := False;
+    btnDireita.Down := False;
+  end;
+
+  if dbInscricao.DataField = cdsCadastroINSCRICAO.FieldName then
+    begin
+      btnInscri.Down := True;
+      btnAverba.Down := False;
+    end;
+
+  if dbInscricao.DataField = cdsCadastroAVERBACAO.FieldName then
+    begin
+      btnInscri.Down := False;
+      btnAverba.Down := True;
+    end;
+ except
+  on E: Exception do
+    ShowMessage(ERRO+' '+E.Message);
+ end;
+
+end;
+
+procedure TFLancPessaoJuridica.btbRodapeClick(Sender: TObject);
+var
+rodape: TFRodapeRegJuridica;
+begin
+  inherited;
+  rodape := TFRodapeRegJuridica.Create(nil);
+  rodape.ShowModal;
+  rodape.Free;
+end;
+
+procedure TFLancPessaoJuridica.btnAverbaClick(Sender: TObject);
+begin
+  inherited;
+dbInscricao.DataField := cdsCadastroAVERBACAO.FieldName;
+end;
+
+procedure TFLancPessaoJuridica.btnCentroClick(Sender: TObject);
+begin
+  inherited;
+dbInscricao.Paragraph.Alignment := TAlignment(2);
+end;
+
+procedure TFLancPessaoJuridica.btnDireitaClick(Sender: TObject);
+begin
+  inherited;
+dbInscricao.Paragraph.Alignment := TAlignment(1);
+end;
+
+procedure TFLancPessaoJuridica.btnEsquerdaClick(Sender: TObject);
+begin
+  inherited;
+dbInscricao.Paragraph.Alignment := TAlignment(0);
+end;
+
+procedure TFLancPessaoJuridica.btnFonteClick(Sender: TObject);
+begin
+  inherited;
+with dbInscricao.SelAttributes do
+  begin
+    FontDialog.Font.Name := Name;
+    FontDialog.Font.Charset := Charset;
+    FontDialog.Font.Color := Color;
+    FontDialog.Font.Pitch := Pitch;
+    FontDialog.Font.Size := Size;
+    FontDialog.Font.Style := Style;
+    FontDialog.Font.Height := Height;
+  end;
+ if FontDialog.Execute then
+  begin
+    with FontDialog.Font do
+      begin
+        dbInscricao.SelAttributes.Name := Name;
+        dbInscricao.SelAttributes.Charset := Charset;
+        dbInscricao.SelAttributes.Color := Color;
+        dbInscricao.SelAttributes.Pitch := Pitch;
+        dbInscricao.SelAttributes.Size := Size;
+        dbInscricao.SelAttributes.Style := Style;
+        dbInscricao.SelAttributes.Height := Height;
+      end;
+  end;
+
+end;
+
+procedure TFLancPessaoJuridica.btnInscriClick(Sender: TObject);
+begin
+  inherited;
+dbInscricao.DataField := cdsCadastroINSCRICAO.FieldName;
+end;
+
+procedure TFLancPessaoJuridica.btnItalicoClick(Sender: TObject);
+begin
+  inherited;
+ if (TextoSelecionado.Style = [fsItalic]) or (TextoSelecionado.Style = [fsItalic,fsBold]) or (TextoSelecionado.Style = [fsItalic,fsUnderline]) or (TextoSelecionado.Style = [fsUnderline,fsItalic,fsBold]) then
+  TextoSelecionado.Style := TextoSelecionado.Style - [fsItalic]
+ else
+  TextoSelecionado.Style := TextoSelecionado.Style + [fsItalic];
+end;
+
+procedure TFLancPessaoJuridica.btnJustificarClick(Sender: TObject);
+const
+TO_ADVANCEDTYPOGRAPHY = $1;
+EM_SETTYPOGRAPHYOPTIONS = (WM_USER + 202);
+EM_GETTYPOGRAPHYOPTIONS = (WM_USER + 203);
+var
+ParaFormat :TParaFormat;
+SelStart,SelLength :Integer;
+begin
+     ParaFormat.cbSize := SizeOf(ParaFormat);
+     if SendMessage(dbInscricao.handle,EM_SETTYPOGRAPHYOPTIONS,
+     TO_ADVANCEDTYPOGRAPHY,TO_ADVANCEDTYPOGRAPHY) = 1 then
+     begin
+           SelStart := dbInscricao.SelStart;
+           SelLength := dbInscricao.SelLength;
+           ParaFormat.dwMask := PFM_ALIGNMENT;
+           ParaFormat.wAlignment := PFA_JUSTIFY;
+           SendMessage(dbInscricao.handle, EM_SETPARAFORMAT, 0, LongInt(@ParaFormat));
+           dbInscricao.SelStart := SelStart;
+           dbInscricao.SelLength := SelLength;
+    end;
+
+end;
+
+procedure TFLancPessaoJuridica.btnNegritoClick(Sender: TObject);
+begin
+  inherited;
+ if (TextoSelecionado.Style = [fsBold]) or (TextoSelecionado.Style = [fsBold,fsItalic]) or (TextoSelecionado.Style = [fsBold,fsUnderline]) or (TextoSelecionado.Style = [fsUnderline,fsItalic,fsBold]) then
+  TextoSelecionado.Style := TextoSelecionado.Style - [fsBold]
+ else
+  TextoSelecionado.Style := TextoSelecionado.Style + [fsBold];
+end;
+
+procedure TFLancPessaoJuridica.btnSublinhadoClick(Sender: TObject);
+begin
+  inherited;
+if (TextoSelecionado.Style = [fsUnderline]) or (TextoSelecionado.Style = [fsUnderline,fsItalic]) or (TextoSelecionado.Style = [fsUnderline,fsBold]) or (TextoSelecionado.Style = [fsUnderline,fsItalic,fsBold]) then
+  TextoSelecionado.Style := TextoSelecionado.Style - [fsUnderline]
+ else
+  TextoSelecionado.Style := TextoSelecionado.Style + [fsUnderline];
+end;
+
+procedure TFLancPessaoJuridica.cdsCadastroBeforePost(DataSet: TDataSet);
+begin
+  inherited;
+ cdsCadastroRODAPE.AsString := getRodapeRegJuridico;
+ cdsCadastroTITULACAO.AsString := usuario.getFuncao;
+end;
+
+procedure TFLancPessaoJuridica.cdsCadastroBeforeScroll(DataSet: TDataSet);
+begin
+  inherited;
+  cdsCadastro.ApplyUpdates(-1);
+end;
+
+procedure TFLancPessaoJuridica.cdsCadastroNewRecord(DataSet: TDataSet);
+begin
+  inherited;
+cdsCadastroCODIGO.AsInteger := makeCodigo('GIREGPESSOAJURIDICA');
+cdsCadastroREGPESSOAJURIDICA.AsInteger := regJuridico;
+end;
+
+procedure TFLancPessaoJuridica.dbInscricaoClick(Sender: TObject);
+begin
+  inherited;
+AtualizaBotoes;
+end;
+
+procedure TFLancPessaoJuridica.dbInscricaoKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  inherited;
+  if key = #13 then
+    dbInscricao.SetFocus;
+  AtualizaBotoes;
+end;
+
+procedure TFLancPessaoJuridica.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  inherited;
+if dsCadastro.State in [dsInsert,dsEdit] then
+  begin
+    case Application.MessageBox(DESEJA_SALVAR_ALTERACOES,PWideChar(INFORMACAO),MB_YESNOCANCEL + MB_ICONQUESTION) of
+       6 : spbSalvar.Click;
+       2 : Action := caNone;
+       7 : Close;
+    end;
+    end;
+end;
+
+procedure TFLancPessaoJuridica.FormCreate(Sender: TObject);
+begin
+  inherited;
+ datas := TData.Create;
+end;
+
+procedure TFLancPessaoJuridica.FormShow(Sender: TObject);
+begin
+  inherited;
+ cdsCadastro.Close;
+ cdsCadastro.Params[0].AsInteger := regJuridico;
+ cdsCadastro.Open;
+ AtualizaBotoes;
+end;
+
+procedure TFLancPessaoJuridica.ImpressaoGetValue(const VarName: string;
+  var Value: Variant);
+begin
+  inherited;
+ if VarName = 'CARTORIO' then
+  Value := empresa.getNome;
+ if VarName = 'RESPONSAVEL' then
+  Value := empresa.getResponsavel;
+ if VarName = 'ATO' then
+  Value := empresa.getAto;
+ if VarName = 'FICHA' then
+   Value := lblFicha.Caption;
+ if VarName = 'DATA' then
+  Value := datas.getDataExtenso(cdsCadastroDATA.AsDateTime);
+end;
+
+procedure TFLancPessaoJuridica.new(codigo, ficha: Integer; nome: string;
+  data: TDate);
+begin
+regJuridico := codigo;
+lblFicha.Caption := FormatFloat('000', ficha);
+lblNome.Caption := nome;
+lblData.Caption := DateToStr(data);
+Self.ShowModal;
+end;
+
+procedure TFLancPessaoJuridica.setSequencia;
+var
+I:SmallInt;
+begin
+if not cdsCadastro.FindFirst then
+cdsCadastro.First;
+I := 0;
+while not cdsCadastro.Eof do
+  begin
+    cdsCadastro.Edit;
+    cdsCadastroSEQ.AsInteger := I;
+    cdsCadastro.Post;
+    Inc(I);
+    cdsCadastro.Next;
+  end;
+  cdsCadastro.ApplyUpdates(-1);
+  cdsCadastro.Refresh;
+end;
+
+procedure TFLancPessaoJuridica.spbAlterarClick(Sender: TObject);
+var
+alterar: TFInsertSeloPessoaJuri;
+begin
+  inherited;
+  alterar := TFInsertSeloPessoaJuri.Create(nil);
+  alterar.alterar(cdsCadastroSELO.AsInteger,cdsCadastroVALOR.AsFloat, cdsCadastroLEI.AsString);
+  if alterar.getCancelou then
+    begin
+      alterar.Free;
+      Exit;
+    end;
+  if not (dsCadastro.State in [dsEdit]) then
+     begin
+       cdsCadastro.Edit;
+     end;
+  cdsCadastroSELO.AsInteger := alterar.getSelo;
+  cdsCadastroVALOR.AsFloat := alterar.getValor;
+end;
+
+procedure TFLancPessaoJuridica.spbExcluirClick(Sender: TObject);
+begin
+  inherited;
+if Application.MessageBox(DESEJA_REALMENTE_EXCLUIR_REGISTRO, PWideChar(INFORMACAO), MB_YESNO + MB_ICONWARNING) = IDYES then
+  begin
+    cdsCadastro.Delete;
+    cdsCadastro.ApplyUpdates(-1);
+    cdsCadastro.Refresh;
+  end;
+end;
+
+procedure TFLancPessaoJuridica.spbImprimirClick(Sender: TObject);
+begin
+  inherited;
+ Impressao.ShowReport();
+end;
+
+procedure TFLancPessaoJuridica.spbNovoClick(Sender: TObject);
+var
+insert: TFInsertSeloPessoaJuri;
+begin
+  inherited;
+insert := TFInsertSeloPessoaJuri.Create(nil);
+insert.ShowModal;
+if insert.getCancelou then
+  begin
+    insert.Free;
+    Exit;
+  end;
+cdsCadastro.Insert;
+cdsCadastroSELO.AsInteger := insert.getSelo;
+cdsCadastroVALOR.AsFloat := insert.getValor;
+cdsCadastroLEI.AsString := insert.getLei;
+end;
+
+procedure TFLancPessaoJuridica.spbSalvarClick(Sender: TObject);
+begin
+  inherited;
+  try
+    cdsCadastro.Post;
+    cdsCadastro.ApplyUpdates(-1);
+    cdsCadastro.Refresh;
+    setSequencia;
+    ShowMessage(SUCESSO);
+  except
+    on E: Exception do
+      ShowMessage(ERRO+' '+E.Message);
+  end;
+
+end;
+
+function TFLancPessaoJuridica.TextoSelecionado: TTextAttributes;
+begin
+  if dbInscricao.SelLength > 0 then Result := dbInscricao.SelAttributes
+
+  else Result := dbInscricao.DefAttributes;
+
+end;
+
+end.

@@ -1,0 +1,42 @@
+unit uLancCaixaTabNotas;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uCadastroPadrao, Data.DB,
+  Datasnap.DBClient, Datasnap.DSConnect, Vcl.StdCtrls, Vcl.Buttons;
+
+type
+  TFLancCaixaTabNotas = class(TFCadastroPadrao)
+    cdsCadastroCODIGO: TIntegerField;
+    cdsCadastroDATA: TDateField;
+    cdsCadastroLEI: TStringField;
+    cdsCadastroSELO: TStringField;
+    cdsCadastroTIPOSELO: TIntegerField;
+    cdsCadastroATO: TIntegerField;
+    cdsCadastroLIVRO: TIntegerField;
+    cdsCadastroFOLHA: TIntegerField;
+    cdsCadastroVLRTRANSACAO: TFMTBCDField;
+    cdsCadastroVALOR: TFMTBCDField;
+    cdsCadastroFERJ: TIntegerField;
+    cdsCadastroFERC: TIntegerField;
+    cdsCadastroTOTAL: TFMTBCDField;
+    cdsCadastroFORMAPAG: TStringField;
+    cdsCadastroCLIENTE: TIntegerField;
+    cdsCadastroVLRCOBRADO: TFMTBCDField;
+    cdsCadastroOBS: TStringField;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FLancCaixaTabNotas: TFLancCaixaTabNotas;
+
+implementation
+
+{$R *.dfm}
+
+end.

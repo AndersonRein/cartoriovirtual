@@ -1,0 +1,77 @@
+unit uCadConfiguracoes;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, uCadastroPadrao, StdCtrls, Buttons, ExtCtrls, DBCtrls, ExtDlgs,
+  FMTBcd, DB, SqlExpr, Provider, DBClient, Mask, uPadrao;
+
+type
+  TFCadConfiguracoes = class(TFCadastroPadrao)
+    dbTipoImpressao: TDBRadioGroup;
+    dbFormaEmissao: TDBRadioGroup;
+    OpenDialog: TOpenDialog;
+    spbLogoMarca: TSpeedButton;
+    cdsConfiguracoes: TClientDataSet;
+    dspConfiguracoes: TDataSetProvider;
+    dsConfiguracoes: TDataSource;
+    sqsConfiguracoes: TSQLDataSet;
+    cdsConfiguracoesCODIGO: TSmallintField;
+    cdsConfiguracoesTIPOIMPRESSAO: TSmallintField;
+    cdsConfiguracoesFORMAEMISSAO: TSmallintField;
+    cdsConfiguracoesLOGOMARCA: TStringField;
+    cdsConfiguracoesSALVARXML: TStringField;
+    cdsConfiguracoesUFDESTINO: TSmallintField;
+    cdsConfiguracoesHOMOLOGPRODU: TSmallintField;
+    Label1: TLabel;
+    dbLogoMarca: TDBEdit;
+    Label2: TLabel;
+    dbSalvarXML: TDBEdit;
+    SpeedButton1: TSpeedButton;
+    Label3: TLabel;
+    dbCodEstados: TDBEdit;
+    dbAmbiente: TDBRadioGroup;
+    dbNomeEstados: TDBLookupComboBox;
+    procedure FormShow(Sender: TObject);
+    procedure btSalvarClick(Sender: TObject);
+  private
+    { Private declarations }
+    padrao: TFPadrao;
+    procedure editarCadastro;
+  public
+    { Public declarations }
+  end;
+
+var
+  FCadConfiguracoes: TFCadConfiguracoes;
+
+implementation
+
+uses uDM;
+{$R *.dfm}
+
+procedure TFCadConfiguracoes.btSalvarClick(Sender: TObject);
+begin
+  inherited;
+  cdsConfiguracoes.Post;
+  cdsConfiguracoes.ApplyUpdates(-1);
+  ShowMessage(padrao.SUCESSO);
+  editarCadastro;
+end;
+
+procedure TFCadConfiguracoes.editarCadastro;
+begin
+  cdsConfiguracoes.Close;
+  cdsConfiguracoes.Params[0].AsInteger := 1;
+  cdsConfiguracoes.Open;
+  cdsConfiguracoes.Edit;
+end;
+
+procedure TFCadConfiguracoes.FormShow(Sender: TObject);
+begin
+  inherited;
+  editarCadastro;
+end;
+
+end.

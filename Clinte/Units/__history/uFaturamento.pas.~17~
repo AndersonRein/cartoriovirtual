@@ -1,0 +1,149 @@
+unit uFaturamento;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, uPadraoVazio, StdCtrls, Buttons;
+
+type
+  TFFaturamento = class(TFPadraoVazio)
+    GroupBox1: TGroupBox;
+    edDinheiro: TEdit;
+    GroupBox2: TGroupBox;
+    edCartao: TEdit;
+    GroupBox3: TGroupBox;
+    edCheque: TEdit;
+    GroupBox4: TGroupBox;
+    lblValor: TLabel;
+    GroupBox5: TGroupBox;
+    lblTroco: TLabel;
+    spbConfirmar: TSpeedButton;
+    procedure FormCreate(Sender: TObject);
+    procedure spbConfirmarClick(Sender: TObject);
+    procedure edDinheiroKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure edDinheiroExit(Sender: TObject);
+    procedure edCartaoExit(Sender: TObject);
+    procedure edChequeExit(Sender: TObject);
+  private
+    { Private declarations }
+    cancelou: Boolean;
+  public
+    { Public declarations }
+    procedure new(valor: string);
+    function getCancelou: Boolean;
+    function eDinheiro: Boolean;
+    function eCartao: Boolean;
+    function eCheque: Boolean;
+    function getDinheiro: Double;
+  end;
+
+var
+  FFaturamento: TFFaturamento;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFFaturamento.edCartaoExit(Sender: TObject);
+begin
+  inherited;
+  edCartao.Text := FormatFloat('##0.00', StrToFloat(edCartao.Text));
+end;
+
+procedure TFFaturamento.edChequeExit(Sender: TObject);
+begin
+  inherited;
+  edCheque.Text := FormatFloat('##0.00', StrToFloat(edCheque.Text));
+end;
+
+procedure TFFaturamento.edDinheiroExit(Sender: TObject);
+begin
+  inherited;
+  edDinheiro.Text := FormatFloat('##0.00', StrToFloat(edDinheiro.Text));
+end;
+
+procedure TFFaturamento.edDinheiroKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  if edDinheiro.Text = '' then
+    Exit;
+
+  if StrToFloat(edDinheiro.Text) > StrToFloat(lblValor.Caption) then
+    lblTroco.Caption := FormatFloat('##0.00', StrToFloat(edDinheiro.Text)
+        - StrToFloat(lblValor.Caption))
+  else
+    lblTroco.Caption := FormatFloat('##0.00', 0);
+end;
+
+procedure TFFaturamento.FormCreate(Sender: TObject);
+begin
+  inherited;
+  cancelou := True;
+end;
+
+function TFFaturamento.getCancelou: Boolean;
+begin
+  Result := cancelou;
+end;
+
+function TFFaturamento.getDinheiro: Double;
+begin
+  Result := StrToFloat(edDinheiro.Text) - StrToFloat(lblTroco.Caption);
+end;
+
+function TFFaturamento.eCartao: Boolean;
+begin
+  if StrToFloat(edCartao.Text) > 0 then
+    Result := True
+  else
+    Result := False;
+end;
+
+function TFFaturamento.eCheque: Boolean;
+begin
+  if StrToFloat(edCheque.Text) > 0 then
+    Result := True
+  else
+    Result := False;
+end;
+
+function TFFaturamento.eDinheiro: Boolean;
+begin
+  if StrToFloat(edDinheiro.Text) > 0 then
+    Result := True
+  else
+    Result := False;
+end;
+
+procedure TFFaturamento.new(valor: string);
+begin
+  lblValor.Caption := FormatFloat('##0.00', StrToFloat(valor));
+  Self.ShowModal;
+end;
+
+procedure TFFaturamento.spbConfirmarClick(Sender: TObject);
+var
+  total: Double;
+begin
+  inherited;
+  total := total + StrToFloat(edDinheiro.Text);
+  total := total + StrToFloat(edCartao.Text);
+  total := total + StrToFloat(edCheque.Text);
+
+  if total >= StrToFloat(lblValor.Caption) then
+  begin
+    cancelou := False;
+    Close;
+  end
+  else
+  begin
+    ShowMessage('Valor informado menor que o valor da venda.');
+    Exit;
+  end;
+
+end;
+
+end.

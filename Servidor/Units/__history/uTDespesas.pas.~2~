@@ -1,0 +1,62 @@
+unit uTDespesas;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, Mask, ComCtrls, FMTBcd, DBCtrls, uDM, CheckLst,
+  SqlExpr, DB, DBGrids;
+
+type
+  TDespesas = class
+
+  private
+
+  public
+    procedure excluir(codigo: Integer);
+    function getNome(codigo: Integer): string;
+    function getTotalDia(data: TDate):Double;
+  end;
+
+implementation
+
+{ TKitSelos }
+
+procedure TDespesas.excluir(codigo: Integer);
+var
+  sql: TSQLDataSet;
+begin
+    sql := TSQLDataSet.Create(nil);
+    sql.SQLConnection := DM.SQLConnection;
+    sql.CommandText := 'DELETE FROM KITSELO WHERE CODIGO =:CODIGO';
+    sql.Params[0].AsInteger := codigo;
+    sql.ExecSQL;
+end;
+
+function TDespesas.getNome(codigo: Integer): string;
+var
+  sql: TSQLDataSet;
+begin
+  sql := TSQLDataSet.Create(nil);
+  sql.SQLConnection := DM.SQLConnection;
+  sql.CommandText := 'SELECT NOME FROM KITSELO WHERE CODIGO =:CODIGO';
+  sql.Params[0].AsInteger := codigo;
+  sql.Open;
+
+  Result := sql.FieldByName('NOME').AsString;
+end;
+
+function TDespesas.getTotalDia(data: TDate): Double;
+var
+  sql: TSQLDataSet;
+begin
+  sql := TSQLDataSet.Create(nil);
+  sql.SQLConnection := DM.SQLConnection;
+  sql.CommandText := 'SELECT SUM(VALOR) AS TOTAL FROM VLANCDESPESAS WHERE DATA =:DATA';
+  sql.Params[0].AsDate := data;
+  sql.Open;
+
+  Result := sql.FieldByName('TOTAL').AsFloat;
+end;
+
+end.

@@ -1,0 +1,95 @@
+unit uAcessoPadrao;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, Grids, DBGrids, FMTBcd, DB, SqlExpr, Provider,
+  DBClient;
+
+type
+  TFAcessoCadPadrao = class(TForm)
+    gpbCadastro: TGroupBox;
+    dbgCadastros: TDBGrid;
+    dsCadastro: TDataSource;
+    cdsCadastro: TClientDataSet;
+    dspCadastro: TDataSetProvider;
+    sqsCadastro: TSQLDataSet;
+    gpbBuscar: TGroupBox;
+    lbNomeBuscar: TLabel;
+    edNomeBuscar: TEdit;
+    btbInserir: TBitBtn;
+    btbAlterar: TBitBtn;
+    btbExcluir: TBitBtn;
+    btbSair: TBitBtn;
+    procedure btbSairClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure msgSelecReg;
+    procedure atualizaGrid;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure edNomeBuscarKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+  private
+    { Private declarations }
+
+  public
+    { Public declarations }
+    procedure buscaDados();
+  end;
+
+var
+  FAcessoCadPadrao: TFAcessoCadPadrao;
+
+implementation
+
+uses uDM;
+{$R *.dfm}
+
+procedure TFAcessoCadPadrao.atualizaGrid;
+begin
+  cdsCadastro.Close;
+  cdsCadastro.Params[0].AsString := '%';
+  cdsCadastro.Open;
+end;
+
+procedure TFAcessoCadPadrao.btbSairClick(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TFAcessoCadPadrao.buscaDados;
+begin
+ cdsCadastro.Refresh;
+end;
+
+procedure TFAcessoCadPadrao.edNomeBuscarKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  buscaDados;
+end;
+
+procedure TFAcessoCadPadrao.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  Action := caFree;
+end;
+
+procedure TFAcessoCadPadrao.FormCreate(Sender: TObject);
+begin
+  buscaDados;
+end;
+
+procedure TFAcessoCadPadrao.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if Key = VK_ESCAPE then
+    btbSairClick(Sender);
+end;
+
+procedure TFAcessoCadPadrao.msgSelecReg;
+begin
+  ShowMessage('Selecione um registro.');
+end;
+
+end.

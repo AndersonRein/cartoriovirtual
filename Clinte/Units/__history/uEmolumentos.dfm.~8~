@@ -1,0 +1,121 @@
+inherited FEmolumentos: TFEmolumentos
+  Caption = 'Emolumentos'
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited dbgCadastros: TDBGrid
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'LEI'
+        Width = 100
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'TIPOATO'
+        Width = 400
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'VALOR'
+        Width = 100
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ATIVO'
+        Width = 50
+        Visible = True
+      end>
+  end
+  inherited gpbCadastro: TGroupBox
+    inherited btbInserir: TBitBtn
+      OnClick = btbInserirClick
+    end
+    inherited btbAlterar: TBitBtn
+      OnClick = btbAlterarClick
+    end
+  end
+  inherited gpbBuscar: TGroupBox
+    inherited lbNomeBuscar: TLabel
+      Width = 42
+      Caption = 'Lei/Ato.:'
+      ExplicitWidth = 42
+    end
+  end
+  inherited cdsConsulta: TClientDataSet
+    Params = <
+      item
+        DataType = ftString
+        Name = 'NOME'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'NOME'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspConsulta'
+    RemoteServer = dspConection
+    Left = 584
+    Top = 56
+    object cdsConsultaCODIGO: TIntegerField
+      FieldName = 'CODIGO'
+    end
+    object cdsConsultaGRUPOLEI: TSmallintField
+      FieldName = 'GRUPOLEI'
+    end
+    object cdsConsultaTIPOATO: TStringField
+      DisplayLabel = 'Tipo de ato'
+      FieldName = 'TIPOATO'
+      Size = 1000
+    end
+    object cdsConsultaLEI: TStringField
+      DisplayLabel = 'Lei'
+      FieldName = 'LEI'
+      Size = 100
+    end
+    object cdsConsultaATOGERAL: TStringField
+      FieldName = 'ATOGERAL'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsConsultaATOFIXO: TStringField
+      FieldName = 'ATOFIXO'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsConsultaTIPOSELO: TIntegerField
+      FieldName = 'TIPOSELO'
+    end
+    object cdsConsultaVALOR: TFMTBCDField
+      DisplayLabel = 'Valor R$'
+      FieldName = 'VALOR'
+      currency = True
+      Precision = 18
+      Size = 2
+    end
+    object cdsConsultaEDITAVEL: TStringField
+      FieldName = 'EDITAVEL'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsConsultaATIVO: TStringField
+      DisplayLabel = 'Ativo'
+      FieldName = 'ATIVO'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsConsultaVLRTRANSACAO: TFMTBCDField
+      FieldName = 'VLRTRANSACAO'
+      Precision = 18
+      Size = 2
+    end
+  end
+  inherited dspConection: TDSProviderConnection
+    ServerClassName = 'TsmEmolumentos'
+    Left = 528
+    Top = 88
+  end
+end

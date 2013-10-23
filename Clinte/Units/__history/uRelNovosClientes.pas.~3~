@@ -1,0 +1,34 @@
+unit uRelNovosClientes;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, uRelatorioPadrao, FMTBcd, Provider, DBClient, DB, SqlExpr, frxClass,
+  frxExportPDF, frxDBSet, ComCtrls, StdCtrls, Buttons;
+
+type
+  TFRelNovosClientes = class(TFRelatorioPadrao)
+    sqsCliente: TSQLDataSet;
+    cdsCliente: TClientDataSet;
+    dspCliente: TDataSetProvider;
+    cdsClienteCODIGO: TIntegerField;
+    cdsClienteNOME: TStringField;
+    cdsClienteTELEFONE: TStringField;
+    cdsClienteDATACADASTRO: TDateField;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FRelNovosClientes: TFRelNovosClientes;
+
+implementation
+
+uses uDM;
+
+{$R *.dfm}
+
+end.

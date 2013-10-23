@@ -1,0 +1,35 @@
+unit uOcorrencias;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, Datasnap.DSServer, Datasnap.DSAuth,
+  Data.FMTBcd, Data.DB, Data.SqlExpr, Datasnap.Provider, uTOcorrencia;
+
+type
+  TsmOcorrencias = class(TDSServerModule)
+    sqsCadastro: TSQLDataSet;
+    sqsConsulta: TSQLDataSet;
+    dspCadastro: TDataSetProvider;
+    dspConsulta: TDataSetProvider;
+    procedure DSServerModuleCreate(Sender: TObject);
+  private
+    { Private declarations }
+    ocorrencia: TOcorrencia;
+  public
+    { Public declarations }
+  end;
+
+implementation
+
+{$R *.dfm}
+
+uses uDM;
+
+procedure TsmOcorrencias.DSServerModuleCreate(Sender: TObject);
+begin
+ ocorrencia := TOcorrencia.Create;
+end;
+
+end.
+

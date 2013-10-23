@@ -1,0 +1,21 @@
+unit uSMMotivoProtesto;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, Datasnap.DSServer, Datasnap.DSAuth;
+
+type
+  TsmMotivoProtesto = class(TDSServerModule)
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+implementation
+
+{$R *.dfm}
+
+end.
+

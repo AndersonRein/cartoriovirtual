@@ -1,0 +1,54 @@
+unit uSMRegistroCivil;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, Datasnap.DSServer, Datasnap.DSAuth,
+  Data.FMTBcd, Datasnap.Provider, Data.DB, Data.SqlExpr, uTRegistroCivil;
+
+type
+  TsmRegistroCivil = class(TDSServerModule)
+    sqsCadastro: TSQLDataSet;
+    sqsConsulta: TSQLDataSet;
+    dspCadastro: TDataSetProvider;
+    dspConsulta: TDataSetProvider;
+    sqsExportar: TSQLDataSet;
+    procedure DSServerModuleCreate(Sender: TObject);
+  private
+    { Private declarations }
+    registroCivil: TRegistroCivil;
+  public
+    { Public declarations }
+    procedure excluir(codigo: Integer);
+    function getNome(codigo: Integer): string;
+    function seqEmUso(seq:Integer):Boolean;
+  end;
+
+implementation
+
+{$R *.dfm}
+
+uses uDM;
+
+procedure TsmRegistroCivil.DSServerModuleCreate(Sender: TObject);
+begin
+ registroCivil := TRegistroCivil.Create;
+end;
+
+procedure TsmRegistroCivil.excluir(codigo: Integer);
+begin
+registroCivil.excluir(codigo);
+end;
+
+function TsmRegistroCivil.getNome(codigo: Integer): string;
+begin
+Result := registroCivil.getNome(codigo);
+end;
+
+function TsmRegistroCivil.seqEmUso(seq: Integer): Boolean;
+begin
+Result := registroCivil.seqEmUso(Seq);
+end;
+
+end.
+

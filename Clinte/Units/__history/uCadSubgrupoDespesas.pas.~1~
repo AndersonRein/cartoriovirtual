@@ -1,0 +1,33 @@
+unit uCadSubgrupoDespesas;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uCadastroPadrao, Vcl.StdCtrls, Vcl.Mask,
+  Vcl.DBCtrls, Data.DB, Datasnap.DBClient, Datasnap.DSConnect, Vcl.Buttons;
+
+type
+  TFCadSubgrupoDespesas = class(TFCadastroPadrao)
+    cdsCadastroCODIGO: TIntegerField;
+    cdsCadastroGRUPODESPESAS: TIntegerField;
+    cdsCadastroNOME: TStringField;
+    lbl1: TLabel;
+    dbGrupoDespesas: TDBEdit;
+    edGrupoDespesas: TEdit;
+    lbl2: TLabel;
+    dbNome: TDBEdit;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FCadSubgrupoDespesas: TFCadSubgrupoDespesas;
+
+implementation
+
+{$R *.dfm}
+
+end.

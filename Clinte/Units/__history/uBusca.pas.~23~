@@ -1,0 +1,82 @@
+unit uBusca;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, uPadraoVazio, FMTBcd, StdCtrls, DB, SqlExpr, Grids, DBGrids,
+  Provider, DBClient;
+
+type
+  TFBusca = class(TFPadraoVazio)
+    cdsBusca: TClientDataSet;
+    dspBusca: TDataSetProvider;
+    dsBusca: TDataSource;
+    DBGrid1: TDBGrid;
+    sqsBusca: TSQLDataSet;
+    edBusca: TEdit;
+    lblBusca: TLabel;
+    procedure edBuscaKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FormShow(Sender: TObject);
+  private
+    { Private declarations }
+    codigo: Integer;
+    nome: string;
+    procedure busca;
+  public
+    { Public declarations }
+    procedure new(titulo, tabela, colunas, campoBusca: string);
+    function getCodigo:Integer;
+    function getNome: string;
+  end;
+
+var
+  FBusca: TFBusca;
+
+implementation
+
+uses uDM;
+
+{$R *.dfm}
+
+{ TFPadraoVazio1 }
+
+procedure TFBusca.busca;
+begin
+cdsBusca.Close;
+cdsBusca.Params[0].AsString := '%' + edBusca.Text + '%';
+cdsBusca.Open;
+end;
+
+procedure TFBusca.edBuscaKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+ busca;
+end;
+
+procedure TFBusca.FormShow(Sender: TObject);
+begin
+  inherited;
+  edBusca.SetFocus;
+end;
+
+procedure TFBusca.new(titulo, tabela, colunas, campoBusca: string);
+begin
+Self.lblBusca.Caption := titulo;
+sqsBusca.CommandText := 'select ' + colunas + ' from ' + tabela + ' where ' + campoBusca + ' like :'+campoBusca;
+busca;
+Self.ShowModal;
+end;
+
+function TFBusca.getCodigo: Integer;
+begin
+Result := cdsBusca.FieldByName('CODIGO').AsInteger;
+end;
+
+function TFBusca.getNome: string;
+begin
+Result := cdsBusca.FieldByName('NOME').AsString;
+end;
+
+end.

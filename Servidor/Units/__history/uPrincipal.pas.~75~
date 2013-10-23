@@ -1,0 +1,165 @@
+unit uPrincipal;
+
+interface
+
+uses Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
+  Vcl.RibbonLunaStyleActnCtrls, Vcl.Ribbon, Vcl.ExtCtrls, Vcl.ComCtrls,
+  Vcl.ImgList, Vcl.PlatformDefaultStyleActnCtrls, Vcl.ActnList, Vcl.ActnMan,
+  Vcl.AppEvnts, Vcl.Menus, Vcl.ToolWin, Vcl.ActnCtrls, SqlExpr, DateUtils, uTCalendario,
+  Data.FMTBcd, Data.DB, Datasnap.DBClient, Datasnap.Provider;
+
+type
+  TFPrincipal = class(TForm)
+    Ribbon1: TRibbon;
+    Timer: TTimer;
+    StatusBar: TStatusBar;
+    ApplicationEvents: TApplicationEvents;
+    ActionManager: TActionManager;
+    ImageList: TImageList;
+    AcIniciar: TAction;
+    TrayIcon: TTrayIcon;
+    PopupMenu: TPopupMenu;
+    Abrir1: TMenuItem;
+    Fechar1: TMenuItem;
+    Esconder1: TMenuItem;
+    RibbonPage1: TRibbonPage;
+    RibbonGroup1: TRibbonGroup;
+    acParar: TAction;
+    tmProtocolo: TTimer;
+    tmrBanco: TTimer;
+    acBackup: TAction;
+    procedure TimerTimer(Sender: TObject);
+    procedure ApplicationEventsMinimize(Sender: TObject);
+    procedure Abrir1Click(Sender: TObject);
+    procedure Esconder1Click(Sender: TObject);
+    procedure Fechar1Click(Sender: TObject);
+    procedure ApplicationEventsActivate(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure tmProtocoloTimer(Sender: TObject);
+    procedure tmrBancoTimer(Sender: TObject);
+    procedure acBackupExecute(Sender: TObject);
+  private
+    { Private declarations }
+    calendario: TCalendario;
+    function getUltimoLancProtocolado:TDate;
+    procedure EncerraDiaSMov(data: TDate);
+  public
+    { Public declarations }
+  end;
+
+var
+  FPrincipal: TFPrincipal;
+
+implementation
+
+{$R *.dfm}
+
+uses uDM, uServerMethods, uBackup;
+
+procedure TFPrincipal.Abrir1Click(Sender: TObject);
+begin
+ Self.Show;
+end;
+
+procedure TFPrincipal.acBackupExecute(Sender: TObject);
+begin
+TFBackup.Create(Self).ShowModal;
+end;
+
+procedure TFPrincipal.ApplicationEventsActivate(Sender: TObject);
+begin
+ Self.Hide;
+end;
+
+procedure TFPrincipal.ApplicationEventsMinimize(Sender: TObject);
+begin
+Self.Hide;
+end;
+
+procedure TFPrincipal.EncerraDiaSMov(data: TDate);
+var
+sql: TSQLDataSet;
+begin
+sql := TSQLDataSet.Create(nil);
+sql.SQLConnection := DM.SQLConnection;
+sql.CommandText := 'INSERT INTO PROTOCOLO (CODIGO, USUARIO, MOVIMENTO, DATA) VALUES (0, :USUARIO, 1, :DATA)';
+sql.Params[0].AsInteger := 1;
+sql.Params[1].AsDate := data;
+sql.ExecSQL;
+end;
+
+procedure TFPrincipal.Esconder1Click(Sender: TObject);
+begin
+Self.Hide;
+end;
+
+procedure TFPrincipal.Fechar1Click(Sender: TObject);
+begin
+Self.Close;
+end;
+
+procedure TFPrincipal.FormCreate(Sender: TObject);
+begin
+calendario := TCalendario.Create;
+end;
+
+function TFPrincipal.getUltimoLancProtocolado: TDate;
+var
+sql: TSQLDataSet;
+begin
+sql := TSQLDataSet.Create(nil);
+sql.SQLConnection := DM.SQLConnection;
+sql.CommandText := 'SELECT MAX(DATA) AS DATA FROM PROTOCOLO';
+sql.Open;
+Result := sql.FieldByName('DATA').AsDateTime;
+end;
+
+procedure TFPrincipal.TimerTimer(Sender: TObject);
+begin
+  StatusBar.Panels[0].Text := 'Data: ' + DateToStr(Date);
+  StatusBar.Panels[1].Text := 'Hora: ' + TimeToStr(Now);
+end;
+
+procedure TFPrincipal.tmProtocoloTimer(Sender: TObject);
+var
+data: TDate;
+quantDias:Integer;
+I:SmallInt;
+begin
+data := getUltimoLancProtocolado;
+quantDias := DayOfTheYear(date) - DayOfTheYear(data);
+if data > 2000 then
+begin
+  for I := 1 to quantDias do
+  begin
+    if not (DayOfTheWeek(data + I) = 6) then
+    begin
+      if not (DayOfTheWeek(data + I) = 7) then
+      begin
+        if not calendario.eFeriado(data + I) then
+          if not ((data + I) = Date) then
+            EncerraDiaSMov(data + I);
+      end;
+    end;
+  end;
+end;
+tmProtocolo.Interval := 10800000;
+end;
+
+procedure TFPrincipal.tmrBancoTimer(Sender: TObject);
+begin
+  if not DM.conectado then
+      DM.conectar;
+
+  if DM.conectado then
+    StatusBar.Panels[2].Text := 'FireBird: Conectado'
+  else
+    begin
+      StatusBar.Panels[2].Text := 'FireBird: Desconectado';
+      tmrBanco.Enabled := False;
+    end;
+end;
+
+end.
+

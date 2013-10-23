@@ -1,0 +1,103 @@
+unit uRelGeralCaixa;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uRelatorioPadrao, frxClass,
+  frxExportPDF, frxDBSet, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.Buttons, Data.DB,
+  Datasnap.DBClient, Datasnap.DSConnect, uTBoletim, uTDespesas;
+
+type
+  TFRelGeralCaixa = class(TFRelatorioPadrao)
+    RelSemana: TfrxReport;
+    dspDespesas: TDSProviderConnection;
+    dspEmpresa: TDSProviderConnection;
+    dspConection: TDSProviderConnection;
+    cdsRelIndSemana: TClientDataSet;
+    cdsRelIndSemanaCODCLIENTE: TIntegerField;
+    cdsRelIndSemanaCLIENTE: TStringField;
+    cdsRelIndSemanaDATAATO: TDateField;
+    cdsRelIndSemanaCODLEI: TStringField;
+    cdsRelIndSemanaNUMATO: TStringField;
+    cdsRelIndSemanaNUMLIVRO: TStringField;
+    cdsRelIndSemanaNUMFOLHA: TStringField;
+    cdsRelIndSemanaSELO: TLargeintField;
+    cdsRelIndSemanaVLREMOLUMENTOS: TFMTBCDField;
+    cdsRelIndSemanaVLRFERJ: TFMTBCDField;
+    cdsRelIndSemanaRECEITASFERJ: TFMTBCDField;
+    cdsRelIndSemanaVLRFERC: TFMTBCDField;
+    cdsRelIndSemanaTIPOATO: TStringField;
+    dbIndSemana: TfrxDBDataset;
+    cdsTotalSemana: TClientDataSet;
+    cdsTotalSemanaDATAATO: TDateField;
+    cdsTotalSemanaCODLEI: TStringField;
+    cdsTotalSemanaSELOINI: TLargeintField;
+    cdsTotalSemanaSELOFIM: TLargeintField;
+    cdsTotalSemanaEMOLUNIDADE: TFMTBCDField;
+    cdsTotalSemanaVLRFERJ: TFMTBCDField;
+    cdsTotalSemanaRECEITASFERJ: TFMTBCDField;
+    cdsTotalSemanaVLRFERC: TFMTBCDField;
+    cdsTotalSemanaTIPOATO: TStringField;
+    dbTotalSemana: TfrxDBDataset;
+    dbDespSemana: TfrxDBDataset;
+    cdsDespSemana: TClientDataSet;
+    cdsDespSemanaCODIGO: TIntegerField;
+    cdsDespSemanaDATA: TDateField;
+    cdsDespSemanaDESCRICAO: TStringField;
+    cdsDespSemanaCODSUBGRUPODESPSA: TIntegerField;
+    cdsDespSemanaSUBGRUPODESPSA: TStringField;
+    cdsDespSemanaVALOR: TFMTBCDField;
+    cdsDespSemanaCODGRUPODESPESA: TIntegerField;
+    cdsDespSemanaGRUPODESPESA: TStringField;
+    cdsDespSemanaCARNELEAO: TIntegerField;
+    cdsEmpresa: TClientDataSet;
+    cdsEmpresaCODIGO: TIntegerField;
+    cdsEmpresaNOME: TStringField;
+    cdsEmpresaRESPONSAVEL: TStringField;
+    cdsEmpresaREGISTRO: TStringField;
+    cdsEmpresaCODFERF: TIntegerField;
+    cdsEmpresaCODNACIONAL: TIntegerField;
+    dbEmpresa: TfrxDBDataset;
+    procedure RelatorioGetValue(const VarName: string; var Value: Variant);
+  private
+    { Private declarations }
+    boletim: TBoletim;
+    despesa: TDespesas;
+    tRecitas, tDespesa: Double;
+  public
+    { Public declarations }
+  end;
+
+var
+  FRelGeralCaixa: TFRelGeralCaixa;
+
+implementation
+
+{$R *.dfm}
+
+uses uDM;
+
+procedure TFRelGeralCaixa.RelatorioGetValue(const VarName: string;
+  var Value: Variant);
+begin
+  inherited;
+  if VarName = 'DTINI' then
+    Value := DateToStr(dtIni);
+  if VarName = 'DTFIM' then
+    Value := DateToStr(dtFim);
+  if VarName = 'TRECEITAS' then
+    begin
+      tRecitas := boletim.getTotalRecitasFerjSemana(dtIni, dtFim);
+      Value := tRecitas;
+    end;
+  if VarName = 'TDESPESAS' then
+    begin
+      tDespesa := despesa.getTotalSemanaFerj(dtIni, dtFim);
+      Value := tDespesa;
+    end;
+  if VarName = 'TTOTAL' then
+    Value := tRecitas - tDespesa;
+end;
+
+end.

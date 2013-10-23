@@ -1,0 +1,51 @@
+unit uTEmpresa;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, Mask, ComCtrls, FMTBcd, DBCtrls, uDM, CheckLst,
+  SqlExpr, DB;
+
+type
+  TEmpresa = Class
+  private
+    nome: string;
+    codigo: Integer;
+  public
+    function getNome():string;
+    function getCodigo():Integer;
+    function getResponsavel():string;
+    function getAto():string;
+  End;
+
+implementation
+
+{ TFCliente }
+
+function TEmpresa.getNome: string;
+var
+sql : TSqlServerMethod;
+begin
+sql := TSqlServerMethod.Create(nil);
+sql.ServerMethodName := 'TsmEmpresa.getNome';
+sql.ExecuteMethod;
+Result := sql.Params[0].AsString;
+end;
+
+function TEmpresa.getAto: string;
+begin
+Result := '';
+end;
+
+function TEmpresa.getResponsavel: string;
+begin
+Result := '';
+end;
+
+function TEmpresa.getCodigo: Integer;
+begin
+Result := codigo;
+end;
+
+end.

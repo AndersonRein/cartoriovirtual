@@ -1,0 +1,78 @@
+inherited FRegPessoaJuridica: TFRegPessoaJuridica
+  Caption = 'Registro de pessoas jur'#237'dicas'
+  ExplicitWidth = 742
+  ExplicitHeight = 503
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited dbgCadastros: TDBGrid
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'CODIGO'
+        Width = 80
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DATA'
+        Width = 100
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'NOME'
+        Width = 400
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'FICHA'
+        Width = 80
+        Visible = True
+      end>
+  end
+  inherited gpbCadastro: TGroupBox
+    inherited btbInserir: TBitBtn
+      OnClick = btbInserirClick
+    end
+    inherited btbAlterar: TBitBtn
+      OnClick = btbAlterarClick
+    end
+  end
+  inherited cdsConsulta: TClientDataSet
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'NOME'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'NOME'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspConsulta'
+    RemoteServer = dspConection
+    object cdsConsultaCODIGO: TIntegerField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'CODIGO'
+      Required = True
+    end
+    object cdsConsultaNOME: TStringField
+      DisplayLabel = 'Nome'
+      FieldName = 'NOME'
+      Size = 100
+    end
+    object cdsConsultaFICHA: TIntegerField
+      DisplayLabel = 'Ficha'
+      FieldName = 'FICHA'
+    end
+    object cdsConsultaDATA: TDateField
+      DisplayLabel = 'Data'
+      FieldName = 'DATA'
+    end
+  end
+  inherited dspConection: TDSProviderConnection
+    ServerClassName = 'TsmRegPessoaJuridica'
+  end
+end

@@ -1,0 +1,85 @@
+unit uCadServicos;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, uCadastroPadrao, StdCtrls, Buttons, FMTBcd, DB, Provider, DBClient,
+  SqlExpr, Mask, DBCtrls, uPadrao;
+
+type
+  TFCadServicos = class(TFCadastroPadrao)
+    sqsServicos: TSQLDataSet;
+    cdsServicos: TClientDataSet;
+    dspServicos: TDataSetProvider;
+    dsServicos: TDataSource;
+    cdsServicosCODIGO: TIntegerField;
+    cdsServicosNOME: TStringField;
+    cdsServicosVALOR: TFMTBCDField;
+    Label1: TLabel;
+    dbNome: TDBEdit;
+    Label2: TLabel;
+    dbValor: TDBEdit;
+    procedure dbValorKeyPress(Sender: TObject; var Key: Char);
+    procedure btSalvarClick(Sender: TObject);
+  private
+    { Private declarations }
+    modo, codAlteracao: Integer;
+    padrao: TFPadrao;
+    procedure abrirCadastro;
+    procedure editarCadastro;
+    procedure salvar;
+  public
+    { Public declarations }
+  end;
+
+var
+  FCadServicos: TFCadServicos;
+
+implementation
+
+uses uDM;
+{$R *.dfm}
+{ TFCadServicos }
+
+procedure TFCadServicos.abrirCadastro;
+begin
+  cdsServicos.Close;
+  cdsServicos.Params[0].AsInteger := 0;
+  cdsServicos.Open;
+  cdsServicos.Insert;
+end;
+
+procedure TFCadServicos.btSalvarClick(Sender: TObject);
+begin
+  inherited;
+  salvar;
+  if modo = 1 then
+    abrirCadastro
+  else
+    editarCadastro;
+end;
+
+procedure TFCadServicos.dbValorKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+  if Key = #13 then
+    btSalvar
+end;
+
+procedure TFCadServicos.editarCadastro;
+begin
+  cdsServicos.Close;
+  cdsServicos.Params[0].AsInteger := codAlteracao;
+  cdsServicos.Open;
+  cdsServicos.Edit;
+end;
+
+procedure TFCadServicos.salvar;
+begin
+  cdsServicos.Post;
+  cdsServicos.ApplyUpdates(-1);
+  ShowMessage(padrao.SUCESSO);
+end;
+
+end.

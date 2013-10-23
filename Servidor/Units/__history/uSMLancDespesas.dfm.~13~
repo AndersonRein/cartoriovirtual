@@ -1,0 +1,85 @@
+object smLancDespesas: TsmLancDespesas
+  OldCreateOrder = False
+  Height = 359
+  Width = 494
+  object sqsCadastro: TSQLDataSet
+    SchemaName = 'sysdba'
+    CommandText = 'select * from LANCDESPESAS where codigo =:codigo'
+    DbxCommandType = 'Dbx.SQL'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'codigo'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.SQLConnection
+    Left = 32
+    Top = 8
+  end
+  object dspCadastro: TDataSetProvider
+    DataSet = sqsCadastro
+    Left = 72
+    Top = 8
+  end
+  object dspConsulta: TDataSetProvider
+    DataSet = sqsConsulta
+    Left = 168
+    Top = 8
+  end
+  object sqsConsulta: TSQLDataSet
+    SchemaName = 'sysdba'
+    CommandText = 
+      'SELECT * FROM VLANCDESPESAS WHERE DATA BETWEEN :INI AND :FIM AND' +
+      ' (SUBGRUPODESPSA LIKE :NOME AND GRUPODESPESA LIKE :NOME) ORDER B' +
+      'Y DATA'
+    DbxCommandType = 'Dbx.SQL'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftDate
+        Name = 'INI'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'FIM'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'NOME'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'NOME'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.SQLConnection
+    Left = 136
+    Top = 8
+  end
+  object sqsRelCaixaFerjInd: TSQLDataSet
+    SchemaName = 'sysdba'
+    CommandText = 
+      'SELECT * FROM VLANCDESPESAS WHERE DATA =:DATA AND CARNELEAO = 40' +
+      '00 ORDER BY DATA'
+    DbxCommandType = 'Dbx.SQL'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftDate
+        Name = 'DATA'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.SQLConnection
+    Left = 32
+    Top = 64
+  end
+  object dspRelCaixaFerjInd: TDataSetProvider
+    DataSet = sqsRelCaixaFerjInd
+    Left = 80
+    Top = 64
+  end
+end

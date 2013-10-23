@@ -1,0 +1,380 @@
+inherited FCadConfiguracoes: TFCadConfiguracoes
+  Caption = 'Configura'#231#245'es'
+  ClientHeight = 231
+  ClientWidth = 612
+  OnShow = FormShow
+  ExplicitWidth = 618
+  ExplicitHeight = 259
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited gpbCadastro: TGroupBox
+    Width = 612
+    Height = 185
+    ExplicitWidth = 612
+    ExplicitHeight = 185
+    object spbLogoMarca: TSpeedButton
+      Left = 582
+      Top = 30
+      Width = 23
+      Height = 21
+      Glyph.Data = {
+        36040000424D3604000000000000360000002800000010000000100000000100
+        20000000000000040000C40E0000C40E00000000000000000000FCFCFCC3F2F2
+        F2DFEEEEEEDFEEEEEEDFEEEEEEDFEEEEEEDFEEEEEEDFEEEEEEDFEEEEEEDFEEEE
+        EEDFEEEEEEDFEEEEEEDFEEEEEEDFF2F2F2DFFCFCFCDFFEFEFEC3E6C6B3DFD2A7
+        8DFFD3B3A0FFD3B29FFFD3B19FFFD1AF9DFFCEAC99FFCAA796FFC6A290FFC196
+        83FFBD8E7DFFBB8B7CFFBA8879FFC8ABA3FFF0F0F0FFFEFEFEDFDB9E79DFDC9C
+        75FFF8EBE3FFF8EDE7FFF8EDE7FFF6E9E3FFEFE0D9FFE6D5CFFFDDC9C3FFD3BC
+        B5FFCAB0AAFFC3A7A1FFBB9389FFB57864FFE1DCDAFFFDFDFDDFE4B08BDFDD98
+        65FFF9EDE6FFFFFFFFFFFFFEFEFFFCF8F8FFF6F0F0FFF0E7E7FFE9DFDFFFE3D6
+        D6FFDCCECEFFD6C5C5FFCEB6B4FFB77662FFD2C1BCFFF9F9F9DFE9BB9ADFE4A7
+        73FFEFCDB2FFFFF5E2FFFFEED7FFFBDFC7FFF6D0B7FFF1C3A9FFE8AF92FFE19A
+        7BFFDA9072FFCF856DFFC77A66FFB75B40FFC49E91FFF1F1F1DFE9BE9DDFF0C7
+        99FFE7B389FFFEEECFFFFFE1B1FFFBC793FFFAB884FFF7A46DFFF0884CFFE565
+        25FFD94F0FFFCF430BFFC43708FFB73414FFBA7965FFE4E2E1DFEAC0A1DFF6DB
+        B1FFE5AD7CFFF8E8D0FFFCEDCCFFFADBB3FFFDCB9CFFF9AF7AFFF39359FFEB76
+        39FFDE5C20FFCD4410FFC13407FFB83417FFB5583CFFD5C9C4DFEAC2A3DFF9E4
+        BDFFEDC18FFFEDC7A7FFF7EADAFFFCF4DBFFFEEAC5FFFDD2A5FFFAB985FFF6A3
+        69FFF38F50FFEA7A3BFFD86029FFC2431CFFB44422FFC5A59ADFEBC4A6DFF9E6
+        C1FFF8DDB1FFDEA275FFE8BB9DFFEABFA0FFE9BB98FFE8B590FFE7AE87FFE5A6
+        7CFFF1AC78FFFEA963FFFD9F56FFEE8947FFC65323FFBB7E66DFEBC5AADFF9E8
+        C4FFF9E6C2FFE3C7B7FFF7EBE3FFF9EFE8FFF9EDE7FFF9EAE3FFF7E4DDFFEFD5
+        CAFFDC9B75FFE8A06FFFEDA26EFFE79A65FFD98756FFC17550DFECC8ACDFFAE9
+        C7FFFCECC6FFEAD1B9FFEDDCD4FFFAF6F6FFFFFEFEFFFFFAFAFFFDF4F4FFF9EF
+        EEFFEFD6CEFFE6BDABFFDAAA94FFCB9B85FFE4C3B2FFE8CABCDFECC9ADDFFAEB
+        CBFFFFF3CCFFFEEBC1FFEFD0ACFFDFBCAAFFF2E6E4FFFDF8F7FFFDF4F4FFF9EF
+        EFFFF6E9E9FFF2E3E3FFD3AFA6FFE2D0C9FFFCFCFCFFFEFEFEDFEBC9B0DFEAC5
+        A5FFECC9A7FFECC6A1FFE7B78DFFE1BAA1FFE6D4D1FFE8D6D3FFF7ECECFFFAEF
+        EFFFF7EBEBFFE2CCC9FFDCCCC8FFFAF9F8FFFFFFFFFFFEFEFEDFFBF5F2DFF9EF
+        E8FFF9EEE7FFF9EEE7FFF9EFE9FFFDFAF8FFFDFCFBFFF1E7E5FFE5D1CDFFEDDC
+        DAFFEDDDDBFFD7C2BEFFF4F2F1FFFFFFFFFFFFFFFFFFFEFEFEDFFEFEFEDFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF9F6F5FFE8D8
+        D5FFDDC4C1FFECE5E4FFFEFEFEFFFFFFFFFFFFFFFFFFFEFEFEDFFEFEFEC3FEFE
+        FEDFFEFEFEDFFEFEFEDFFEFEFEDFFEFEFEDFFEFEFEDFFEFEFEDFFEFEFEDFFDFC
+        FCDFF9F5F5DFFDFDFDDFFEFEFEDFFEFEFEDFFEFEFEDFFEFEFEC3}
+    end
+    object Label1: TLabel
+      Left = 225
+      Top = 14
+      Width = 55
+      Height = 13
+      Caption = 'Logo Marca'
+      FocusControl = dbLogoMarca
+    end
+    object Label2: TLabel
+      Left = 225
+      Top = 54
+      Width = 52
+      Height = 13
+      Caption = 'Salvar XML'
+      FocusControl = dbSalvarXML
+    end
+    object SpeedButton1: TSpeedButton
+      Left = 582
+      Top = 70
+      Width = 23
+      Height = 21
+      Glyph.Data = {
+        36040000424D3604000000000000360000002800000010000000100000000100
+        20000000000000040000C40E0000C40E00000000000000000000FCFCFCC3F2F2
+        F2DFEEEEEEDFEEEEEEDFEEEEEEDFEEEEEEDFEEEEEEDFEEEEEEDFEEEEEEDFEEEE
+        EEDFEEEEEEDFEEEEEEDFEEEEEEDFF2F2F2DFFCFCFCDFFEFEFEC3E6C6B3DFD2A7
+        8DFFD3B3A0FFD3B29FFFD3B19FFFD1AF9DFFCEAC99FFCAA796FFC6A290FFC196
+        83FFBD8E7DFFBB8B7CFFBA8879FFC8ABA3FFF0F0F0FFFEFEFEDFDB9E79DFDC9C
+        75FFF8EBE3FFF8EDE7FFF8EDE7FFF6E9E3FFEFE0D9FFE6D5CFFFDDC9C3FFD3BC
+        B5FFCAB0AAFFC3A7A1FFBB9389FFB57864FFE1DCDAFFFDFDFDDFE4B08BDFDD98
+        65FFF9EDE6FFFFFFFFFFFFFEFEFFFCF8F8FFF6F0F0FFF0E7E7FFE9DFDFFFE3D6
+        D6FFDCCECEFFD6C5C5FFCEB6B4FFB77662FFD2C1BCFFF9F9F9DFE9BB9ADFE4A7
+        73FFEFCDB2FFFFF5E2FFFFEED7FFFBDFC7FFF6D0B7FFF1C3A9FFE8AF92FFE19A
+        7BFFDA9072FFCF856DFFC77A66FFB75B40FFC49E91FFF1F1F1DFE9BE9DDFF0C7
+        99FFE7B389FFFEEECFFFFFE1B1FFFBC793FFFAB884FFF7A46DFFF0884CFFE565
+        25FFD94F0FFFCF430BFFC43708FFB73414FFBA7965FFE4E2E1DFEAC0A1DFF6DB
+        B1FFE5AD7CFFF8E8D0FFFCEDCCFFFADBB3FFFDCB9CFFF9AF7AFFF39359FFEB76
+        39FFDE5C20FFCD4410FFC13407FFB83417FFB5583CFFD5C9C4DFEAC2A3DFF9E4
+        BDFFEDC18FFFEDC7A7FFF7EADAFFFCF4DBFFFEEAC5FFFDD2A5FFFAB985FFF6A3
+        69FFF38F50FFEA7A3BFFD86029FFC2431CFFB44422FFC5A59ADFEBC4A6DFF9E6
+        C1FFF8DDB1FFDEA275FFE8BB9DFFEABFA0FFE9BB98FFE8B590FFE7AE87FFE5A6
+        7CFFF1AC78FFFEA963FFFD9F56FFEE8947FFC65323FFBB7E66DFEBC5AADFF9E8
+        C4FFF9E6C2FFE3C7B7FFF7EBE3FFF9EFE8FFF9EDE7FFF9EAE3FFF7E4DDFFEFD5
+        CAFFDC9B75FFE8A06FFFEDA26EFFE79A65FFD98756FFC17550DFECC8ACDFFAE9
+        C7FFFCECC6FFEAD1B9FFEDDCD4FFFAF6F6FFFFFEFEFFFFFAFAFFFDF4F4FFF9EF
+        EEFFEFD6CEFFE6BDABFFDAAA94FFCB9B85FFE4C3B2FFE8CABCDFECC9ADDFFAEB
+        CBFFFFF3CCFFFEEBC1FFEFD0ACFFDFBCAAFFF2E6E4FFFDF8F7FFFDF4F4FFF9EF
+        EFFFF6E9E9FFF2E3E3FFD3AFA6FFE2D0C9FFFCFCFCFFFEFEFEDFEBC9B0DFEAC5
+        A5FFECC9A7FFECC6A1FFE7B78DFFE1BAA1FFE6D4D1FFE8D6D3FFF7ECECFFFAEF
+        EFFFF7EBEBFFE2CCC9FFDCCCC8FFFAF9F8FFFFFFFFFFFEFEFEDFFBF5F2DFF9EF
+        E8FFF9EEE7FFF9EEE7FFF9EFE9FFFDFAF8FFFDFCFBFFF1E7E5FFE5D1CDFFEDDC
+        DAFFEDDDDBFFD7C2BEFFF4F2F1FFFFFFFFFFFFFFFFFFFEFEFEDFFEFEFEDFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF9F6F5FFE8D8
+        D5FFDDC4C1FFECE5E4FFFEFEFEFFFFFFFFFFFFFFFFFFFEFEFEDFFEFEFEC3FEFE
+        FEDFFEFEFEDFFEFEFEDFFEFEFEDFFEFEFEDFFEFEFEDFFEFEFEDFFEFEFEDFFDFC
+        FCDFF9F5F5DFFDFDFDDFFEFEFEDFFEFEFEDFFEFEFEDFFEFEFEC3}
+    end
+    object Label3: TLabel
+      Left = 225
+      Top = 93
+      Width = 52
+      Height = 13
+      Caption = 'UF Destino'
+      FocusControl = dbCodEstados
+    end
+    object Label4: TLabel
+      Left = 225
+      Top = 135
+      Width = 56
+      Height = 13
+      Caption = 'Modelo NFe'
+      FocusControl = dbModeloNFe
+    end
+    object Label5: TLabel
+      Left = 289
+      Top = 135
+      Width = 46
+      Height = 13
+      Caption = 'Serie NFe'
+      FocusControl = dbSerieNFe
+    end
+    object dbTipoImpressao: TDBRadioGroup
+      Left = 8
+      Top = 14
+      Width = 102
+      Height = 56
+      Caption = 'Tipo de Impressao'
+      DataField = 'TIPOIMPRESSAO'
+      DataSource = dsConfiguracoes
+      Items.Strings = (
+        'Retrato'
+        'Paisagem')
+      ParentBackground = True
+      TabOrder = 0
+      Values.Strings = (
+        '1'
+        '2')
+    end
+    object dbFormaEmissao: TDBRadioGroup
+      Left = 8
+      Top = 73
+      Width = 198
+      Height = 77
+      Caption = 'Forma de Emiss'#227'o'
+      Columns = 2
+      DataField = 'FORMAEMISSAO'
+      DataSource = dsConfiguracoes
+      Items.Strings = (
+        'Normal'
+        'Conting'#234'ncia'
+        'SCAN'
+        'DPEC'
+        'FSDA')
+      ParentBackground = True
+      TabOrder = 1
+      Values.Strings = (
+        '1'
+        '2'
+        '3'
+        '4'
+        '5')
+    end
+    object dbLogoMarca: TDBEdit
+      Left = 225
+      Top = 30
+      Width = 355
+      Height = 21
+      DataField = 'LOGOMARCA'
+      DataSource = dsConfiguracoes
+      TabOrder = 2
+    end
+    object dbSalvarXML: TDBEdit
+      Left = 225
+      Top = 70
+      Width = 355
+      Height = 21
+      DataField = 'SALVARXML'
+      DataSource = dsConfiguracoes
+      TabOrder = 3
+    end
+    object dbCodEstados: TDBEdit
+      Left = 225
+      Top = 109
+      Width = 55
+      Height = 21
+      Color = clSilver
+      DataField = 'CODIGO'
+      DataSource = dsUF
+      TabOrder = 4
+    end
+    object dbAmbiente: TDBRadioGroup
+      Left = 111
+      Top = 14
+      Width = 95
+      Height = 56
+      Caption = 'Ambiente'
+      DataField = 'HOMOLOGPRODU'
+      DataSource = dsConfiguracoes
+      Items.Strings = (
+        'Produ'#231#227'o'
+        'Homologa'#231#227'o')
+      ParentBackground = True
+      TabOrder = 5
+      Values.Strings = (
+        '1'
+        '2')
+    end
+    object dbNomeEstados: TDBLookupComboBox
+      Left = 279
+      Top = 109
+      Width = 301
+      Height = 21
+      DataField = 'UFDESTINO'
+      DataSource = dsConfiguracoes
+      KeyField = 'CODIGO'
+      ListField = 'NOME'
+      ListSource = dsUF
+      TabOrder = 6
+    end
+    object dbModeloNFe: TDBEdit
+      Left = 225
+      Top = 149
+      Width = 56
+      Height = 21
+      DataField = 'MODELONFE'
+      DataSource = dsConfiguracoes
+      TabOrder = 7
+    end
+    object dbSerieNFe: TDBEdit
+      Left = 289
+      Top = 149
+      Width = 56
+      Height = 21
+      DataField = 'SERIENFE'
+      DataSource = dsConfiguracoes
+      TabOrder = 8
+    end
+  end
+  inherited btSalvar: TBitBtn
+    Left = 201
+    Top = 192
+    OnClick = btSalvarClick
+    ExplicitLeft = 201
+    ExplicitTop = 192
+  end
+  inherited btCancelar: TBitBtn
+    Left = 308
+    Top = 192
+    ExplicitLeft = 308
+    ExplicitTop = 192
+  end
+  object OpenDialog: TOpenDialog
+    Left = 504
+    Top = 48
+  end
+  object cdsConfiguracoes: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftSmallint
+        Name = 'codigo'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspConfiguracoes'
+    Left = 344
+    Top = 32
+    object cdsConfiguracoesCODIGO: TSmallintField
+      FieldName = 'CODIGO'
+      Required = True
+    end
+    object cdsConfiguracoesTIPOIMPRESSAO: TSmallintField
+      FieldName = 'TIPOIMPRESSAO'
+    end
+    object cdsConfiguracoesFORMAEMISSAO: TSmallintField
+      FieldName = 'FORMAEMISSAO'
+    end
+    object cdsConfiguracoesLOGOMARCA: TStringField
+      DisplayLabel = 'Logo Marca'
+      FieldName = 'LOGOMARCA'
+      Size = 100
+    end
+    object cdsConfiguracoesSALVARXML: TStringField
+      DisplayLabel = 'Salvar XML'
+      FieldName = 'SALVARXML'
+      Size = 100
+    end
+    object cdsConfiguracoesUFDESTINO: TSmallintField
+      DisplayLabel = 'UF Destino'
+      FieldName = 'UFDESTINO'
+    end
+    object cdsConfiguracoesHOMOLOGPRODU: TSmallintField
+      FieldName = 'HOMOLOGPRODU'
+    end
+    object cdsConfiguracoesMODELONFE: TSmallintField
+      Alignment = taCenter
+      DisplayLabel = 'Modelo NFe'
+      FieldName = 'MODELONFE'
+    end
+    object cdsConfiguracoesSERIENFE: TSmallintField
+      Alignment = taCenter
+      DisplayLabel = 'Serie NFe'
+      FieldName = 'SERIENFE'
+    end
+  end
+  object dspConfiguracoes: TDataSetProvider
+    DataSet = sqsConfiguracoes
+    Left = 344
+    Top = 56
+  end
+  object dsConfiguracoes: TDataSource
+    DataSet = cdsConfiguracoes
+    Left = 376
+    Top = 32
+  end
+  object sqsConfiguracoes: TSQLDataSet
+    SchemaName = 'sysdba'
+    CommandText = 'select * from CONFIGURACOES where codigo =:codigo'
+    DbxCommandType = 'Dbx.SQL'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftSmallint
+        Name = 'codigo'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.SQLConnection
+    Left = 376
+    Top = 56
+  end
+  object cdsUF: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspUF'
+    Left = 464
+    Top = 112
+    object cdsUFCODIGO: TSmallintField
+      FieldName = 'CODIGO'
+      Required = True
+    end
+    object cdsUFNOME: TStringField
+      FieldName = 'NOME'
+      Size = 100
+    end
+  end
+  object dspUF: TDataSetProvider
+    DataSet = sqsUF
+    Left = 520
+    Top = 112
+  end
+  object dsUF: TDataSource
+    DataSet = cdsUF
+    Left = 544
+    Top = 112
+  end
+  object sqsUF: TSQLDataSet
+    SchemaName = 'sysdba'
+    CommandText = 'select * from UFNFE'
+    DbxCommandType = 'Dbx.SQL'
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.SQLConnection
+    Left = 488
+    Top = 112
+  end
+end

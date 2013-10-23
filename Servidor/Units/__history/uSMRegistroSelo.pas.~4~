@@ -1,0 +1,29 @@
+unit uSMRegistroSelo;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, Datasnap.DSServer, Datasnap.DSAuth,
+  Data.FMTBcd, Data.DB, Data.SqlExpr, Datasnap.Provider;
+
+type
+  TsmRegistroSelo = class(TDSServerModule)
+    sqsCadastro: TSQLDataSet;
+    dspCadastro: TDataSetProvider;
+    dspConsulta: TDataSetProvider;
+    sqsConsulta: TSQLDataSet;
+    sqsKitSelo: TSQLDataSet;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+implementation
+
+{$R *.dfm}
+
+uses uDM;
+
+end.
+

@@ -1,0 +1,7 @@
+inherited FCadUsuarios: TFCadUsuarios
+  Caption = 'Usu'#225'rios'
+  ExplicitWidth = 434
+  ExplicitHeight = 251
+  PixelsPerInch = 96
+  TextHeight = 13
+end

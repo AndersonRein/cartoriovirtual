@@ -1,0 +1,631 @@
+unit uGerenciamentoNotas;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, uPadraoVazio, StdCtrls, FMTBcd, DB, SqlExpr, Provider, DBClient,
+  Grids, DBGrids, Buttons, uPadrao, ExtCtrls, DBCtrls, ACBrNFeDANFEClass,
+  ACBrNFe, ACBrUtil, pcnNFeW, pcnConversao, pcnNFeRTXT, ACBrNFeDANFERave,
+  ACBrNFeDANFEFR, Mask;
+
+type
+  TFGerenciamentoNotas = class(TFPadraoVazio)
+    GroupBox1: TGroupBox;
+    GroupBox2: TGroupBox;
+    GroupBox3: TGroupBox;
+    GroupBox4: TGroupBox;
+    edBusca: TEdit;
+    cdsBusca: TClientDataSet;
+    dspBusca: TDataSetProvider;
+    sqsBusca: TSQLDataSet;
+    dsBusca: TDataSource;
+    DBGrid1: TDBGrid;
+    spbNovaNota: TSpeedButton;
+    spbEditarNota: TSpeedButton;
+    spbExcluirNota: TSpeedButton;
+    rgPesquisa: TRadioGroup;
+    NFe: TACBrNFe;
+    spbValidar: TSpeedButton;
+    cdsEmitente: TClientDataSet;
+    dspEmitente: TDataSetProvider;
+    sqsEmitente: TSQLDataSet;
+    sqsDestinatario: TSQLDataSet;
+    cdsDestinatario: TClientDataSet;
+    dspDestinatario: TDataSetProvider;
+    sqsItens: TSQLDataSet;
+    cdsItens: TClientDataSet;
+    dspItens: TDataSetProvider;
+    cdsEmitenteCODIGO: TIntegerField;
+    cdsEmitenteRASAOSOCIAL: TStringField;
+    cdsEmitenteNOMEFANTASIA: TStringField;
+    cdsEmitenteCNPJ: TStringField;
+    cdsEmitenteISC_EST: TStringField;
+    cdsEmitenteENDERECO: TStringField;
+    cdsEmitenteNUMERO: TStringField;
+    cdsEmitenteBAIRRO: TStringField;
+    cdsEmitenteFONE: TStringField;
+    cdsEmitenteCEP: TStringField;
+    cdsEmitenteCOMPLEMENTO: TStringField;
+    cdsEmitenteCODCIDADE: TIntegerField;
+    cdsEmitenteCIDADE: TStringField;
+    cdsDestinatarioCODIGO: TIntegerField;
+    cdsDestinatarioNOME: TStringField;
+    cdsDestinatarioCPF_CNPJ: TStringField;
+    cdsDestinatarioIE: TStringField;
+    cdsDestinatarioENDERECO: TStringField;
+    cdsDestinatarioNUMERO: TStringField;
+    cdsDestinatarioBAIRRO: TStringField;
+    cdsDestinatarioCEP: TStringField;
+    cdsDestinatarioCOMPLEMENTO: TStringField;
+    cdsDestinatarioCODCIDADE: TIntegerField;
+    cdsDestinatarioCIDADE: TStringField;
+    cdsDestinatarioTELEFONE: TStringField;
+    cdsDestinatarioEMAIL: TStringField;
+    cdsDestinatarioSTATUS: TSmallintField;
+    cdsItensCODIGO: TIntegerField;
+    cdsItensNOTAFISCAL: TIntegerField;
+    cdsItensCODPRODUTO: TIntegerField;
+    cdsItensNOMEPRODUTO: TStringField;
+    cdsItensNCM: TStringField;
+    cdsItensICMS: TFMTBCDField;
+    cdsItensIPI: TFMTBCDField;
+    cdsItensUNIDADE: TStringField;
+    cdsItensQUANTIDADE: TSingleField;
+    cdsItensVALOR: TFMTBCDField;
+    cdsItensTOTAL: TFloatField;
+    cdsItensCODCFOP: TIntegerField;
+    cdsItensNOMECFOP: TStringField;
+    cdsBuscaCODIGO: TIntegerField;
+    cdsBuscaCODCLIENTE: TIntegerField;
+    cdsBuscaCLIENTE: TStringField;
+    cdsBuscaCPF_CNPJ: TStringField;
+    cdsBuscaCODCIDADE: TIntegerField;
+    cdsBuscaCIDADE: TStringField;
+    cdsBuscaDATAEMISSAO: TDateField;
+    cdsBuscaSTATUS: TSmallintField;
+    cdsBuscaNOMEESTATUS: TStringField;
+    cdsBuscaFORMAPAGAMENTO: TSmallintField;
+    spbDANFE: TSpeedButton;
+    DANFE: TACBrNFeDANFERave;
+    cdsConfiguracoes: TClientDataSet;
+    dspConfiguracoes: TDataSetProvider;
+    sqsConfiguracoes: TSQLDataSet;
+    cdsConfiguracoesCODIGO: TSmallintField;
+    cdsConfiguracoesTIPOIMPRESSAO: TSmallintField;
+    cdsConfiguracoesFORMAEMISSAO: TSmallintField;
+    cdsConfiguracoesLOGOMARCA: TStringField;
+    cdsConfiguracoesSALVARXML: TStringField;
+    cdsConfiguracoesUFDESTINO: TSmallintField;
+    cdsConfiguracoesHOMOLOGPRODU: TSmallintField;
+    cdsBuscaTRANSPORTADORA: TIntegerField;
+    cdsConfiguracoesMODELONFE: TSmallintField;
+    cdsConfiguracoesSERIENFE: TSmallintField;
+    Emissão: TGroupBox;
+    edDataIni: TMaskEdit;
+    edDataFim: TMaskEdit;
+    OpenDialog: TOpenDialog;
+    spbCancelar: TSpeedButton;
+    cdsBuscaPROTOCOLO: TStringField;
+    cdsBuscaRECIBO: TStringField;
+    cdsBuscaIDNOTA: TStringField;
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure spbNovaNotaClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure edBuscaKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure spbEditarNotaClick(Sender: TObject);
+    procedure DBGrid1KeyPress(Sender: TObject; var Key: Char);
+    procedure spbExcluirNotaClick(Sender: TObject);
+    procedure DBGrid1KeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure rgPesquisaClick(Sender: TObject);
+    procedure spbValidarClick(Sender: TObject);
+    procedure spbDANFEClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure edDataIniKeyPress(Sender: TObject; var Key: Char);
+    procedure cdsBuscaAfterScroll(DataSet: TDataSet);
+    procedure spbCancelarClick(Sender: TObject);
+  private
+    { Private declarations }
+    padrao: TFPadrao;
+    procedure mostraDados;
+    function GerarNFe(numNFe: Integer): Boolean;
+    procedure configuracao;
+    procedure habilitacao;
+  public
+    { Public declarations }
+  end;
+
+var
+  FGerenciamentoNotas: TFGerenciamentoNotas;
+
+implementation
+
+uses uDM, uNovaNota;
+{$R *.dfm}
+
+procedure TFGerenciamentoNotas.cdsBuscaAfterScroll(DataSet: TDataSet);
+begin
+  inherited;
+  habilitacao;
+end;
+
+procedure TFGerenciamentoNotas.configuracao;
+begin
+  cdsConfiguracoes.Close;
+  cdsConfiguracoes.Open;
+  if cdsConfiguracoesFORMAEMISSAO.AsInteger = 1 then
+    NFe.Configuracoes.Geral.FormaEmissao := teNormal;
+  if cdsConfiguracoesFORMAEMISSAO.AsInteger = 2 then
+    NFe.Configuracoes.Geral.FormaEmissao := teContingencia;
+  if cdsConfiguracoesFORMAEMISSAO.AsInteger = 3 then
+    NFe.Configuracoes.Geral.FormaEmissao := teSCAN;
+  if cdsConfiguracoesFORMAEMISSAO.AsInteger = 4 then
+    NFe.Configuracoes.Geral.FormaEmissao := teDPEC;
+  if cdsConfiguracoesFORMAEMISSAO.AsInteger = 5 then
+    NFe.Configuracoes.Geral.FormaEmissao := teFSDA;
+
+  // NFe.Configuracoes.Geral.Salvar := ckSalvar.Checked;
+  NFe.Configuracoes.Geral.PathSalvar := cdsConfiguracoesSALVARXML.AsString;
+  NFe.Configuracoes.WebServices.UF := padrao.getUFConfigNfe
+    (cdsConfiguracoesUFDESTINO.AsInteger);
+  if cdsConfiguracoesHOMOLOGPRODU.AsInteger = 1 then
+    NFe.Configuracoes.WebServices.Ambiente := taProducao;
+  if cdsConfiguracoesHOMOLOGPRODU.AsInteger = 2 then
+    NFe.Configuracoes.WebServices.Ambiente := taHomologacao;
+
+  if NFe.DANFE <> nil then
+  begin
+    if cdsConfiguracoesTIPOIMPRESSAO.AsInteger = 1 then
+      NFe.DANFE.TipoDANFE := tiRetrato;
+    if cdsConfiguracoesTIPOIMPRESSAO.AsInteger = 2 then
+      NFe.DANFE.TipoDANFE := tiPaisagem;
+    // NFe.DANFE.Logo := edtLogoMarca.Text;
+  end;
+end;
+
+procedure TFGerenciamentoNotas.DBGrid1KeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  if Key = VK_DELETE then
+    spbExcluirNotaClick(Sender);
+end;
+
+procedure TFGerenciamentoNotas.DBGrid1KeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+  if (Key = #13) and (spbEditarNota.Enabled <> False) then
+    spbEditarNotaClick(Sender);
+end;
+
+procedure TFGerenciamentoNotas.edBuscaKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  mostraDados;
+end;
+
+procedure TFGerenciamentoNotas.edDataIniKeyPress
+  (Sender: TObject; var Key: Char);
+begin
+  inherited;
+  if Key = #13 then
+    mostraDados;
+end;
+
+procedure TFGerenciamentoNotas.FormCreate(Sender: TObject);
+begin
+  inherited;
+  edDataIni.Text := DateToStr(Date - 30);
+  edDataFim.Text := DateToStr(Date);
+end;
+
+procedure TFGerenciamentoNotas.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  if Key = VK_INSERT then
+    spbNovaNotaClick(Sender);
+end;
+
+procedure TFGerenciamentoNotas.FormShow(Sender: TObject);
+begin
+  inherited;
+  rgPesquisa.ItemIndex := 0;
+  mostraDados;
+  configuracao;
+end;
+
+function TFGerenciamentoNotas.GerarNFe(numNFe: Integer): Boolean;
+var
+  i: Integer;
+begin
+  try
+    with NFe.NotasFiscais.Add.NFe do
+    begin
+      Ide.cNF := numNFe; // Caso não seja preenchido será gerado um número aleatório pelo componente
+      Ide.natOp := 'VENDA PRODUCAO DO ESTAB.';
+      if cdsBuscaFORMAPAGAMENTO.AsInteger = 0 then
+        Ide.indPag := ipVista; // Avista
+      if cdsBuscaFORMAPAGAMENTO.AsInteger = 1 then
+        Ide.indPag := ipPrazo; // Aprazo
+      Ide.modelo := cdsConfiguracoesMODELONFE.AsInteger;
+      Ide.serie := cdsConfiguracoesSERIENFE.AsInteger;
+      Ide.nNF := numNFe;
+      Ide.dEmi := Date;
+      Ide.dSaiEnt := Date;
+      Ide.hSaiEnt := Now;
+      Ide.tpNF := tnSaida; // saida
+      if cdsConfiguracoesFORMAEMISSAO.AsInteger = 1 then
+        Ide.tpEmis := teNormal; // normal
+      if cdsConfiguracoesFORMAEMISSAO.AsInteger = 2 then
+        Ide.tpEmis := teContingencia; // contingencia
+      if cdsConfiguracoesHOMOLOGPRODU.AsInteger = 1 then
+        Ide.tpAmb := taProducao; // Produção
+      if cdsConfiguracoesHOMOLOGPRODU.AsInteger = 2 then
+        Ide.tpAmb := taHomologacao; // Homologação
+      Ide.verProc := '1.0'; // Versão do seu sistema
+      Ide.cUF := cdsConfiguracoesUFDESTINO.AsInteger;
+      Ide.cMunFG := cdsBuscaCODCIDADE.AsInteger;
+      Ide.finNFe := fnNormal;
+
+      // Emitente
+
+      Emit.CNPJCPF := cdsEmitenteCNPJ.AsString;
+      Emit.IE := cdsEmitenteISC_EST.AsString;
+      Emit.xNome := cdsEmitenteRASAOSOCIAL.AsString;
+      Emit.xFant := cdsEmitenteNOMEFANTASIA.AsString;
+
+      Emit.EnderEmit.fone := cdsEmitenteFONE.AsString;
+      Emit.EnderEmit.CEP := StrToInt(cdsEmitenteCEP.AsString);
+      Emit.EnderEmit.xLgr := cdsEmitenteENDERECO.AsString;
+      Emit.EnderEmit.nro := cdsEmitenteNUMERO.AsString;
+      Emit.EnderEmit.xCpl := cdsEmitenteCOMPLEMENTO.AsString;
+      Emit.EnderEmit.xBairro := cdsEmitenteBAIRRO.AsString;
+      Emit.EnderEmit.cMun := cdsEmitenteCODCIDADE.AsInteger;
+      Emit.EnderEmit.xMun := cdsEmitenteCIDADE.AsString;
+      Emit.EnderEmit.UF := padrao.getUF(cdsEmitenteCODCIDADE.AsInteger);
+      Emit.EnderEmit.cPais := 1058;
+      Emit.EnderEmit.xPais := 'BRASIL';
+
+      Emit.IEST := '';
+      Emit.IM := ''; // Preencher no caso de existir serviços na nota
+      Emit.CNAE := ''; // Verifique na cidade do emissor da NFe se é permitido
+      // a inclusão de serviços na NFe
+      Emit.CRT := crtSimplesNacional;
+
+      // Destinatario
+
+      Dest.CNPJCPF := cdsDestinatarioCPF_CNPJ.AsString;
+      Dest.IE := cdsDestinatarioIE.AsString;
+      Dest.ISUF := '';
+      Dest.xNome := cdsDestinatarioNOME.AsString;
+
+      Dest.EnderDest.fone := cdsDestinatarioTELEFONE.AsString;
+      Dest.EnderDest.CEP := StrToInt(cdsDestinatarioCEP.AsString);
+      Dest.EnderDest.xLgr := cdsDestinatarioENDERECO.AsString;
+      Dest.EnderDest.nro := cdsDestinatarioNUMERO.AsString;
+      Dest.EnderDest.xCpl := cdsDestinatarioCOMPLEMENTO.AsString;
+      Dest.EnderDest.xBairro := cdsDestinatarioBAIRRO.AsString;
+      Dest.EnderDest.cMun := cdsDestinatarioCODCIDADE.AsInteger;
+      Dest.EnderDest.xMun := cdsDestinatarioCIDADE.AsString;
+      Dest.EnderDest.UF := padrao.getUF(cdsEmitenteCODCIDADE.AsInteger);
+      Dest.EnderDest.cPais := 1058;
+      Dest.EnderDest.xPais := 'BRASIL';
+
+      // Adicionando Produtos
+      cdsItens.First;
+      i := 1;
+      while not cdsItens.Eof do
+      begin
+        with Det.Add do
+        begin
+          Prod.nItem := i; // Número sequencial, para cada item deve ser incrementado
+          Prod.cProd := IntToStr(cdsItensCODPRODUTO.AsInteger);
+          Prod.cEAN := '';
+          Prod.xProd := cdsItensNOMEPRODUTO.AsString;
+          Prod.NCM := cdsItensNCM.AsString; // Tabela NCM disponível em
+          Prod.EXTIPI := '';
+          Prod.CFOP := IntToStr(cdsItensCODCFOP.AsInteger);
+          Prod.uCom := cdsItensUNIDADE.AsString;
+          Prod.qCom := cdsItensQUANTIDADE.AsFloat;
+          Prod.vUnCom := cdsItensVALOR.AsFloat;
+          Prod.vProd := cdsItensTOTAL.AsFloat;
+
+          Prod.cEANTrib := '';
+          Prod.uTrib := cdsItensUNIDADE.AsString;
+          Prod.qTrib := cdsItensQUANTIDADE.AsFloat;
+          Prod.vUnTrib := cdsItensVALOR.AsFloat;
+
+          Prod.vFrete := 0;
+          Prod.vSeg := 0;
+          Prod.vDesc := 0;
+
+          infAdProd := ''; // Informação Adicional do Produto
+
+          with Imposto do
+          begin
+            with ICMS do
+            begin
+              ICMS.orig := oeNacional;
+              CST := cst00;
+              ICMS.CSOSN := csosn102;
+              ICMS.modBC := dbiValorOperacao;
+              ICMS.vBC := 0;
+              ICMS.pICMS := 0;
+              ICMS.vICMS := 0;
+            end;
+
+            with IPI do
+            begin
+              CST := ipi99;
+              vBC := 0;
+              qUnid := 0;
+              vUnid := 0;
+              pIPI := 0;
+              vIPI := 0;
+            end;
+
+            with PIS do
+            begin
+              CST := pis99;
+              PIS.vBC := 0;
+              PIS.pPIS := 0;
+              PIS.vPIS := 0;
+            end;
+
+            with COFINS do
+            begin
+              CST := cof99;
+              COFINS.vBC := 0;
+              COFINS.pCOFINS := 0;
+              COFINS.vCOFINS := 0;
+            end;
+          end;
+        end;
+        Inc(i);
+        cdsItens.Next;
+      end;
+
+      Total.ICMSTot.vBC := 0;
+      Total.ICMSTot.vICMS := 0;
+      Total.ICMSTot.vBCST := 0;
+      Total.ICMSTot.vST := 0;
+      Total.ICMSTot.vProd := cdsItensTOTAL.AsFloat;
+      Total.ICMSTot.vFrete := 0;
+      Total.ICMSTot.vSeg := 0;
+      Total.ICMSTot.vDesc := 0;
+      Total.ICMSTot.vII := 0;
+      Total.ICMSTot.vIPI := 0;
+      Total.ICMSTot.vPIS := 0;
+      Total.ICMSTot.vCOFINS := 0;
+      Total.ICMSTot.vOutro := 0;
+      Total.ICMSTot.vNF := cdsItensTOTAL.AsFloat;
+
+      Transp.modFrete := mfContaEmitente;
+      if cdsBuscaTRANSPORTADORA.AsInteger = 0 then
+      begin
+        Transp.Transporta.CNPJCPF := '';
+        Transp.Transporta.xNome := '';
+        Transp.Transporta.IE := '';
+        Transp.Transporta.xEnder := '';
+        Transp.Transporta.xMun := '';
+        Transp.Transporta.UF := '';
+
+        Transp.veicTransp.placa := '';
+        Transp.veicTransp.UF := '';
+        Transp.veicTransp.RNTC := '';
+      end
+      else
+      begin
+        Transp.Transporta.CNPJCPF := '';
+        Transp.Transporta.xNome := '';
+        Transp.Transporta.IE := '';
+        Transp.Transporta.xEnder := '';
+        Transp.Transporta.xMun := '';
+        Transp.Transporta.UF := '';
+
+        Transp.veicTransp.placa := '';
+        Transp.veicTransp.UF := '';
+        Transp.veicTransp.RNTC := '';
+      end;
+
+      with Transp.Vol.Add do
+      begin
+        qVol := 0;
+        esp := 'Especie';
+        pesoL := 0;
+        pesoB := 0;
+
+        // Lacres do volume. Pode ser adicionado vários
+        // Lacres.Add.nLacre := '';
+      end;
+
+      InfAdic.infCpl := '';
+      InfAdic.infAdFisco := '';
+
+    end;
+    Result := True;
+  except
+    Result := False;
+  end;
+end;
+
+procedure TFGerenciamentoNotas.habilitacao;
+begin
+  if (cdsBuscaSTATUS.AsInteger = 0) or (cdsBuscaSTATUS.AsInteger = 2) then
+  begin
+    spbEditarNota.Enabled := False;
+    spbExcluirNota.Enabled := False;
+    spbValidar.Enabled := False;
+  end;
+  if (cdsBuscaSTATUS.AsInteger = 1) or (cdsBuscaSTATUS.AsInteger = 3) then
+  begin
+    spbEditarNota.Enabled := True;
+    spbExcluirNota.Enabled := True;
+    spbValidar.Enabled := True;
+    spbCancelar.Enabled := False;
+  end;
+  if cdsBuscaSTATUS.AsInteger = 0 then
+    spbCancelar.Enabled := True;
+  if cdsBuscaSTATUS.AsInteger = 2 then
+    spbCancelar.Enabled := False;
+
+end;
+
+procedure TFGerenciamentoNotas.mostraDados;
+begin
+  cdsBusca.Close;
+  cdsBusca.Params[0].AsString := '%' + edBusca.Text + '%';
+  if rgPesquisa.ItemIndex = 0 then
+    cdsBusca.Params[1].AsString := '%';
+  if rgPesquisa.ItemIndex = 1 then
+    cdsBusca.Params[1].AsString := '0';
+  if rgPesquisa.ItemIndex = 2 then
+    cdsBusca.Params[1].AsString := '1';
+  if rgPesquisa.ItemIndex = 3 then
+    cdsBusca.Params[1].AsString := '2';
+  if rgPesquisa.ItemIndex = 4 then
+    cdsBusca.Params[1].AsString := '3';
+  cdsBusca.Params[2].AsDate := StrToDate(edDataIni.Text);
+  cdsBusca.Params[3].AsDate := StrToDate(edDataFim.Text);
+  cdsBusca.Open;
+end;
+
+procedure TFGerenciamentoNotas.rgPesquisaClick(Sender: TObject);
+begin
+  inherited;
+  mostraDados;
+end;
+
+procedure TFGerenciamentoNotas.spbNovaNotaClick(Sender: TObject);
+var
+  nota: TFNovaNota;
+begin
+  inherited;
+  nota := TFNovaNota.Create(nil);
+  nota.inserir(0);
+  nota.Free;
+  mostraDados;
+end;
+
+procedure TFGerenciamentoNotas.spbValidarClick(Sender: TObject);
+var
+  vAux: Integer;
+begin
+  inherited;
+  cdsEmitente.Close;
+  cdsEmitente.Open;
+  cdsDestinatario.Close;
+  cdsDestinatario.Params[0].AsInteger := cdsBuscaCODCLIENTE.AsInteger;
+  cdsDestinatario.Open;
+  cdsItens.Close;
+  cdsItens.Params[0].AsInteger := cdsBuscaCODIGO.AsInteger;
+  cdsItens.Open;
+
+  NFe.NotasFiscais.Clear;
+  try
+    vAux := padrao.getNumNFe;
+    if GerarNFe(vAux) then
+    begin
+      NFe.Configuracoes.Certificados.NumeroSerie :=
+        NFe.Configuracoes.Certificados.SelecionarCertificado;
+      { NFe.NotasFiscais.Assinar;
+        NFe.NotasFiscais.Valida;
+        NFe.NotasFiscais.Items[0].SaveToFile;
+        ShowMessage('Arquivo gerado em: ' + NFe.NotasFiscais.Items[0].NomeArq);
+        NFe.DANFE.ProtocoloNFe := '';
+        NFe.NotasFiscais.Items[0].Imprimir;
+        } NFe.Enviar(vAux, False);
+      if NFe.NotasFiscais.Items[0].Confirmada then
+      begin
+        padrao.setRetornoNFe(cdsBuscaCODIGO.AsInteger, vAux, 0,
+          NFe.WebServices.Retorno.NFeRetorno.ProtNFe.Items[0].nProt,
+          NFe.NotasFiscais.Items[0].NFe.procNFe.chNFe,
+          NFe.WebServices.Retorno.NFeRetorno.nRec);
+
+        NFe.NotasFiscais.Items[0].SaveToFile;
+        ShowMessage('Arquivo gerado em: ' + NFe.NotasFiscais.Items[0].NomeArq);
+
+        NFe.DANFE.ProtocoloNFe :=
+          NFe.WebServices.Retorno.NFeRetorno.ProtNFe.Items[0].nProt;
+        NFe.NotasFiscais.Items[0].Imprimir;
+      end
+      else
+      begin
+        padrao.setRetornoNFe(cdsBuscaCODIGO.AsInteger, vAux, 3,
+          NFe.WebServices.Retorno.NFeRetorno.ProtNFe.Items[0].nProt,
+          NFe.NotasFiscais.Items[0].NFe.procNFe.chNFe,
+          NFe.WebServices.Retorno.NFeRetorno.nRec);
+        ShowMessage(padrao.NFE_NAO_AUTORIZADA);
+      end;
+    end;
+  except
+    ShowMessage(padrao.ERRO);
+  end;
+  mostraDados;
+end;
+
+procedure TFGerenciamentoNotas.spbCancelarClick(Sender: TObject);
+var
+Justificativa : string;
+begin
+  inherited;
+  if not(InputQuery('WebServices Cancelamento', 'Justificativa', Justificativa)) then
+     exit;
+  NFe.WebServices.Cancelamento.NFeChave      := cdsBuscaIDNOTA.AsString;
+  NFe.WebServices.Cancelamento.Protocolo     := cdsBuscaPROTOCOLO.AsString;
+  NFe.WebServices.Cancelamento.Justificativa := Justificativa;
+  NFe.WebServices.Cancelamento.Executar;
+
+end;
+
+procedure TFGerenciamentoNotas.spbDANFEClick(Sender: TObject);
+begin
+  inherited;
+  NFe.NotasFiscais.Clear;
+  OpenDialog.InitialDir := cdsConfiguracoesSALVARXML.AsString;
+  OpenDialog.Execute;
+
+  NFe.NotasFiscais.LoadFromFile(OpenDialog.FileName);
+  { if NFe.NotasFiscais.Items[0].NFe.Ide.tpEmis = teDPEC then
+    begin
+    NFe.WebServices.ConsultaDPEC.NFeChave := NFe.NotasFiscais.Items[0]
+    .NFe.infNFe.ID;
+    NFe.WebServices.ConsultaDPEC.Executar;
+    NFe.DANFE.ProtocoloNFe := NFe.WebServices.ConsultaDPEC.nRegDPEC + ' ' +
+    DateTimeToStr(NFe.WebServices.ConsultaDPEC.retDPEC.dhRegDPEC);
+    end;
+    } NFe.NotasFiscais.Imprimir;
+end;
+
+procedure TFGerenciamentoNotas.spbEditarNotaClick(Sender: TObject);
+var
+  nota: TFNovaNota;
+begin
+  inherited;
+  nota := TFNovaNota.Create(nil);
+  nota.alterar(1, cdsBuscaCODIGO.AsInteger);
+  nota.Free;
+  mostraDados;
+end;
+
+procedure TFGerenciamentoNotas.spbExcluirNotaClick(Sender: TObject);
+begin
+  inherited;
+  if Application.MessageBox(padrao.DESEJA_REALMENTE_EXCLUIR_REGISTRO,
+    'Confirmação', MB_YESNO) = ID_YES then
+  begin
+    if (cdsBuscaSTATUS.AsInteger = 0) or (cdsBuscaSTATUS.AsInteger = 2) then
+    begin
+      ShowMessage(padrao.NAO_PODE_SER_EXCLUIDO);
+      Exit;
+    end;
+    padrao.deletarNota(cdsBuscaCODIGO.AsInteger);
+    ShowMessage(padrao.SUCESSO);
+    mostraDados;
+  end;
+end;
+
+end.

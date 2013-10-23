@@ -1,0 +1,69 @@
+inherited FRelSinteticoCaixa: TFRelSinteticoCaixa
+  Caption = 'Relat'#243'rio sint'#233'tico do caixa'
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited gpbData: TGroupBox
+    Left = 167
+    Top = -2
+    Width = 50
+    Height = 35
+    Visible = False
+    ExplicitLeft = 167
+    ExplicitTop = -2
+    ExplicitWidth = 50
+    ExplicitHeight = 35
+  end
+  object GroupBox1: TGroupBox [2]
+    Left = 8
+    Top = 63
+    Width = 101
+    Height = 48
+    Caption = 'Escolha o ano'
+    TabOrder = 1
+    object cbbAno: TComboBox
+      Left = 8
+      Top = 19
+      Width = 81
+      Height = 21
+      ItemIndex = 12
+      TabOrder = 0
+      Text = '2013'
+      Items.Strings = (
+        '2001'
+        '2002'
+        '2003'
+        '2004'
+        '2005'
+        '2006'
+        '2007'
+        '2008'
+        '2009'
+        '2010'
+        '2011'
+        '2012'
+        '2013'
+        '2014'
+        '2015'
+        '2016'
+        '2017'
+        '2018'
+        '2019'
+        '2020'
+        '2021'
+        '2022'
+        '2023'
+        '2024'
+        '2025'
+        '2026'
+        '2027'
+        '2028'
+        '2029'
+        '2030')
+    end
+  end
+  inherited Relatorio: TfrxReport
+    Datasets = <>
+    Variables = <>
+    Style = <>
+  end
+end

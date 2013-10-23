@@ -1,0 +1,5 @@
+object smFeriados: TsmFeriados
+  OldCreateOrder = False
+  Height = 360
+  Width = 512
+end

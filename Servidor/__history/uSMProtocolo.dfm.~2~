@@ -1,0 +1,5 @@
+object smProtocolo: TsmProtocolo
+  OldCreateOrder = False
+  Height = 513
+  Width = 791
+end

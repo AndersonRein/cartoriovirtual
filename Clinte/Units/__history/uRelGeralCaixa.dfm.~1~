@@ -1,0 +1,10 @@
+inherited FRelGeralCaixa: TFRelGeralCaixa
+  Caption = 'Relat'#243'rio do caixa geral'
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Relatorio: TfrxReport
+    Datasets = <>
+    Variables = <>
+    Style = <>
+  end
+end

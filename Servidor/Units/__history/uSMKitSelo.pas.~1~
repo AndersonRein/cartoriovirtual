@@ -1,0 +1,26 @@
+unit uSMKitSelo;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, Datasnap.DSServer, Datasnap.DSAuth,
+  Data.FMTBcd, Data.DB, Data.SqlExpr, Datasnap.Provider;
+
+type
+  TsmKitSelo = class(TDSServerModule)
+    dspCadastro: TDataSetProvider;
+    dspConsulta: TDataSetProvider;
+    sqsCadastro: TSQLDataSet;
+    sqsConsulta: TSQLDataSet;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+implementation
+
+{$R *.dfm}
+
+end.
+

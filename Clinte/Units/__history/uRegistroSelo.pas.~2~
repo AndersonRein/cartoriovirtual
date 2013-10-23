@@ -1,0 +1,33 @@
+unit uRegistroSelo;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uAcessoPadrao, Data.DB,
+  Datasnap.DBClient, Datasnap.DSConnect, Vcl.StdCtrls, Vcl.Buttons, Vcl.Grids,
+  Vcl.DBGrids;
+
+type
+  TFRegistroSelo = class(TFAcessoCadPadrao)
+    cdsConsultaCODIGO: TIntegerField;
+    cdsConsultaCODKITSELO: TIntegerField;
+    cdsConsultaKITSELO: TStringField;
+    cdsConsultaQUANTIDADEKIT: TIntegerField;
+    cdsConsultaENTREGA: TDateField;
+    cdsConsultaSERIEFIM: TLargeintField;
+    cdsConsultaSERIEINI: TLargeintField;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FRegistroSelo: TFRegistroSelo;
+
+implementation
+
+{$R *.dfm}
+
+end.

@@ -1,0 +1,18 @@
+inherited FSelecOcorrencia: TFSelecOcorrencia
+  Caption = 'Selecionar uma ocorr'#234'ncia'
+  ExplicitWidth = 380
+  PixelsPerInch = 96
+  TextHeight = 13
+  object GroupBox1: TGroupBox
+    Left = 0
+    Top = 0
+    Width = 374
+    Height = 41
+    Align = alTop
+    Caption = 'Ocorr'#234'ncia'
+    TabOrder = 0
+    ExplicitLeft = 16
+    ExplicitTop = 32
+    ExplicitWidth = 185
+  end
+end

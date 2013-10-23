@@ -1,0 +1,48 @@
+unit uTEmolumentos;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, Mask, ComCtrls, FMTBcd, DBCtrls, uDM, CheckLst,
+  SqlExpr, DB, DBGrids;
+
+type
+  TEmolumentos = class
+
+  private
+
+  public
+    procedure excluir(codigo: Integer);
+    function getTipoATO(codigo:Integer):string;
+  end;
+
+implementation
+
+{ TEmolumentos }
+
+procedure TEmolumentos.excluir(codigo: Integer);
+var
+  sql: TSQLDataSet;
+begin
+    sql := TSQLDataSet.Create(nil);
+    sql.SQLConnection := DM.SQLConnection;
+    sql.CommandText := 'DELETE FROM EMOLUMENTOS WHERE CODIGO =:CODIGO';
+    sql.Params[0].AsInteger := codigo;
+    sql.ExecSQL;
+end;
+
+function TEmolumentos.getTipoATO(codigo: Integer): string;
+var
+  sql: TSQLDataSet;
+begin
+    sql := TSQLDataSet.Create(nil);
+    sql.SQLConnection := DM.SQLConnection;
+    sql.CommandText := 'SELECT TIPOATO FROM VEMOLUMENTOS WHERE CODIGO =:CODIGO';
+    sql.Params[0].AsInteger := codigo;
+    sql.Open;
+    Result := sql.FieldByName('TIPOATO').AsString;
+    sql.Free;
+end;
+
+end.

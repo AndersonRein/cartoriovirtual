@@ -1,0 +1,389 @@
+inherited FCadProtesto: TFCadProtesto
+  Caption = 'Cadastro de protesto'
+  ClientHeight = 320
+  ClientWidth = 493
+  OnCreate = FormCreate
+  OnShow = FormShow
+  ExplicitWidth = 499
+  ExplicitHeight = 349
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited gpbCadastro: TGroupBox
+    Width = 493
+    Height = 282
+    ExplicitWidth = 493
+    ExplicitHeight = 282
+    object Label1: TLabel
+      Left = 8
+      Top = 12
+      Width = 66
+      Height = 13
+      Caption = 'Apresentante'
+      FocusControl = dbApresentante
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label2: TLabel
+      Left = 249
+      Top = 12
+      Width = 41
+      Height = 13
+      Caption = 'Devedor'
+      FocusControl = dbDevedor
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label3: TLabel
+      Left = 8
+      Top = 52
+      Width = 40
+      Height = 13
+      Caption = 'Valor R$'
+      FocusControl = dbValor
+    end
+    object Label4: TLabel
+      Left = 80
+      Top = 52
+      Width = 55
+      Height = 13
+      Caption = 'Vencimento'
+      FocusControl = dbVencimento
+    end
+    object Label5: TLabel
+      Left = 151
+      Top = 52
+      Width = 32
+      Height = 13
+      Caption = 'Motivo'
+      FocusControl = dbMotivo
+    end
+    object Label6: TLabel
+      Left = 349
+      Top = 52
+      Width = 56
+      Height = 13
+      Caption = 'N'#186' do T'#237'tulo'
+      FocusControl = dbTitulo
+    end
+    object dbApresentante: TDBEdit
+      Left = 8
+      Top = 28
+      Width = 40
+      Height = 21
+      CharCase = ecUpperCase
+      Color = clSilver
+      DataField = 'APRESENTANTE'
+      DataSource = dsCadastro
+      ReadOnly = True
+      TabOrder = 0
+      OnClick = dbApresentanteClick
+    end
+    object edApresentante: TEdit
+      Left = 46
+      Top = 28
+      Width = 200
+      Height = 21
+      TabStop = False
+      CharCase = ecUpperCase
+      ReadOnly = True
+      TabOrder = 1
+      OnClick = dbApresentanteClick
+    end
+    object dbDevedor: TDBEdit
+      Left = 249
+      Top = 28
+      Width = 40
+      Height = 21
+      CharCase = ecUpperCase
+      Color = clSilver
+      DataField = 'DEVEDOR'
+      DataSource = dsCadastro
+      ReadOnly = True
+      TabOrder = 2
+      OnClick = dbDevedorClick
+      OnEnter = dbDevedorClick
+    end
+    object edDevedor: TEdit
+      Left = 287
+      Top = 28
+      Width = 200
+      Height = 21
+      TabStop = False
+      ReadOnly = True
+      TabOrder = 3
+      OnEnter = dbDevedorClick
+    end
+    object dbValor: TDBEdit
+      Left = 8
+      Top = 68
+      Width = 70
+      Height = 21
+      DataField = 'VALORPROTESTO'
+      DataSource = dsCadastro
+      TabOrder = 4
+    end
+    object dbVencimento: TDBEdit
+      Left = 80
+      Top = 68
+      Width = 70
+      Height = 21
+      CharCase = ecUpperCase
+      DataField = 'VENCIMENTO'
+      DataSource = dsCadastro
+      TabOrder = 5
+    end
+    object dbMotivo: TDBEdit
+      Left = 151
+      Top = 68
+      Width = 40
+      Height = 21
+      CharCase = ecUpperCase
+      Color = clSilver
+      DataField = 'MOTIVOPROTESTO'
+      DataSource = dsCadastro
+      ReadOnly = True
+      TabOrder = 6
+      OnClick = dbMotivoClick
+      OnEnter = dbMotivoClick
+    end
+    object dbTitulo: TDBEdit
+      Left = 349
+      Top = 68
+      Width = 56
+      Height = 21
+      CharCase = ecUpperCase
+      DataField = 'NUMTITULO'
+      DataSource = dsCadastro
+      TabOrder = 8
+    end
+    object edMotivo: TEdit
+      Left = 190
+      Top = 68
+      Width = 157
+      Height = 21
+      TabStop = False
+      CharCase = ecUpperCase
+      ReadOnly = True
+      TabOrder = 7
+      OnClick = dbMotivoClick
+    end
+    object dbFalimentar: TDBRadioGroup
+      Left = 407
+      Top = 55
+      Width = 80
+      Height = 34
+      Caption = 'Falimentar'
+      Columns = 2
+      DataField = 'FALIMENTAR'
+      DataSource = dsCadastro
+      Items.Strings = (
+        'Sim'
+        'N'#227'o')
+      ParentBackground = True
+      TabOrder = 9
+      Values.Strings = (
+        '0'
+        '1')
+    end
+    object GroupBox1: TGroupBox
+      Left = 8
+      Top = 90
+      Width = 479
+      Height = 187
+      Align = alCustom
+      Caption = 'T'#237'tulo'
+      TabOrder = 10
+      object Label7: TLabel
+        Left = 2
+        Top = 13
+        Width = 22
+        Height = 13
+        Caption = 'Sigla'
+      end
+      object Label8: TLabel
+        Left = 48
+        Top = 13
+        Width = 26
+        Height = 13
+        Caption = 'T'#237'tulo'
+      end
+      object Label9: TLabel
+        Left = 2
+        Top = 50
+        Width = 46
+        Height = 13
+        Caption = 'Descri'#231#227'o'
+      end
+      object dbDescricao: TDBMemo
+        Left = 2
+        Top = 64
+        Width = 474
+        Height = 120
+        Align = alCustom
+        DataField = 'DESCRICAO'
+        DataSource = dsConsTitulo
+        ReadOnly = True
+        ScrollBars = ssBoth
+        TabOrder = 2
+      end
+      object dbCadTitulo: TDBLookupComboBox
+        Left = 48
+        Top = 27
+        Width = 428
+        Height = 21
+        DataField = 'TITULO'
+        DataSource = dsCadastro
+        KeyField = 'CODIGO'
+        ListField = 'NOME'
+        ListSource = dsConsTitulo
+        TabOrder = 1
+      end
+      object edSiglaTitulo: TEdit
+        Left = 2
+        Top = 27
+        Width = 45
+        Height = 21
+        CharCase = ecUpperCase
+        TabOrder = 0
+        OnKeyUp = edSiglaTituloKeyUp
+      end
+    end
+  end
+  inherited btSalvar: TBitBtn
+    Left = 147
+    Top = 284
+    ExplicitLeft = 147
+    ExplicitTop = 284
+  end
+  inherited btCancelar: TBitBtn
+    Left = 249
+    Top = 284
+    ExplicitLeft = 249
+    ExplicitTop = 284
+  end
+  inherited cdsCadastro: TClientDataSet
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'codigo'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspCadastro'
+    BeforeEdit = cdsCadastroBeforeEdit
+    Left = 104
+    Top = 0
+    object cdsCadastroCODIGO: TIntegerField
+      FieldName = 'CODIGO'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object cdsCadastroAPRESENTANTE: TIntegerField
+      FieldName = 'APRESENTANTE'
+      Required = True
+    end
+    object cdsCadastroDEVEDOR: TIntegerField
+      FieldName = 'DEVEDOR'
+      Required = True
+    end
+    object cdsCadastroVALORPROTESTO: TFMTBCDField
+      FieldName = 'VALORPROTESTO'
+      currency = True
+      Precision = 15
+      Size = 2
+    end
+    object cdsCadastroVENCIMENTO: TDateField
+      FieldName = 'VENCIMENTO'
+      EditMask = '99/99/0000;1;_'
+    end
+    object cdsCadastroNUMTITULO: TStringField
+      FieldName = 'NUMTITULO'
+    end
+    object cdsCadastroCADASTRO: TDateField
+      FieldName = 'CADASTRO'
+    end
+    object cdsCadastroUSUARIO: TIntegerField
+      FieldName = 'USUARIO'
+      Required = True
+    end
+    object cdsCadastroPROTOCOLO: TIntegerField
+      FieldName = 'PROTOCOLO'
+    end
+    object cdsCadastroSTATUS: TSmallintField
+      FieldName = 'STATUS'
+    end
+    object cdsCadastroTITULO: TIntegerField
+      FieldName = 'TITULO'
+      Required = True
+    end
+    object cdsCadastroFALIMENTAR: TSmallintField
+      FieldName = 'FALIMENTAR'
+    end
+    object cdsCadastroMOTIVOPROTESTO: TIntegerField
+      FieldName = 'MOTIVOPROTESTO'
+    end
+  end
+  inherited dsCadastro: TDataSource
+    Left = 144
+    Top = 0
+  end
+  inherited dspConection: TDSProviderConnection
+    ServerClassName = 'TsmProtesto'
+    Left = 72
+    Top = 0
+  end
+  object cdsConsTitulo: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftString
+        Name = 'nome'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'nome'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspConsulta'
+    RemoteServer = dspConectionTitulos
+    Left = 112
+    Top = 216
+    object cdsConsTituloCODIGO: TIntegerField
+      FieldName = 'CODIGO'
+      Required = True
+    end
+    object cdsConsTituloSIGLA: TStringField
+      FieldName = 'SIGLA'
+      Required = True
+    end
+    object cdsConsTituloNOME: TStringField
+      FieldName = 'NOME'
+      Required = True
+      Size = 100
+    end
+    object cdsConsTituloDESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      Size = 200
+    end
+  end
+  object dspConectionTitulos: TDSProviderConnection
+    ServerClassName = 'TsmTitulos'
+    Connected = True
+    SQLConnection = DM.SQLConnection
+    Left = 80
+    Top = 216
+  end
+  object dsConsTitulo: TDataSource
+    DataSet = cdsConsTitulo
+    Left = 136
+    Top = 216
+  end
+end

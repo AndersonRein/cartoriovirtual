@@ -1,0 +1,129 @@
+inherited FLancCaixaTabNotas: TFLancCaixaTabNotas
+  Caption = 'Lan'#231'amentos no caixa do tabelionato de notas'
+  ExplicitWidth = 434
+  ExplicitHeight = 250
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited gpbCadastro: TGroupBox
+    ExplicitTop = 3
+    object Label1: TLabel
+      Left = 8
+      Top = 12
+      Width = 13
+      Height = 13
+      Caption = 'Lei'
+      FocusControl = dbLei
+    end
+    object Label2: TLabel
+      Left = 113
+      Top = 12
+      Width = 17
+      Height = 13
+      Caption = 'Ato'
+      FocusControl = dbAto
+    end
+    object dbLei: TDBEdit
+      Left = 8
+      Top = 28
+      Width = 100
+      Height = 21
+      DataField = 'LEI'
+      DataSource = dsCadastro
+      TabOrder = 0
+    end
+    object dbAto: TDBEdit
+      Left = 113
+      Top = 28
+      Width = 40
+      Height = 21
+      Color = clSilver
+      DataField = 'ATO'
+      DataSource = dsCadastro
+      TabOrder = 1
+    end
+    object edAto: TEdit
+      Left = 153
+      Top = 28
+      Width = 121
+      Height = 21
+      CharCase = ecUpperCase
+      TabOrder = 2
+    end
+  end
+  inherited cdsCadastro: TClientDataSet
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'codigo'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspCadastro'
+    object cdsCadastroCODIGO: TIntegerField
+      FieldName = 'CODIGO'
+      Required = True
+    end
+    object cdsCadastroDATA: TDateField
+      FieldName = 'DATA'
+    end
+    object cdsCadastroLEI: TStringField
+      DisplayLabel = 'Lei'
+      FieldName = 'LEI'
+      Size = 100
+    end
+    object cdsCadastroSELO: TStringField
+      FieldName = 'SELO'
+    end
+    object cdsCadastroTIPOSELO: TIntegerField
+      FieldName = 'TIPOSELO'
+    end
+    object cdsCadastroATO: TIntegerField
+      DisplayLabel = 'Ato'
+      FieldName = 'ATO'
+    end
+    object cdsCadastroLIVRO: TIntegerField
+      FieldName = 'LIVRO'
+    end
+    object cdsCadastroFOLHA: TIntegerField
+      FieldName = 'FOLHA'
+    end
+    object cdsCadastroVLRTRANSACAO: TFMTBCDField
+      FieldName = 'VLRTRANSACAO'
+      Precision = 18
+      Size = 2
+    end
+    object cdsCadastroVALOR: TFMTBCDField
+      FieldName = 'VALOR'
+      Precision = 18
+      Size = 2
+    end
+    object cdsCadastroFERJ: TIntegerField
+      FieldName = 'FERJ'
+    end
+    object cdsCadastroFERC: TIntegerField
+      FieldName = 'FERC'
+    end
+    object cdsCadastroTOTAL: TFMTBCDField
+      FieldName = 'TOTAL'
+      Precision = 18
+      Size = 2
+    end
+    object cdsCadastroFORMAPAG: TStringField
+      FieldName = 'FORMAPAG'
+    end
+    object cdsCadastroCLIENTE: TIntegerField
+      FieldName = 'CLIENTE'
+    end
+    object cdsCadastroVLRCOBRADO: TFMTBCDField
+      FieldName = 'VLRCOBRADO'
+      Precision = 18
+      Size = 2
+    end
+    object cdsCadastroOBS: TStringField
+      FieldName = 'OBS'
+      Size = 500
+    end
+  end
+  inherited dspConection: TDSProviderConnection
+    ServerClassName = 'TsmCaixaTabNotas'
+  end
+end

@@ -1,0 +1,31 @@
+unit uSMProtocolo;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, Datasnap.DSServer, Datasnap.DSAuth;
+
+type
+  TsmProtocolo = class(TDSServerModule)
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    function setProtocolo(apresentante, devedor, titulo:Integer; cumprimento:string; ocorencia:SmallInt):Integer;
+  end;
+
+implementation
+
+{$R *.dfm}
+
+uses uDM;
+
+{ TsmProtocolo }
+
+function TsmProtocolo.setProtocolo(apresentante, devedor, titulo: Integer;
+  cumprimento: string; ocorencia: SmallInt): Integer;
+begin
+end;
+
+end.
+

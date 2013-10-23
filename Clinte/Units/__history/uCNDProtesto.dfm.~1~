@@ -1,0 +1,41 @@
+inherited FCNDProtesto: TFCNDProtesto
+  Caption = 'CND Protesto'
+  ClientHeight = 571
+  ClientWidth = 894
+  ExplicitWidth = 900
+  ExplicitHeight = 600
+  PixelsPerInch = 96
+  TextHeight = 13
+  object GroupBox1: TGroupBox
+    Left = 0
+    Top = 0
+    Width = 894
+    Height = 93
+    Align = alTop
+    Caption = 'Pesquisa'
+    TabOrder = 0
+  end
+  object GroupBox2: TGroupBox
+    Left = 0
+    Top = 93
+    Width = 894
+    Height = 373
+    Align = alClient
+    Caption = 'Protestos'
+    TabOrder = 1
+    ExplicitTop = 72
+    ExplicitHeight = 394
+  end
+  object GroupBox3: TGroupBox
+    Left = 0
+    Top = 466
+    Width = 894
+    Height = 105
+    Align = alBottom
+    Caption = 'Op'#231#245'es'
+    TabOrder = 2
+    ExplicitLeft = 48
+    ExplicitTop = 448
+    ExplicitWidth = 185
+  end
+end

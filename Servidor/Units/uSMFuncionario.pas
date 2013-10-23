@@ -1,0 +1,54 @@
+unit uSMFuncionario;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, Datasnap.DSServer, Datasnap.DSAuth,
+  Data.FMTBcd, Datasnap.Provider, Data.DB, Data.SqlExpr, uTFuncionario;
+
+type
+  TsmFuncionario = class(TDSServerModule)
+    sqsCadastro: TSQLDataSet;
+    dspCadastro: TDataSetProvider;
+    dspConsulta: TDataSetProvider;
+    sqsConsulta: TSQLDataSet;
+    procedure DSServerModuleCreate(Sender: TObject);
+  private
+    { Private declarations }
+    funcionario: TFuncionario;
+  public
+    { Public declarations }
+    procedure excluir(codigo: Integer);
+    function getNome(codigo: Integer): string;
+    function getPermissao(usuario: Integer; campo: string): Boolean;
+  end;
+
+implementation
+
+
+uses uDM;
+
+{$R *.dfm}
+
+procedure TsmFuncionario.DSServerModuleCreate(Sender: TObject);
+begin
+   funcionario := TFuncionario.Create;
+end;
+
+procedure TsmFuncionario.excluir(codigo: Integer);
+begin
+funcionario.excluir(codigo);
+end;
+
+function TsmFuncionario.getNome(codigo: Integer): string;
+begin
+  Result := funcionario.getNome(codigo);
+end;
+
+function TsmFuncionario.getPermissao(usuario: Integer; campo: string): Boolean;
+begin
+  Result := funcionario.getPermissao(usuario,campo);
+end;
+
+end.
+

@@ -1,0 +1,46 @@
+unit uRelNotasTransmitidas;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, uRelatorioPadrao, ComCtrls, StdCtrls, Buttons, frxClass, FMTBcd,
+  Provider, DBClient, DB, SqlExpr, frxDBSet, frxExportPDF;
+
+type
+  TFRelNotasTransmitidas = class(TFRelatorioPadrao)
+    sqsRelatorio: TSQLDataSet;
+    cdsRelatorio: TClientDataSet;
+    dspRelatorio: TDataSetProvider;
+    cdsRelatorioCLIENTE: TStringField;
+    cdsRelatorioNUM_NFE: TIntegerField;
+    cdsRelatorioDATAEMISSAO: TDateField;
+    cdsRelatorioTOTAL: TFloatField;
+    frxPDFExport1: TfrxPDFExport;
+    procedure spbImprimirClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FRelNotasTransmitidas: TFRelNotasTransmitidas;
+
+implementation
+
+uses uDM;
+{$R *.dfm}
+
+procedure TFRelNotasTransmitidas.spbImprimirClick(Sender: TObject);
+begin
+  inherited;
+cdsRelatorio.Close;
+cdsRelatorio.Params[0].AsDate := dataInicio.Date;
+cdsRelatorio.Params[1].AsDate := dataFinal.Date;
+cdsRelatorio.Open;
+
+Relatorio.ShowReport();
+end;
+
+end.

@@ -1,0 +1,5 @@
+object smRegistroSelo: TsmRegistroSelo
+  OldCreateOrder = False
+  Height = 487
+  Width = 834
+end

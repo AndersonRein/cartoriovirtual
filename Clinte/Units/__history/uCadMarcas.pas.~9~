@@ -1,0 +1,99 @@
+unit uCadMarcas;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, uCadastroPadrao, StdCtrls, Buttons, FMTBcd, DB, SqlExpr, Provider,
+  DBClient, Mask, DBCtrls, uPadrao;
+
+type
+  TFCadMarcas = class(TFCadastroPadrao)
+    cdsMarcas: TClientDataSet;
+    dspMarcas: TDataSetProvider;
+    dsMarcas: TDataSource;
+    sqsMarcas: TSQLDataSet;
+    cdsMarcasCODIGO: TIntegerField;
+    cdsMarcasNOME: TStringField;
+    Label1: TLabel;
+    dbNome: TDBEdit;
+    procedure cdsMarcasNewRecord(DataSet: TDataSet);
+    procedure btSalvarClick(Sender: TObject);
+  private
+    { Private declarations }
+    padrao: TFPadrao;
+    codAlteracao: Integer;
+    modo: Integer;
+    procedure salvar;
+    procedure abrirCadastro;
+    procedure editarCadastro;
+  public
+    { Public declarations }
+    procedure inserir();
+    procedure alterar(codigo: Integer);
+  end;
+
+var
+  FCadMarcas: TFCadMarcas;
+
+implementation
+
+uses uDM;
+{$R *.dfm}
+{ TFCadMarcas }
+
+procedure TFCadMarcas.abrirCadastro;
+begin
+  cdsMarcas.Close;
+  cdsMarcas.Params[0].AsInteger := 0;
+  cdsMarcas.Open;
+  cdsMarcas.Insert;
+end;
+
+procedure TFCadMarcas.alterar(codigo: Integer);
+begin
+  modo := 2;
+  codAlteracao := codigo;
+  editarCadastro;
+  Self.ShowModal;
+end;
+
+procedure TFCadMarcas.btSalvarClick(Sender: TObject);
+begin
+  inherited;
+  salvar;
+  if modo = 1 then
+    abrirCadastro
+  else
+    editarCadastro;
+end;
+
+procedure TFCadMarcas.cdsMarcasNewRecord(DataSet: TDataSet);
+begin
+  inherited;
+  cdsMarcasCODIGO.AsInteger := 0;
+end;
+
+procedure TFCadMarcas.editarCadastro;
+begin
+  cdsMarcas.Close;
+  cdsMarcas.Params[0].AsInteger := codAlteracao;
+  cdsMarcas.Open;
+  cdsMarcas.Edit;
+end;
+
+procedure TFCadMarcas.inserir;
+begin
+  modo := 1;
+  abrirCadastro;
+  Self.ShowModal;
+end;
+
+procedure TFCadMarcas.salvar;
+begin
+  cdsMarcas.Post;
+  cdsMarcas.ApplyUpdates(-1);
+  ShowMessage(padrao.SUCESSO);
+end;
+
+end.

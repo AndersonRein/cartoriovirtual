@@ -1,0 +1,6 @@
+inherited FFaturamento: TFFaturamento
+  Caption = 'Faturamento'
+  ExplicitWidth = 380
+  PixelsPerInch = 96
+  TextHeight = 13
+end

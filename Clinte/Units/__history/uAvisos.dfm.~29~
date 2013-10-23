@@ -1,0 +1,520 @@
+inherited FAvisos: TFAvisos
+  Caption = 'Avisos'
+  ClientHeight = 400
+  ClientWidth = 902
+  ExplicitWidth = 908
+  ExplicitHeight = 429
+  PixelsPerInch = 96
+  TextHeight = 13
+  object PageControl: TPageControl
+    Left = 0
+    Top = 0
+    Width = 902
+    Height = 400
+    ActivePage = tbsProtCadastrados
+    Align = alClient
+    DoubleBuffered = False
+    MultiLine = True
+    ParentDoubleBuffered = False
+    TabOrder = 0
+    object tbsProtCadastrados: TTabSheet
+      Caption = 'Protestos Cadastrados'
+      object GroupBox3: TGroupBox
+        Left = 0
+        Top = 0
+        Width = 894
+        Height = 372
+        Align = alClient
+        Caption = 'Protestos'
+        TabOrder = 0
+        object DBGrid2: TDBGrid
+          Left = 2
+          Top = 15
+          Width = 890
+          Height = 297
+          Align = alClient
+          DataSource = dsProtestosCadastrados
+          Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+          ParentColor = True
+          TabOrder = 0
+          TitleFont.Charset = DEFAULT_CHARSET
+          TitleFont.Color = clWindowText
+          TitleFont.Height = -11
+          TitleFont.Name = 'Tahoma'
+          TitleFont.Style = []
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'CADASTRO'
+              Width = 80
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'NUMTITULO'
+              Width = 80
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'APRESENTANTE'
+              Width = 250
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'DEVEDOR'
+              Width = 250
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'VALORPROTESTO'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'VENCIMENTO'
+              Width = 80
+              Visible = True
+            end>
+        end
+        object GroupBox4: TGroupBox
+          Left = 2
+          Top = 312
+          Width = 890
+          Height = 58
+          Align = alBottom
+          Caption = 'Op'#231#245'es'
+          TabOrder = 1
+          object btbIntimar: TBitBtn
+            Left = 8
+            Top = 18
+            Width = 100
+            Height = 35
+            Caption = '&Intimar'
+            Glyph.Data = {
+              360C0000424D360C000000000000360000002800000020000000200000000100
+              180000000000000C0000232E0000232E00000000000000000001FFFFFFFFFFFF
+              FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFFFFFFFFFFFFFFFFFFFFDFDFDF6F6F6F2F2F2F0F0F0E9E9E9E0E0E0CBCB
+              CBB2B2B2A8A8A8A4A4A4A4A4A4A5A5A5ABABABBEBEBECCCCCCDDDDDDEAEAEAF0
+              F0F0F3F3F3F8F8F8FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFFFFFFFFFFFFFFFFFFFFEFEFEF9F9F9F6F6F6F5F5F5F2F2F2E9E9E9CBCB
+              CBABABAB9D9D9D969696959595979797A0A0A0B7B7B7D4D4D4EBEBEBEEEEEEF2
+              F2F2F3F3F3FBFBFBFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEEEEEEEDEDEDF1F1
+              F1F9F9F9FEFEFEFFFFFFFFFFFFFEFEFEFAFBFCF4F4F6EEEEEEEEEEEEFDFDFDFF
+              FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEEEEEEEAEAEAF3F4F4FFFFFFFFFF
+              FFFFFFFFFEFAF4F9F0E4F9EDD5FDF7EBFFFFFFFFFFFFFFFFFFFAFAFCEAEAEAEC
+              ECECFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEAEAEAF0F0F0FFFFFFFFFFFFFCF3DFE9D2
+              A5D8B575CBA976E6D5BDD2B482C7A269D4B170E5CA98F8EBD1FFFFFFFFFFFFF6
+              F6F6E8E8E8F7F7F7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFFFFFFFFFFFFFFFFFFFE8E8E8FBFBFBFFFFFFFCF6E9D9BB8ABD944FB893
+              4DC0A45DC7AF64DFD1ADDACAA4C9B166C3A860B99651BA914ACFAD75F5E9D4FF
+              FFFFFFFFFFEAEAEAF3F3F3FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFFFFFFFFFFFFFE8E8E8FFFFFFFFFFFFEDDBC1B58C4EAA853EBFA959D4C7
+              6AE0D971E5E174E1DA77E2DC79E6E376E2DB73D8CC6CC5B25FAE8D45AD8241DF
+              C6A2FFFFFFFFFFFFEBEBEBF6F6F6FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFFFFFFFEAEAEAF7F7F7FFFFFFEBD9BEA87E3DA68839C3B24ED3CC55E0DE
+              5FE7EA63EBEF65ECF164ECF264ECF066E8EB64E3E260D8D25AC9BB52AF95419E
+              732CD7BA91FFFFFFFFFFFFE9E9E9FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFF6F6F6EDEDEDFFFFFFEEDFCAA67C3BAE954EBCAC3BCBC04ED8D361DADC
+              41E1E649E3E94AE4EA4BE4EA4BE4EA4AE2E64ADEE147D8D744CEC841C0B13BAF
+              9844A07939DCC3A0FFFFFFF7F7F7EBEBEBFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFE8E8E8FFFFFFF9F6F0AD834694711AB29D2BC0B32AC7BF2CDAD475D5D2
+              49D5D428D9DA2FD9DC2FD9DC2FD9DB2ED7D82FD4D32DD0CC2CCAC32BC2B629B8
+              A62F9D7F239B6D27EEE2D1FFFFFFE9E8E8FAFAFAFFFFFFFFFFFFFFFFFFFFFFFF
+              F5F5F5EAEAEAFFFFFFD2B8948D6112A5881BB59F18BEAD19C3B516CABD33DCD4
+              7BCFC634CFC716D1CB1CD1CB1CD1CA1CCFC71CCCC21CC9BD1BC5B71AC0B019B8
+              A317AA901A906812BA9460FBFBFBF7F7F7ECECECFFFFFFFFFFFFFFFFFFFFFFFF
+              ECECECF8F8F9F3F0EBA4773B956D13AD8E14B89D12BDA511C1AA12C2AB0DD1C0
+              52DACD6ECCBA2BCAB90FCCBB14CBBA14C9B713C7B313C4AF12C1AB12BEA611BA
+              A012B092139D791594631CE6DACAFFFFFFE6E6E6FFFFFFFFFFFFFFFFFFFFFFFF
+              E5E5E5FBFDFFDDCDB9905B13A07712B18C0EB9960CBC9A0CBD9C0CBFA00AC2A3
+              15D6C268D4BD58C7AB22C5A708C5A80DC4A70DC2A40CC0A10DBE9D0CBC9B0CBA
+              970CB48F0EA67E118D5C0DC8A985F9FBFDE5E6E6F7F7F7FFFFFFFFFFFFFCFCFC
+              E2E4E4F4F6F8C2A17E8C550AA6770FB3860AB88C07BA8E07BB9007BC9208BC92
+              03C6A333D4B963CAA83EC19A16C09604BF9608BE9408BD9208BB9007BA8E07B9
+              8D07B58809AA7C0D915D09AC7F4DF1F2F3E3E4E4EFEFEFFFFFFFFFFFFFF2F2F2
+              E2E3E3F0EFEFC2A286955E1AA66F08B47E07B78106B88206B98406BA8506BB86
+              05BB8605CDA754CCA44BC89F48BD8B13BB8604BB8606BA8506B98406B88306B7
+              8206B57F06AA7307996316A87A50F7F4F2F8F9FAEDEDEDFFFFFFFFFFFFF1F1F1
+              EEEFEFFEFCFBD4BDABB78F67B58339B37200B67701B77701B87902B97A04B97B
+              04BA7900BC8218D5B37FD5AF75C99D52B87900BA7B04B97A04B87903B77802B6
+              7701B37300BA8A3FD0B79BB79173F9F3F0FFFFFFEEEEEEFFFFFFFFFFFFF2F2F2
+              F5F6F6FFFDFBD8C2B4B88E68B57A36BA791FBC7A1ABA7611B97308B86F00B86F
+              00B86E00C08329CC9958D9B689C8954CB76D00B86F00B86F00B87001B97308BA
+              750EB97513B6792EC49F7BD6C1B2F7F2EEFFFFFFEDEDEDFFFFFFFFFFFFF5F5F5
+              F3F3F3FFFFFFBD92759C5F2FBA7E44C48644C78743C68742C5843BC38032BF76
+              1FC28031CA8F4FC98D49C4863EB96C0BBC7010BF751BC17B28C48034C5843BC6
+              8641C48643BD7F41A56834AC7855FDFAF9FEFEFEEEEEEEFFFFFFFFFFFFFEFEFE
+              EDEDEDFFFFFFD1B19BA36843C0895DC88D58CC8F57CD8F57CD9059CD8F57CE96
+              65DBB28FD7AA82CF9868C88648CA8A4DCC8E56CD905ACD915ACD905ACD9059CD
+              8F58CA8E57C2895AAE7854BA896BFFFFFFF3F3F3F0F0F0FFFFFFFFFFFFFFFFFF
+              EAEAEAFFFFFFECDBD2A76D4DC49576CE9870D29A70D39B6FD39A6ED29C72E0BD
+              A1DCB597D3A077D2996CD49C71D39C71D39C70D39B6FD39B6FD39B6FD39B6FD3
+              9B70CF9970C89775AF7B5DD7B9A9FFFFFFEEEEEEF8F8F8FFFFFFFFFFFFFFFFFF
+              EEEEEEFAFAFAFEFCFBB6846AC29982D3A78AD8A988D9AA86D8A986E0C0A8DFBB
+              A0D7A884D9A984DAAB87DAAB87DAAB87DAAB87DAAA87DAAA87DAAA87DAAA87D8
+              A987D4A789CCA58DB48168F3E9E3FFFFFFE9E9E9FFFFFFFFFFFFFFFFFFFFFFFF
+              F8F8F8EDEDEDFFFFFFDEC4B8B5856DD9BAA6DCB79EDFB99DDEB99DE0BDA3DFB6
+              99E1B99DE1B99DE1B99DE1B99DE1B99DE1B99DE1B99DE1B99DE1B99DE0B99DDD
+              B79DD9B8A2C5A08DCDA797FFFFFFF4F4F4EFEFEFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFE9E9E9FFFFFFFEFCFCC0927ECDAC9CE3CAB9E4C6B2E5C7B1E6C6AFE7C8
+              B1E7C7B1E7C7B1E7C7B1E7C7B1E7C7B1E7C7B1E7C7B1E6C7B1E6C7B1E4C6B1E2
+              C8B6D9C1B2BF927EF5ECE9FFFFFFE7E7E7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFF9F9F9E7E7E7FFFFFFF1E6E3C19584E0CBC1E9D7CAE9D3C3EBD4C3ECD4
+              C3ECD4C3ECD4C3ECD5C4ECD5C4ECD4C3ECD4C3ECD4C3EBD4C3EAD3C3E9D4C6E8
+              D9CFCDAA9DE4D0C8FFFFFFF0F0F0F1F1F1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFFFFFFFF0F0F0EDEDEDFFFFFFEBDEDAC19585DDC7BDF1E5DDEFE0D5EFDE
+              D3F0DFD3F1E0D3EDDBCDEDDBCEF1E0D3F0DFD3EFDFD3EFDED4F0E3DAE8D8D0CC
+              A79BE1CCC6FFFFFFFCFCFCE9E9E9FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFFFFFFFFFFFFFEAEAEAEDEDEDFFFFFFECE1DEC79E91D3B3A8EDE0DAF5EE
+              E8F6EDE6F3E7DFE9DAD0E8DACFF2E6DEF5EBE4F6EEE8F1E7E1DFC9C0CDA79BE3
+              CFCAFFFFFFFFFFFFE6E6E6FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFFFFFFFFFFFFFFFFFFFEAEAEAEAEAEAFFFFFFFAF8F8D9C0B9CAA398D4B4
+              ABE1CBC3E6D8D1F3ECE8F2EAE5E9DCD4E6D5CEDABEB6D1AEA5D7BAB2F1EBE9FF
+              FFFFF6F7F7E6E6E6FEFEFEFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEDEDEDE7E7E7FEFFFFFFFFFFF7F3F3E1CD
+              C8D6B9B2D5BBB2EBE0DDEAE0DCD4BAB2D6B8B1DFC9C4F1E9E8FFFFFFFFFFFFEB
+              EBEBEBEBEBFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF7F7F7E9E9E9E7E7E7F7F8F8FFFF
+              FFFFFFFFFFFFFFFBF9F8FBF9F8FFFFFFFFFFFFFFFFFFFFFFFFEDEDEDEAEAEAF3
+              F3F3FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF6F6F6ECECECE6E6
+              E6E8E8E8ECECECEBECECEBECECEBECECEBEBEBE7E7E7EAEAEAF4F4F4FFFFFFFF
+              FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFFFF8F8F8F2F2F2F1F1F1F2F2F2FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
+            TabOrder = 0
+            OnClick = btbIntimarClick
+          end
+        end
+      end
+    end
+    object tbsIntimacao: TTabSheet
+      Caption = 'Intima'#231#245'es sem conclus'#227'o'
+      ImageIndex = 1
+      object GroupBox1: TGroupBox
+        Left = 0
+        Top = 0
+        Width = 894
+        Height = 372
+        Align = alClient
+        Caption = 'Intima'#231#245'es'
+        TabOrder = 0
+        object DBGrid1: TDBGrid
+          Left = 2
+          Top = 15
+          Width = 890
+          Height = 283
+          Align = alClient
+          DataSource = dsIntimacaoSemConclusao
+          Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+          ParentColor = True
+          TabOrder = 0
+          TitleFont.Charset = DEFAULT_CHARSET
+          TitleFont.Color = clWindowText
+          TitleFont.Height = -11
+          TitleFont.Name = 'Tahoma'
+          TitleFont.Style = []
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'DATA'
+              Width = 80
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'NUMTITULO'
+              Width = 80
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'APRESENTANTE'
+              Width = 250
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'DEVEDOR'
+              Width = 250
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'VALORPROTESTO'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'VENCIMENTO'
+              Width = 80
+              Visible = True
+            end>
+        end
+        object GroupBox2: TGroupBox
+          Left = 2
+          Top = 298
+          Width = 890
+          Height = 72
+          Align = alBottom
+          Caption = 'Op'#231#245'es'
+          TabOrder = 1
+        end
+      end
+    end
+  end
+  object cdsIntimacaoSemConclusao: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspIntimacaoSemConclusao'
+    RemoteServer = dspProtestos
+    Left = 480
+    Top = 32
+    object cdsIntimacaoSemConclusaoCODIGO: TIntegerField
+      FieldName = 'CODIGO'
+    end
+    object cdsIntimacaoSemConclusaoCODACEITE: TSmallintField
+      FieldName = 'CODACEITE'
+    end
+    object cdsIntimacaoSemConclusaoACEITE: TStringField
+      FieldName = 'ACEITE'
+      FixedChar = True
+      Size = 3
+    end
+    object cdsIntimacaoSemConclusaoCONCLUSAO: TDateField
+      FieldName = 'CONCLUSAO'
+    end
+    object cdsIntimacaoSemConclusaoDATA: TDateField
+      DisplayLabel = 'Intimado em'
+      FieldName = 'DATA'
+    end
+    object cdsIntimacaoSemConclusaoPROTESTO: TIntegerField
+      FieldName = 'PROTESTO'
+    end
+    object cdsIntimacaoSemConclusaoCOD_APRESENTANTE: TIntegerField
+      FieldName = 'COD_APRESENTANTE'
+    end
+    object cdsIntimacaoSemConclusaoAPRESENTANTE: TStringField
+      DisplayLabel = 'Apresentante'
+      FieldName = 'APRESENTANTE'
+      Size = 100
+    end
+    object cdsIntimacaoSemConclusaoCPF_CNPJ_APRESENTANTE: TStringField
+      FieldName = 'CPF_CNPJ_APRESENTANTE'
+    end
+    object cdsIntimacaoSemConclusaoEND_APRESENTANTE: TStringField
+      FieldName = 'END_APRESENTANTE'
+      Size = 100
+    end
+    object cdsIntimacaoSemConclusaoNUM_APRESENTANTE: TStringField
+      FieldName = 'NUM_APRESENTANTE'
+    end
+    object cdsIntimacaoSemConclusaoBAIRRO_APRESENTANTE: TStringField
+      FieldName = 'BAIRRO_APRESENTANTE'
+      Size = 100
+    end
+    object cdsIntimacaoSemConclusaoCOD_CIDADE_APRESENTANTE: TIntegerField
+      FieldName = 'COD_CIDADE_APRESENTANTE'
+    end
+    object cdsIntimacaoSemConclusaoCIDADE_APRESENTANTE: TStringField
+      FieldName = 'CIDADE_APRESENTANTE'
+      Size = 100
+    end
+    object cdsIntimacaoSemConclusaoUF_APRESENTANTE: TStringField
+      FieldName = 'UF_APRESENTANTE'
+      FixedChar = True
+      Size = 2
+    end
+    object cdsIntimacaoSemConclusaoCOD_DEVEDOR: TIntegerField
+      FieldName = 'COD_DEVEDOR'
+    end
+    object cdsIntimacaoSemConclusaoDEVEDOR: TStringField
+      DisplayLabel = 'Devedor'
+      FieldName = 'DEVEDOR'
+      Size = 100
+    end
+    object cdsIntimacaoSemConclusaoCPF_CNPJ_DEVEDOR: TStringField
+      FieldName = 'CPF_CNPJ_DEVEDOR'
+    end
+    object cdsIntimacaoSemConclusaoEND_DEVEDOR: TStringField
+      FieldName = 'END_DEVEDOR'
+      Size = 100
+    end
+    object cdsIntimacaoSemConclusaoNUM_DEVEDOR: TStringField
+      FieldName = 'NUM_DEVEDOR'
+    end
+    object cdsIntimacaoSemConclusaoBAIRRO_DEVEDOR: TStringField
+      FieldName = 'BAIRRO_DEVEDOR'
+      Size = 100
+    end
+    object cdsIntimacaoSemConclusaoCOD_CIDADE_DEVEDOR: TIntegerField
+      FieldName = 'COD_CIDADE_DEVEDOR'
+    end
+    object cdsIntimacaoSemConclusaoCIDADE_DEVEDOR: TStringField
+      FieldName = 'CIDADE_DEVEDOR'
+      Size = 100
+    end
+    object cdsIntimacaoSemConclusaoUF_DEVEDOR: TStringField
+      FieldName = 'UF_DEVEDOR'
+      FixedChar = True
+      Size = 2
+    end
+    object cdsIntimacaoSemConclusaoPROTOCOLO: TIntegerField
+      FieldName = 'PROTOCOLO'
+    end
+    object cdsIntimacaoSemConclusaoSEQPROTOCOLO: TIntegerField
+      FieldName = 'SEQPROTOCOLO'
+    end
+    object cdsIntimacaoSemConclusaoSELO1: TStringField
+      FieldName = 'SELO1'
+      Size = 50
+    end
+    object cdsIntimacaoSemConclusaoSELO2: TStringField
+      FieldName = 'SELO2'
+      Size = 50
+    end
+    object cdsIntimacaoSemConclusaoCODSTATUS: TSmallintField
+      FieldName = 'CODSTATUS'
+    end
+    object cdsIntimacaoSemConclusaoSTATUS: TStringField
+      FieldName = 'STATUS'
+      FixedChar = True
+      Size = 9
+    end
+    object cdsIntimacaoSemConclusaoVALORPROTESTO: TFMTBCDField
+      DisplayLabel = 'Valor R$'
+      FieldName = 'VALORPROTESTO'
+      currency = True
+      Precision = 15
+      Size = 2
+    end
+    object cdsIntimacaoSemConclusaoVENCIMENTO: TDateField
+      DisplayLabel = 'Vencimento'
+      FieldName = 'VENCIMENTO'
+    end
+    object cdsIntimacaoSemConclusaoNUMTITULO: TStringField
+      DisplayLabel = 'N'#186' do t'#237'tulo'
+      FieldName = 'NUMTITULO'
+    end
+    object cdsIntimacaoSemConclusaoTITULO: TStringField
+      FieldName = 'TITULO'
+      Size = 100
+    end
+  end
+  object dsIntimacaoSemConclusao: TDataSource
+    DataSet = cdsIntimacaoSemConclusao
+    Left = 480
+    Top = 72
+  end
+  object dspProtestos: TDSProviderConnection
+    ServerClassName = 'TsmProtesto'
+    Connected = True
+    SQLConnection = DM.SQLConnection
+    Left = 152
+    Top = 56
+  end
+  object cdsProtestosCadastrados: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspProtestosCadastrados'
+    RemoteServer = dspProtestos
+    Left = 264
+    Top = 96
+    object cdsProtestosCadastradosCODIGO: TIntegerField
+      FieldName = 'CODIGO'
+    end
+    object cdsProtestosCadastradosCODAPRESENTANTE: TIntegerField
+      FieldName = 'CODAPRESENTANTE'
+    end
+    object cdsProtestosCadastradosAPRESENTANTE: TStringField
+      DisplayLabel = 'Apresentante'
+      FieldName = 'APRESENTANTE'
+      Size = 100
+    end
+    object cdsProtestosCadastradosCADASTRO: TDateField
+      DisplayLabel = 'Cadastrado em'
+      FieldName = 'CADASTRO'
+    end
+    object cdsProtestosCadastradosCODDEVEDOR: TIntegerField
+      FieldName = 'CODDEVEDOR'
+    end
+    object cdsProtestosCadastradosDEVEDOR: TStringField
+      DisplayLabel = 'Devedor'
+      FieldName = 'DEVEDOR'
+      Size = 100
+    end
+    object cdsProtestosCadastradosCODFALIMENTAR: TSmallintField
+      FieldName = 'CODFALIMENTAR'
+    end
+    object cdsProtestosCadastradosFALIMENTAR: TStringField
+      FieldName = 'FALIMENTAR'
+      FixedChar = True
+      Size = 3
+    end
+    object cdsProtestosCadastradosCODMOTIVOPROTESTO: TIntegerField
+      FieldName = 'CODMOTIVOPROTESTO'
+    end
+    object cdsProtestosCadastradosMOTIVOPROTESTO: TStringField
+      FieldName = 'MOTIVOPROTESTO'
+      Size = 100
+    end
+    object cdsProtestosCadastradosNUMTITULO: TStringField
+      DisplayLabel = 'N'#186' do t'#237'tulo'
+      FieldName = 'NUMTITULO'
+    end
+    object cdsProtestosCadastradosPROTOCOLO: TIntegerField
+      FieldName = 'PROTOCOLO'
+    end
+    object cdsProtestosCadastradosCODSTATUS: TSmallintField
+      FieldName = 'CODSTATUS'
+    end
+    object cdsProtestosCadastradosSTATUS: TStringField
+      FieldName = 'STATUS'
+      FixedChar = True
+      Size = 10
+    end
+    object cdsProtestosCadastradosCODTITULO: TIntegerField
+      FieldName = 'CODTITULO'
+    end
+    object cdsProtestosCadastradosTITULO: TStringField
+      FieldName = 'TITULO'
+      Size = 100
+    end
+    object cdsProtestosCadastradosCODUSUARIO: TIntegerField
+      FieldName = 'CODUSUARIO'
+    end
+    object cdsProtestosCadastradosUSUARIO: TStringField
+      FieldName = 'USUARIO'
+      Size = 10
+    end
+    object cdsProtestosCadastradosVALORPROTESTO: TFMTBCDField
+      DisplayLabel = 'Valor R$'
+      FieldName = 'VALORPROTESTO'
+      currency = True
+      Precision = 15
+      Size = 2
+    end
+    object cdsProtestosCadastradosVENCIMENTO: TDateField
+      DisplayLabel = 'Vencimento'
+      FieldName = 'VENCIMENTO'
+    end
+    object cdsProtestosCadastradosSEQPROTOCOLO: TIntegerField
+      FieldName = 'SEQPROTOCOLO'
+    end
+  end
+  object dsProtestosCadastrados: TDataSource
+    DataSet = cdsProtestosCadastrados
+    Left = 264
+    Top = 144
+  end
+end

@@ -1,0 +1,513 @@
+unit uNovaNota;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, uPadraoVazio, StdCtrls, Grids, DBGrids, FMTBcd, DB, SqlExpr,
+  Provider, DBClient, Mask, DBCtrls, ExtCtrls, Buttons, uPadrao;
+
+type
+  TFNovaNota = class(TFPadraoVazio)
+    GroupBox2: TGroupBox;
+    GroupBox3: TGroupBox;
+    GroupBox4: TGroupBox;
+    GroupBox5: TGroupBox;
+    dbgItens: TDBGrid;
+    GroupBox6: TGroupBox;
+    cdsNotaFiscal: TClientDataSet;
+    dspNotaFiscal: TDataSetProvider;
+    sqsNotaFiscal: TSQLDataSet;
+    dsNotaFiscal: TDataSource;
+    dbCliente: TDBEdit;
+    edCliente: TEdit;
+    dbTransportadora: TDBEdit;
+    edTransportadora: TEdit;
+    Label2: TLabel;
+    dbFrete: TDBRadioGroup;
+    cdsItens: TClientDataSet;
+    dspItens: TDataSetProvider;
+    dsItens: TDataSource;
+    sqsItens: TSQLDataSet;
+    Label3: TLabel;
+    dbProduto: TDBEdit;
+    Label4: TLabel;
+    dbQuantidade: TDBEdit;
+    Label5: TLabel;
+    dbValor: TDBEdit;
+    spdProduto: TSpeedButton;
+    spbCliente: TSpeedButton;
+    spbTransportadora: TSpeedButton;
+    cdsProdutos: TClientDataSet;
+    dspProdutos: TDataSetProvider;
+    sqsProdutos: TSQLDataSet;
+    cdsCliente: TClientDataSet;
+    dspCliente: TDataSetProvider;
+    sqsCliente: TSQLDataSet;
+    dbCPF_CNPJ: TDBEdit;
+    dsCliente: TDataSource;
+    dbCidade: TDBEdit;
+    Label1: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    sqsTransportadora: TSQLDataSet;
+    dsTransportadora: TDataSource;
+    cdsTransportadora: TClientDataSet;
+    dspTransportadora: TDataSetProvider;
+    GroupBox9: TGroupBox;
+    spbSalvar: TSpeedButton;
+    spbCancelar: TSpeedButton;
+    Label8: TLabel;
+    dbNCM: TDBEdit;
+    Label9: TLabel;
+    dbUnidade: TDBEdit;
+    edProduto: TEdit;
+    cdsItensCODIGO: TIntegerField;
+    cdsItensNOTAFISCAL: TIntegerField;
+    cdsItensPRODUTO: TIntegerField;
+    cdsItensNCM: TStringField;
+    cdsItensICMS: TFMTBCDField;
+    cdsItensIPI: TFMTBCDField;
+    cdsItensUNIDADE: TStringField;
+    cdsItensVALOR: TFMTBCDField;
+    cdsItensQUANTIDADE: TSingleField;
+    dsMostraItens: TDataSource;
+    cdsMostraItens: TClientDataSet;
+    dspMostraItens: TDataSetProvider;
+    sqsMostraItens: TSQLDataSet;
+    cdsMostraItensCODIGO: TIntegerField;
+    cdsMostraItensPRODUTO: TStringField;
+    cdsMostraItensNCM: TStringField;
+    cdsMostraItensICMS: TFMTBCDField;
+    cdsMostraItensIPI: TFMTBCDField;
+    cdsMostraItensUNIDADE: TStringField;
+    cdsMostraItensQUANTIDADE: TSingleField;
+    cdsMostraItensVALOR: TFMTBCDField;
+    cdsMostraItensTOTAL: TFloatField;
+    gpbTotal: TGroupBox;
+    lblTotal: TLabel;
+    dbFormaPag: TDBRadioGroup;
+    cdsNotaFiscalCODIGO: TIntegerField;
+    cdsNotaFiscalCLIENTE: TIntegerField;
+    cdsNotaFiscalEMPRESA: TIntegerField;
+    cdsNotaFiscalTRANSPORTADORA: TIntegerField;
+    cdsNotaFiscalDATAEMISSAO: TDateField;
+    cdsNotaFiscalSTATUS: TSmallintField;
+    cdsNotaFiscalFRETEPORCONTA: TSmallintField;
+    cdsNotaFiscalNUM_NFE: TIntegerField;
+    cdsNotaFiscalFORMAPAGAMENTO: TSmallintField;
+    cdsClienteCODIGO: TIntegerField;
+    cdsClienteNOME: TStringField;
+    cdsClienteCPF_CNPJ: TStringField;
+    cdsClienteIE: TStringField;
+    cdsClienteENDERECO: TStringField;
+    cdsClienteNUMERO: TStringField;
+    cdsClienteBAIRRO: TStringField;
+    cdsClienteCEP: TStringField;
+    cdsClienteCOMPLEMENTO: TStringField;
+    cdsClienteCODCIDADE: TIntegerField;
+    cdsClienteCIDADE: TStringField;
+    cdsClienteTELEFONE: TStringField;
+    cdsClienteEMAIL: TStringField;
+    cdsClienteSTATUS: TSmallintField;
+    cdsTransportadoraCODIGO: TIntegerField;
+    cdsTransportadoraNOME: TStringField;
+    cdsTransportadoraCNPJ: TStringField;
+    cdsTransportadoraISCEST: TStringField;
+    cdsTransportadoraENDERECO: TStringField;
+    cdsTransportadoraCIDADE: TStringField;
+    cdsTransportadoraTELEFONE: TStringField;
+    cdsTransportadoraPLACA: TStringField;
+    cdsTransportadoraANTT: TStringField;
+    cdsProdutosCODIGO: TIntegerField;
+    cdsProdutosNOME: TStringField;
+    cdsProdutosNCM: TStringField;
+    cdsProdutosICMS: TFMTBCDField;
+    cdsProdutosIPI: TFMTBCDField;
+    cdsProdutosUNIDADE: TStringField;
+    cdsProdutosVALOR: TFMTBCDField;
+    cdsProdutosSTATUS: TSmallintField;
+    cdsProdutosCODCFOP: TIntegerField;
+    cdsProdutosNOMECFOP: TStringField;
+    procedure cdsNotaFiscalNewRecord(DataSet: TDataSet);
+    procedure dbProdutoKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure dbProdutoEnter(Sender: TObject);
+    procedure cdsItensNewRecord(DataSet: TDataSet);
+    procedure dbClienteClick(Sender: TObject);
+    procedure dbClienteKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure dbClienteKeyPress(Sender: TObject; var Key: Char);
+    procedure dbTransportadoraKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure dbTransportadoraClick(Sender: TObject);
+    procedure dbTransportadoraKeyPress(Sender: TObject; var Key: Char);
+    procedure edTransportadoraEnter(Sender: TObject);
+    procedure spbSalvarClick(Sender: TObject);
+    procedure spbCancelarClick(Sender: TObject);
+    procedure edProdutoExit(Sender: TObject);
+    procedure dbValorKeyPress(Sender: TObject; var Key: Char);
+    procedure FormShow(Sender: TObject);
+    procedure dbProdutoClick(Sender: TObject);
+    procedure spbClienteClick(Sender: TObject);
+    procedure spbTransportadoraClick(Sender: TObject);
+    procedure spdProdutoClick(Sender: TObject);
+    procedure dbgItensKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+  private
+    { Private declarations }
+    modo, codAlteracao: Integer;
+    padrao: TFPadrao;
+    procedure NovaNota;
+    procedure salvarNota;
+    procedure buscaProduto;
+    procedure buscaCliente;
+    procedure novoIten;
+    procedure buscaTransportadora;
+    procedure editarNota;
+    procedure salvarIten;
+    procedure mostraItens;
+  public
+    { Public declarations }
+    procedure inserir(md: Integer);
+    procedure alterar(md, codigo: Integer);
+  end;
+
+var
+  FNovaNota: TFNovaNota;
+
+implementation
+
+uses uDM, uBusca, uCadClientes, uCadTransportadora, uCadProdutos;
+{$R *.dfm}
+{ TFNovaNota }
+
+procedure TFNovaNota.alterar(md, codigo: Integer);
+begin
+  modo := md;
+  codAlteracao := codigo;
+  editarNota;
+  buscaCliente;
+  buscaTransportadora;
+  Self.ShowModal;
+end;
+
+procedure TFNovaNota.buscaCliente;
+begin
+  cdsCliente.Close;
+  cdsCliente.Params[0].AsInteger := StrToInt(dbCliente.Text);
+  cdsCliente.Open;
+  edCliente.Text := padrao.getNomeCliente(StrToInt(dbCliente.Text))
+end;
+
+procedure TFNovaNota.buscaProduto;
+begin
+  if dbProduto.Text <> '' then
+  begin
+    cdsProdutos.Close;
+    cdsProdutos.Params[0].AsInteger := StrToInt(dbProduto.Text);
+    cdsProdutos.Open;
+
+    edProduto.Text := cdsProdutosNOME.AsString;
+    cdsItensVALOR.AsFloat := cdsProdutosVALOR.AsFloat;
+    cdsItensNCM.AsString := cdsProdutosNCM.AsString;
+    cdsItensICMS.AsFloat := cdsProdutosICMS.AsFloat;
+    cdsItensIPI.AsFloat := cdsProdutosIPI.AsFloat;
+    cdsItensUNIDADE.AsString := cdsProdutosUNIDADE.AsString;
+  end;
+end;
+
+procedure TFNovaNota.buscaTransportadora;
+begin
+  cdsTransportadora.Close;
+  cdsTransportadora.Params[0].AsInteger := StrToInt(dbTransportadora.Text);
+  cdsTransportadora.Open;
+  edTransportadora.Text := padrao.getNomeTransportadora
+    (StrToInt(dbTransportadora.Text));
+
+  if StrToInt(dbTransportadora.Text) = 0 then
+    edTransportadora.Text := 'A CONTRATAR';
+
+end;
+
+procedure TFNovaNota.cdsItensNewRecord(DataSet: TDataSet);
+begin
+  inherited;
+  cdsItensCODIGO.AsInteger := 0;
+  cdsItensNOTAFISCAL.AsInteger := cdsNotaFiscalCODIGO.AsInteger;
+end;
+
+procedure TFNovaNota.cdsNotaFiscalNewRecord(DataSet: TDataSet);
+begin
+  inherited;
+  codAlteracao := padrao.getCodigoNota;
+  cdsNotaFiscalCODIGO.AsInteger := codAlteracao;
+  cdsNotaFiscalEMPRESA.AsInteger := 1;
+  cdsNotaFiscalSTATUS.AsInteger := 1;
+end;
+
+procedure TFNovaNota.dbClienteClick(Sender: TObject);
+var
+  busca: TFBusca;
+begin
+  inherited;
+  busca := TFBusca.Create(nil);
+  busca.new('Clientes', 'CLIENTES', 'CODIGO, NOME', 'NOME');
+  edCliente.Text := busca.getNome;
+  cdsNotaFiscalCLIENTE.AsInteger := busca.getCodigo;
+  busca.Free;
+  buscaCliente;
+end;
+
+procedure TFNovaNota.dbClienteKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+  if Key = #13 then
+    dbClienteClick(Sender);
+end;
+
+procedure TFNovaNota.dbClienteKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  if dbCliente.Text <> '' then
+    buscaCliente
+  else
+  begin
+    edCliente.Clear;
+    dbCPF_CNPJ.Clear;
+    dbCidade.Clear;
+  end;
+end;
+
+procedure TFNovaNota.dbgItensKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  if Key = VK_DELETE then
+    if padrao.deletarIten(cdsMostraItensCODIGO.AsInteger) then
+    begin
+      ShowMessage(padrao.SUCESSO);
+      mostraItens;
+    end;
+
+end;
+
+procedure TFNovaNota.dbProdutoClick(Sender: TObject);
+var
+  busca: TFBusca;
+begin
+  inherited;
+  busca := TFBusca.Create(nil);
+  busca.new('Produtos', 'VPRODUTOS', 'CODIGO, NOME', 'NOME');
+  edProduto.Text := busca.getNome;
+  cdsItensPRODUTO.AsInteger := busca.getCodigo;
+  busca.Free;
+  buscaProduto;
+end;
+
+procedure TFNovaNota.dbProdutoEnter(Sender: TObject);
+begin
+  inherited;
+  if (dbCliente.Text <> '') and (dbTransportadora.Text <> '') then
+  begin
+    salvarNota;
+    novoIten;
+  end
+  else
+  begin
+    ShowMessage('Cliente ou Transportadora não selecioado.');
+    Exit;
+  end;
+end;
+
+procedure TFNovaNota.dbProdutoKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  buscaProduto;
+end;
+
+procedure TFNovaNota.dbTransportadoraClick(Sender: TObject);
+var
+  busca: TFBusca;
+begin
+  inherited;
+  busca := TFBusca.Create(nil);
+  busca.new('Transportadora', 'VTRANSPORTADORA', 'CODIGO, NOME', 'NOME');
+  edTransportadora.Text := busca.getNome;
+  cdsNotaFiscalTRANSPORTADORA.AsInteger := busca.getCodigo;
+  busca.Free;
+  buscaTransportadora;
+end;
+
+procedure TFNovaNota.dbTransportadoraKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+  if Key = #13 then
+    dbTransportadoraClick(Sender);
+end;
+
+procedure TFNovaNota.dbTransportadoraKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  if dbTransportadora.Text <> '' then
+    buscaTransportadora
+  else
+    edTransportadora.Clear;
+end;
+
+procedure TFNovaNota.dbValorKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+  if Key = #13 then
+  begin
+    salvarIten;
+    cdsItens.Active := false;
+    dbProduto.SetFocus;
+  end;
+end;
+
+procedure TFNovaNota.editarNota;
+begin
+  cdsNotaFiscal.Close;
+  cdsNotaFiscal.Params[0].AsInteger := codAlteracao;
+  cdsNotaFiscal.Open;
+  cdsNotaFiscal.Edit;
+end;
+
+procedure TFNovaNota.edProdutoExit(Sender: TObject);
+begin
+  inherited;
+  dbQuantidade.SetFocus;
+end;
+
+procedure TFNovaNota.edTransportadoraEnter(Sender: TObject);
+begin
+  inherited;
+  if dbTransportadora.Text = '' then
+  begin
+    edTransportadora.Text := 'A CONTRATAR';
+    cdsNotaFiscalTRANSPORTADORA.AsInteger := 0;
+  end;
+end;
+
+procedure TFNovaNota.FormShow(Sender: TObject);
+begin
+  inherited;
+  mostraItens;
+end;
+
+procedure TFNovaNota.inserir(md: Integer);
+begin
+  modo := md;
+  NovaNota;
+  Self.ShowModal;
+end;
+
+procedure TFNovaNota.mostraItens;
+begin
+  cdsMostraItens.Close;
+  cdsMostraItens.Params[0].AsInteger := cdsNotaFiscalCODIGO.AsInteger;
+  cdsMostraItens.Open;
+  lblTotal.Caption := FormatFloat('###,##0.00', padrao.getValorTotalNota
+      (cdsNotaFiscalCODIGO.AsInteger));
+end;
+
+procedure TFNovaNota.NovaNota;
+begin
+  cdsNotaFiscal.Close;
+  cdsNotaFiscal.Params[0].AsInteger := 0;
+  cdsNotaFiscal.Open;
+  cdsNotaFiscal.Insert;
+
+  cdsNotaFiscalDATAEMISSAO.AsDateTime := Date;
+  cdsNotaFiscalFRETEPORCONTA.AsInteger := 1;
+  edCliente.Clear;
+  dbCPF_CNPJ.Clear;
+  dbCidade.Clear;
+  cdsNotaFiscalFORMAPAGAMENTO.AsInteger := 0;
+  edTransportadora.Clear;
+  mostraItens;
+end;
+
+procedure TFNovaNota.novoIten;
+begin
+  if not cdsItens.Active then
+  begin
+    cdsItens.Close;
+    cdsItens.Params[0].AsInteger := 0;
+    cdsItens.Open;
+    cdsItens.Insert;
+    dbProduto.SetFocus;
+  end;
+end;
+
+procedure TFNovaNota.salvarIten;
+begin
+  cdsItens.Post;
+  cdsItens.ApplyUpdates(-1);
+  mostraItens;
+  edProduto.Clear;
+end;
+
+procedure TFNovaNota.salvarNota;
+begin
+  cdsNotaFiscal.Post;
+  cdsNotaFiscal.ApplyUpdates(-1);
+  editarNota;
+end;
+
+procedure TFNovaNota.spbCancelarClick(Sender: TObject);
+begin
+  inherited;
+  if Application.MessageBox(padrao.DESEJA_REALMENTE_EXCLUIR_REGISTRO,
+    'Confirmação', MB_YESNO) = ID_YES then
+    if padrao.deletarNota(cdsNotaFiscalCODIGO.AsInteger) then
+    begin
+      ShowMessage(padrao.SUCESSO);
+      Close;
+    end;
+end;
+
+procedure TFNovaNota.spbClienteClick(Sender: TObject);
+var
+  cliente: TFCadClientes;
+begin
+  inherited;
+  cliente := TFCadClientes.Create(nil);
+  cliente.inserir(0);
+  cliente.Free;
+end;
+
+procedure TFNovaNota.spbSalvarClick(Sender: TObject);
+begin
+  inherited;
+  salvarNota;
+  ShowMessage(padrao.SUCESSO);
+  NovaNota;
+  dbNaturezaOP.SetFocus;
+end;
+
+procedure TFNovaNota.spbTransportadoraClick(Sender: TObject);
+var
+  transportadora: TFCadTransportadora;
+begin
+  inherited;
+  transportadora := TFCadTransportadora.Create(nil);
+  transportadora.inserir(0);
+  transportadora.Free;
+end;
+
+procedure TFNovaNota.spdProdutoClick(Sender: TObject);
+var
+  produto: TFCadProdutos;
+begin
+  inherited;
+  produto := TFCadProdutos.Create(nil);
+  produto.inserir(0);
+  produto.Free;
+end;
+
+end.

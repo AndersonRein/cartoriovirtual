@@ -1,0 +1,50 @@
+unit uTCliente;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, Mask, ComCtrls, FMTBcd, DBCtrls, uDM, CheckLst,
+  SqlExpr, DB;
+
+type
+ TFCliente = Class
+   private
+
+   public
+   function getNomeCliente(codigo: Integer): string;
+   function getNascimento(codigo: Integer):Tdate;
+
+ End;
+
+implementation
+
+{ TFCliente }
+
+function TFCliente.getNascimento(codigo: Integer): Tdate;
+var
+  sql: TSQLDataSet;
+begin
+  sql := TSQLDataSet.Create(nil);
+  sql.SQLConnection := DM.SQLConnection;
+  sql.CommandText := 'SELECT NASCIMENTO FROM VCLIENTES WHERE CODIGO =:CODIGO';
+  sql.Params[0].AsInteger := codigo;
+  sql.Open;
+
+  Result := sql.FieldByName('NASCIMENTO').AsDateTime;
+end;
+
+function TFCliente.getNomeCliente(codigo: Integer): string;
+var
+  sql: TSQLDataSet;
+begin
+  sql := TSQLDataSet.Create(nil);
+  sql.SQLConnection := DM.SQLConnection;
+  sql.CommandText := 'SELECT NOME FROM VCLIENTES WHERE CODIGO =:CODIGO';
+  sql.Params[0].AsInteger := codigo;
+  sql.Open;
+
+  Result := sql.FieldByName('NOME').AsString;
+end;
+
+end.

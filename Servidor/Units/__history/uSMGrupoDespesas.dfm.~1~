@@ -1,0 +1,5 @@
+object smGrupoDespesas: TsmGrupoDespesas
+  OldCreateOrder = False
+  Height = 329
+  Width = 545
+end

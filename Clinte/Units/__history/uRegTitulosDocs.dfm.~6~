@@ -1,0 +1,88 @@
+inherited FRegTitulosDocs: TFRegTitulosDocs
+  Caption = 'Registro de t'#237'tulos e documentos'
+  ExplicitWidth = 742
+  ExplicitHeight = 503
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited dbgCadastros: TDBGrid
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'DATA'
+        Width = 80
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PROTOCOLO'
+        Width = 80
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'NOME'
+        Width = 400
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'LIVRO'
+        Width = 100
+        Visible = True
+      end>
+  end
+  inherited gpbCadastro: TGroupBox
+    inherited btbInserir: TBitBtn
+      OnClick = btbInserirClick
+    end
+    inherited btbAlterar: TBitBtn
+      OnClick = btbAlterarClick
+    end
+  end
+  inherited cdsConsulta: TClientDataSet
+    Params = <
+      item
+        DataType = ftString
+        Name = 'nome'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspConsulta'
+    RemoteServer = dspConection
+    object cdsConsultaCODIGO: TIntegerField
+      FieldName = 'CODIGO'
+      Required = True
+    end
+    object cdsConsultaNOME: TStringField
+      DisplayLabel = 'Nome'
+      FieldName = 'NOME'
+      Required = True
+      Size = 100
+    end
+    object cdsConsultaDESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      Size = 100
+    end
+    object cdsConsultaDATA: TDateField
+      DisplayLabel = 'Data'
+      FieldName = 'DATA'
+    end
+    object cdsConsultaUSUARIO: TIntegerField
+      FieldName = 'USUARIO'
+      Required = True
+    end
+    object cdsConsultaTIPO: TSmallintField
+      FieldName = 'TIPO'
+    end
+    object cdsConsultaLIVRO: TSmallintField
+      DisplayLabel = 'N'#186' do livro'
+      FieldName = 'LIVRO'
+    end
+    object cdsConsultaPROTOCOLO: TIntegerField
+      DisplayLabel = 'Protocolo'
+      FieldName = 'PROTOCOLO'
+    end
+  end
+  inherited dspConection: TDSProviderConnection
+    ServerClassName = 'TsmRegTitulosDocs'
+  end
+end

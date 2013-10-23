@@ -1,0 +1,91 @@
+unit uTProdutos;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, Mask, ComCtrls, FMTBcd, DBCtrls, uDM, CheckLst,
+  SqlExpr, DB;
+
+type
+  TFProduto = Class
+  private
+
+  public
+      function getValor(codigo : Integer): Double;
+      function getNome(codigo: Integer):string;
+      function getUnidade(codigo: Integer):string;
+      function getValidade(codigo: Integer):TDate;
+      procedure baixaEstoque(produto: Integer; quantidade: Double);
+  End;
+
+implementation
+
+{ TFServico }
+
+procedure TFProduto.baixaEstoque(produto: Integer; quantidade: Double);
+var
+  sql: TSQLDataSet;
+begin
+  sql := TSQLDataSet.Create(nil);
+  sql.SQLConnection := DM.SQLConnection;
+  sql.CommandText := 'UPDATE ESTOQUE_SB SET QUANTIDADE =:QUANTIDADE WHERE PRODUTO =:PRODUTO';
+  sql.Params[0].AsFloat := (-quantidade);
+  sql.Params[1].AsInteger := produto;
+  sql.ExecSQL;
+
+end;
+
+function TFProduto.getNome(codigo: Integer): string;
+var
+  sql: TSQLDataSet;
+begin
+  sql := TSQLDataSet.Create(nil);
+  sql.SQLConnection := DM.SQLConnection;
+  sql.CommandText := 'SELECT NOME FROM VPRODUTOS_SB WHERE CODIGO =:CODIGO';
+  sql.Params[0].AsInteger := codigo;
+  sql.Open;
+
+  Result := sql.FieldByName('NOME').AsString;
+end;
+
+function TFProduto.getUnidade(codigo: Integer): string;
+var
+  sql: TSQLDataSet;
+begin
+  sql := TSQLDataSet.Create(nil);
+  sql.SQLConnection := DM.SQLConnection;
+  sql.CommandText := 'SELECT UNIDADE FROM VPRODUTOS_SB WHERE CODIGO =:CODIGO';
+  sql.Params[0].AsInteger := codigo;
+  sql.Open;
+
+  Result := sql.FieldByName('UNIDADE').AsString;
+end;
+
+function TFProduto.getValidade(codigo: Integer): TDate;
+var
+  sql: TSQLDataSet;
+begin
+  sql := TSQLDataSet.Create(nil);
+  sql.SQLConnection := DM.SQLConnection;
+  sql.CommandText := 'SELECT VALIDADE FROM VPRODUTOS_SB WHERE CODIGO =:CODIGO';
+  sql.Params[0].AsInteger := codigo;
+  sql.Open;
+
+  Result := sql.FieldByName('VALIDADE').AsDateTime;
+end;
+
+function TFProduto.getValor(codigo: Integer): Double;
+var
+  sql: TSQLDataSet;
+begin
+  sql := TSQLDataSet.Create(nil);
+  sql.SQLConnection := DM.SQLConnection;
+  sql.CommandText := 'SELECT VALOR FROM VESTOQUE_SB WHERE CODIGO =:CODIGO';
+  sql.Params[0].AsInteger := codigo;
+  sql.Open;
+
+  Result := sql.FieldByName('VALOR').AsFloat;
+end;
+
+end.

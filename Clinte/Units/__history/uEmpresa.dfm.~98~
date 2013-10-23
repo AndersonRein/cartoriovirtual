@@ -1,0 +1,333 @@
+inherited FCadEmpresa: TFCadEmpresa
+  Caption = 'Cadastro da Empresa'
+  ClientHeight = 223
+  ClientWidth = 641
+  ExplicitWidth = 647
+  ExplicitHeight = 251
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited gpbCadastro: TGroupBox
+    Width = 641
+    Height = 181
+    ExplicitWidth = 641
+    ExplicitHeight = 181
+    object Label1: TLabel
+      Left = 8
+      Top = 17
+      Width = 27
+      Height = 13
+      Caption = 'Nome'
+      FocusControl = dbRazaoSocial
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label2: TLabel
+      Left = 323
+      Top = 17
+      Width = 40
+      Height = 13
+      Caption = 'Registro'
+      FocusControl = dbNomeFantazia
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label3: TLabel
+      Left = 8
+      Top = 58
+      Width = 61
+      Height = 13
+      Caption = 'Respons'#225'vel'
+      FocusControl = dbCNPJ
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label4: TLabel
+      Left = 323
+      Top = 58
+      Width = 60
+      Height = 13
+      Caption = 'Codigo FERJ'
+      FocusControl = dbCodFerj
+    end
+    object lbl1: TLabel
+      Left = 483
+      Top = 58
+      Width = 75
+      Height = 13
+      Caption = 'C'#243'digo nacional'
+      FocusControl = dbCodNacional
+    end
+    object Label5: TLabel
+      Left = 8
+      Top = 98
+      Width = 67
+      Height = 13
+      Caption = 'Sigla Embratel'
+      FocusControl = dbSiglaEmbratel
+    end
+    object Label6: TLabel
+      Left = 105
+      Top = 98
+      Width = 54
+      Height = 13
+      Caption = 'N'#186' Cartorio'
+      FocusControl = dbNumCartorio
+    end
+    object lblCPFCNPJ: TLabel
+      Left = 323
+      Top = 98
+      Width = 44
+      Height = 13
+      Caption = 'CPFCNPJ'
+      FocusControl = dbCPFCNPJ
+    end
+    object Label7: TLabel
+      Left = 483
+      Top = 98
+      Width = 42
+      Height = 13
+      Caption = 'Telefone'
+      FocusControl = dbTelefone
+    end
+    object Label8: TLabel
+      Left = 8
+      Top = 138
+      Width = 28
+      Height = 13
+      Caption = 'E-mail'
+      FocusControl = dbEmail
+    end
+    object Label9: TLabel
+      Left = 323
+      Top = 138
+      Width = 19
+      Height = 13
+      Caption = 'CEP'
+      FocusControl = dbCEP
+    end
+    object dbRazaoSocial: TDBEdit
+      Left = 8
+      Top = 33
+      Width = 310
+      Height = 21
+      CharCase = ecUpperCase
+      DataField = 'NOME'
+      DataSource = dsCadastro
+      TabOrder = 0
+    end
+    object dbNomeFantazia: TDBEdit
+      Left = 323
+      Top = 33
+      Width = 310
+      Height = 21
+      CharCase = ecUpperCase
+      DataField = 'REGISTRO'
+      DataSource = dsCadastro
+      TabOrder = 1
+    end
+    object dbCNPJ: TDBEdit
+      Left = 8
+      Top = 74
+      Width = 310
+      Height = 21
+      CharCase = ecUpperCase
+      DataField = 'RESPONSAVEL'
+      DataSource = dsCadastro
+      TabOrder = 2
+    end
+    object dbCodFerj: TDBEdit
+      Left = 323
+      Top = 74
+      Width = 150
+      Height = 21
+      DataField = 'CODFERF'
+      DataSource = dsCadastro
+      TabOrder = 3
+    end
+    object dbCodNacional: TDBEdit
+      Left = 483
+      Top = 74
+      Width = 150
+      Height = 21
+      DataField = 'CODNACIONAL'
+      DataSource = dsCadastro
+      TabOrder = 4
+    end
+    object dbSiglaEmbratel: TDBEdit
+      Left = 8
+      Top = 114
+      Width = 85
+      Height = 21
+      CharCase = ecUpperCase
+      DataField = 'SIGLAPRACAEMBRATEL'
+      DataSource = dsCadastro
+      TabOrder = 5
+    end
+    object dbNumCartorio: TDBEdit
+      Left = 105
+      Top = 114
+      Width = 85
+      Height = 21
+      CharCase = ecUpperCase
+      DataField = 'NUMCARTORIO'
+      DataSource = dsCadastro
+      TabOrder = 6
+    end
+    object dbPessoa: TDBRadioGroup
+      Left = 199
+      Top = 101
+      Width = 118
+      Height = 38
+      Caption = 'Pessoa'
+      Columns = 2
+      DataField = 'PESSOA'
+      DataSource = dsCadastro
+      Items.Strings = (
+        'Fis'#237'ca'
+        'Jur'#237'dica')
+      ParentBackground = True
+      TabOrder = 7
+      Values.Strings = (
+        '0'
+        '1')
+      OnClick = dbPessoaClick
+    end
+    object dbCPFCNPJ: TDBEdit
+      Left = 323
+      Top = 114
+      Width = 150
+      Height = 21
+      CharCase = ecUpperCase
+      DataField = 'CPFCNPJ'
+      DataSource = dsCadastro
+      TabOrder = 8
+    end
+    object dbTelefone: TDBEdit
+      Left = 483
+      Top = 114
+      Width = 150
+      Height = 21
+      CharCase = ecUpperCase
+      DataField = 'FONE'
+      DataSource = dsCadastro
+      TabOrder = 9
+    end
+    object dbEmail: TDBEdit
+      Left = 8
+      Top = 154
+      Width = 310
+      Height = 21
+      CharCase = ecLowerCase
+      DataField = 'EMAIL'
+      DataSource = dsCadastro
+      TabOrder = 10
+    end
+    object dbCEP: TDBEdit
+      Left = 323
+      Top = 154
+      Width = 310
+      Height = 21
+      DataField = 'CEP'
+      DataSource = dsCadastro
+      TabOrder = 11
+    end
+  end
+  inherited btSalvar: TBitBtn
+    Left = 218
+    Top = 185
+    ExplicitLeft = 218
+    ExplicitTop = 185
+  end
+  inherited btCancelar: TBitBtn
+    Left = 323
+    Top = 185
+    ExplicitLeft = 323
+    ExplicitTop = 185
+  end
+  inherited cdsCadastro: TClientDataSet
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'codigo'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspCadastro'
+    AfterEdit = cdsCadastroAfterEdit
+    Left = 144
+    Top = 8
+    object cdsCadastroCODIGO: TIntegerField
+      FieldName = 'CODIGO'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object cdsCadastroNOME: TStringField
+      FieldName = 'NOME'
+      Size = 100
+    end
+    object cdsCadastroRESPONSAVEL: TStringField
+      FieldName = 'RESPONSAVEL'
+      Size = 100
+    end
+    object cdsCadastroREGISTRO: TStringField
+      FieldName = 'REGISTRO'
+      Size = 50
+    end
+    object cdsCadastroCODFERF: TIntegerField
+      DisplayLabel = 'Codigo FERJ'
+      FieldName = 'CODFERF'
+    end
+    object cdsCadastroCODNACIONAL: TIntegerField
+      DisplayLabel = 'C'#243'digo nacional'
+      FieldName = 'CODNACIONAL'
+    end
+    object cdsCadastroSIGLAPRACAEMBRATEL: TStringField
+      DisplayLabel = 'Sigla Embratel'
+      FieldName = 'SIGLAPRACAEMBRATEL'
+    end
+    object cdsCadastroNUMCARTORIO: TIntegerField
+      DisplayLabel = 'N'#186' Cartorio'
+      FieldName = 'NUMCARTORIO'
+    end
+    object cdsCadastroPESSOA: TSmallintField
+      FieldName = 'PESSOA'
+    end
+    object cdsCadastroCPFCNPJ: TStringField
+      FieldName = 'CPFCNPJ'
+    end
+    object cdsCadastroFONE: TStringField
+      DisplayLabel = 'Telefone'
+      FieldName = 'FONE'
+      EditMask = '(99)0000-0000;1;_'
+    end
+    object cdsCadastroEMAIL: TStringField
+      DisplayLabel = 'E-mail'
+      FieldName = 'EMAIL'
+      Size = 100
+    end
+    object cdsCadastroCEP: TStringField
+      FieldName = 'CEP'
+      EditMask = '00000-999;1;_'
+    end
+  end
+  inherited dsCadastro: TDataSource
+    Left = 240
+    Top = 16
+  end
+  inherited dspConection: TDSProviderConnection
+    ServerClassName = 'TsmEmpresa'
+    Left = 200
+    Top = 40
+  end
+end

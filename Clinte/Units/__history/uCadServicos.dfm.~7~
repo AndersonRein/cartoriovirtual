@@ -1,0 +1,98 @@
+inherited FCadServicos: TFCadServicos
+  Caption = 'Cadastro de Servi'#231'os'
+  ClientWidth = 507
+  ExplicitWidth = 513
+  ExplicitHeight = 250
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited gpbCadastro: TGroupBox
+    Width = 507
+    object Label1: TLabel
+      Left = 8
+      Top = 15
+      Width = 27
+      Height = 13
+      Caption = 'Nome'
+      FocusControl = dbNome
+    end
+    object Label2: TLabel
+      Left = 424
+      Top = 15
+      Width = 24
+      Height = 13
+      Caption = 'Valor'
+      FocusControl = dbValor
+    end
+    object dbNome: TDBEdit
+      Left = 8
+      Top = 31
+      Width = 412
+      Height = 21
+      DataField = 'NOME'
+      DataSource = dsServicos
+      TabOrder = 0
+    end
+    object dbValor: TDBEdit
+      Left = 424
+      Top = 31
+      Width = 74
+      Height = 21
+      DataField = 'VALOR'
+      DataSource = dsServicos
+      TabOrder = 1
+    end
+  end
+  object sqsServicos: TSQLDataSet
+    SchemaName = 'sysdba'
+    CommandText = 'select * from SERVICOS_SB where codigo =:codigo'
+    DbxCommandType = 'Dbx.SQL'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'codigo'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.SQLConnection
+    Left = 384
+    Top = 24
+  end
+  object cdsServicos: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'codigo'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspServicos'
+    Left = 376
+    Top = 64
+    object cdsServicosCODIGO: TIntegerField
+      FieldName = 'CODIGO'
+      Required = True
+    end
+    object cdsServicosNOME: TStringField
+      DisplayLabel = 'Nome'
+      FieldName = 'NOME'
+      Size = 100
+    end
+    object cdsServicosVALOR: TFMTBCDField
+      DisplayLabel = 'Valor'
+      FieldName = 'VALOR'
+      currency = True
+      Precision = 15
+      Size = 2
+    end
+  end
+  object dspServicos: TDataSetProvider
+    DataSet = sqsServicos
+    Left = 360
+    Top = 24
+  end
+  object dsServicos: TDataSource
+    DataSet = cdsServicos
+    Left = 344
+    Top = 64
+  end
+end

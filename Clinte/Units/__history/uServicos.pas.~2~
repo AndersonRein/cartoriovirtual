@@ -1,0 +1,28 @@
+unit uServicos;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, uAcessoPadrao, FMTBcd, DB, SqlExpr, Provider, DBClient, StdCtrls,
+  Buttons, Grids, DBGrids;
+
+type
+  TFServiços = class(TFAcessoCadPadrao)
+    cdsCadastroCODIGO: TIntegerField;
+    cdsCadastroNOME: TStringField;
+    cdsCadastroVALOR: TFMTBCDField;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FServiços: TFServiços;
+
+implementation
+
+{$R *.dfm}
+
+end.

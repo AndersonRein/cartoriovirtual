@@ -1,0 +1,19 @@
+object smRegTitulosDocs: TsmRegTitulosDocs
+  OldCreateOrder = False
+  Height = 484
+  Width = 815
+  object sqsCadastro: TSQLDataSet
+    CommandText = 'select * from REGTITULOSDOCS where codigo =:codigo'
+    DbxCommandType = 'Dbx.SQL'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'codigo'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.SQLConnection
+    Left = 32
+    Top = 16
+  end
+end

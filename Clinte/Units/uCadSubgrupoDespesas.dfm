@@ -1,0 +1,100 @@
+inherited FCadSubgrupoDespesas: TFCadSubgrupoDespesas
+  Caption = 'Cadastro de subgrupo de despesas'
+  ClientHeight = 139
+  OnCreate = FormCreate
+  ExplicitWidth = 434
+  ExplicitHeight = 167
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited gpbCadastro: TGroupBox
+    Height = 99
+    ExplicitHeight = 99
+    object lbl1: TLabel
+      Left = 8
+      Top = 14
+      Width = 92
+      Height = 13
+      Caption = 'Grupo de despesas'
+      FocusControl = dbGrupoDespesas
+    end
+    object lbl2: TLabel
+      Left = 8
+      Top = 54
+      Width = 90
+      Height = 13
+      Caption = 'Nome do subgrupo'
+      FocusControl = dbNome
+    end
+    object dbGrupoDespesas: TDBEdit
+      Left = 8
+      Top = 30
+      Width = 50
+      Height = 21
+      Color = clSilver
+      DataField = 'GRUPODESPESAS'
+      DataSource = dsCadastro
+      ReadOnly = True
+      TabOrder = 0
+      OnClick = dbGrupoDespesasClick
+    end
+    object edGrupoDespesas: TEdit
+      Left = 58
+      Top = 30
+      Width = 357
+      Height = 21
+      TabStop = False
+      CharCase = ecUpperCase
+      ReadOnly = True
+      TabOrder = 1
+      OnClick = dbGrupoDespesasClick
+    end
+    object dbNome: TDBEdit
+      Left = 8
+      Top = 70
+      Width = 407
+      Height = 21
+      CharCase = ecUpperCase
+      DataField = 'NOME'
+      DataSource = dsCadastro
+      TabOrder = 2
+    end
+  end
+  inherited btSalvar: TBitBtn
+    Top = 103
+    ExplicitTop = 103
+  end
+  inherited btCancelar: TBitBtn
+    Left = 206
+    Top = 103
+    ExplicitLeft = 206
+    ExplicitTop = 103
+  end
+  inherited cdsCadastro: TClientDataSet
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'codigo'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspCadastro'
+    AfterEdit = cdsCadastroAfterEdit
+    object cdsCadastroCODIGO: TIntegerField
+      FieldName = 'CODIGO'
+      Required = True
+    end
+    object cdsCadastroGRUPODESPESAS: TIntegerField
+      DisplayLabel = 'Grupo de despesas'
+      FieldName = 'GRUPODESPESAS'
+      Required = True
+    end
+    object cdsCadastroNOME: TStringField
+      DisplayLabel = 'Nome do subgrupo'
+      FieldName = 'NOME'
+      Required = True
+      Size = 100
+    end
+  end
+  inherited dspConection: TDSProviderConnection
+    ServerClassName = 'TsmSubGrupoDespesas'
+  end
+end

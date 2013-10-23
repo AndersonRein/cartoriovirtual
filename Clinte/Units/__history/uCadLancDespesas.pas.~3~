@@ -1,0 +1,37 @@
+unit uCadLancDespesas;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uCadastroPadrao, Data.DB,
+  Datasnap.DBClient, Datasnap.DSConnect, Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask,
+  Vcl.DBCtrls;
+
+type
+  TFCadLancDespesas = class(TFCadastroPadrao)
+    cdsCadastroCODIGO: TIntegerField;
+    cdsCadastroSUBGRUPODESPSA: TIntegerField;
+    cdsCadastroVALOR: TFMTBCDField;
+    cdsCadastroDESCRICAO: TStringField;
+    cdsCadastroDATA: TDateField;
+    lbl1: TLabel;
+    dbNome: TDBEdit;
+    lbl2: TLabel;
+    dbData: TDBEdit;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FCadLancDespesas: TFCadLancDespesas;
+
+implementation
+
+{$R *.dfm}
+
+uses uDM;
+
+end.

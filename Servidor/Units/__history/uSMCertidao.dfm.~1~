@@ -1,0 +1,5 @@
+object smCertidao: TsmCertidao
+  OldCreateOrder = False
+  Height = 400
+  Width = 631
+end

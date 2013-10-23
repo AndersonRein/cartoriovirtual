@@ -1,0 +1,42 @@
+unit uRelNotasTransmitidas;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, uRelatorioPadrao, ComCtrls, StdCtrls, Buttons, frxClass, FMTBcd,
+  Provider, DBClient, DB, SqlExpr, frxDBSet;
+
+type
+  TFRelNotasTransmitidas = class(TFRelatorioPadrao)
+    sqsRelatorio: TSQLDataSet;
+    cdsRelatorio: TClientDataSet;
+    dspRelatorio: TDataSetProvider;
+    cdsRelatorioCLIENTE: TStringField;
+    cdsRelatorioNUM_NFE: TIntegerField;
+    cdsRelatorioDATAEMISSAO: TDateField;
+    cdsRelatorioTOTAL: TFloatField;
+    procedure FormCreate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FRelNotasTransmitidas: TFRelNotasTransmitidas;
+
+implementation
+
+uses uDM;
+
+{$R *.dfm}
+
+procedure TFRelNotasTransmitidas.FormCreate(Sender: TObject);
+begin
+  inherited;
+ dataInicio.Date := Date - 30;
+ data
+end;
+
+end.

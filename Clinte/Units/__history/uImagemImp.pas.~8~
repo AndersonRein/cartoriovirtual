@@ -1,0 +1,93 @@
+unit uImagemImp;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uPadraoVazio, Vcl.StdCtrls, Vcl.ExtCtrls,
+  Data.DB, Datasnap.DBClient;
+
+type
+  TFImagensImp = class(TFPadraoVazio)
+    GroupBox1: TGroupBox;
+    GroupBox2: TGroupBox;
+    GroupBox3: TGroupBox;
+    GroupBox4: TGroupBox;
+    Image1: TImage;
+    Image2: TImage;
+    Image3: TImage;
+    Image4: TImage;
+    cdsExibir: TClientDataSet;
+    cdsExibirIMAGEM1: TBlobField;
+    cdsExibirIMAGEM2: TBlobField;
+    cdsExibirIMAGEM3: TBlobField;
+    cdsExibirIMAGEM4: TBlobField;
+    procedure FormShow(Sender: TObject);
+  private
+    { Private declarations }
+    img1, img2, img3, img4: Integer;
+    procedure exibirImagem1();
+    procedure exibirImagem2();
+    procedure exibirImagem3();
+    procedure exibirImagem4();
+  public
+    { Public declarations }
+    procedure new(cdsImgens: TClientDataSet);
+  end;
+
+var
+  FImagensImp: TFImagensImp;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFImagensImp.exibirImagem1;
+begin
+  if cdsExibirIMAGEM1.IsNull then
+    Exit;
+  cdsExibirIMAGEM1.SaveToFile('.\temp\imagem4.jpg');
+  Image1.Picture.LoadFromFile(ExtractFileDir(Application.ExeName)+'\temp\imagem1.jpg');
+end;
+
+procedure TFImagensImp.exibirImagem2;
+begin
+  if cdsExibirIMAGEM2.IsNull then
+    Exit;
+cdsExibirIMAGEM2.SaveToFile('.\temp\imagem2.jpg');
+Image2.Picture.LoadFromFile(ExtractFileDir(Application.ExeName)+'\temp\imagem2.jpg');
+end;
+
+procedure TFImagensImp.exibirImagem3;
+begin
+  if cdsExibirIMAGEM3.IsNull then
+    Exit;
+cdsExibirIMAGEM3.SaveToFile('.\temp\imagem3.jpg');
+Image3.Picture.LoadFromFile(ExtractFileDir(Application.ExeName)+'\temp\imagem3.jpg');
+end;
+
+procedure TFImagensImp.exibirImagem4;
+begin
+  if cdsExibirIMAGEM4.IsNull then
+    Exit;
+cdsExibirIMAGEM4.SaveToFile('.\temp\imagem4.jpg');
+Image4.Picture.LoadFromFile(ExtractFileDir(Application.ExeName)+'\temp\imagem4.jpg');
+end;
+
+procedure TFImagensImp.FormShow(Sender: TObject);
+begin
+  inherited;
+ exibirImagem1;
+ exibirImagem2;
+ exibirImagem3;
+ exibirImagem4;
+end;
+
+procedure TFImagensImp.new(cdsImgens: TClientDataSet);
+begin
+cdsExibir := cdsImgens;
+
+Self.ShowModal;
+end;
+
+end.

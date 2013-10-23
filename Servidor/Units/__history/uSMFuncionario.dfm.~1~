@@ -1,0 +1,5 @@
+object smFuncionario: TsmFuncionario
+  OldCreateOrder = False
+  Height = 532
+  Width = 634
+end

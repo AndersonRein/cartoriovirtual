@@ -1,0 +1,70 @@
+unit uDespesas;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uPadraoVazio, Vcl.StdCtrls, Vcl.Buttons,
+  Vcl.ComCtrls, Vcl.Grids, Vcl.DBGrids, Data.DB, Datasnap.DBClient,
+  Datasnap.DSConnect;
+
+type
+  TFDespeas = class(TFPadraoVazio)
+    GroupBox1: TGroupBox;
+    GroupBox2: TGroupBox;
+    GroupBox3: TGroupBox;
+    edBusca: TEdit;
+    Label1: TLabel;
+    GroupBox4: TGroupBox;
+    dtpInicio: TDateTimePicker;
+    dtpFinal: TDateTimePicker;
+    btnBuscar: TSpeedButton;
+    DBGrid1: TDBGrid;
+    dspConection: TDSProviderConnection;
+    cdsConsulta: TClientDataSet;
+    dsConsulta: TDataSource;
+    cdsConsultaCODIGO: TIntegerField;
+    cdsConsultaDATA: TDateField;
+    cdsConsultaDESCRICAO: TStringField;
+    cdsConsultaCODSUBGRUPODESPSA: TIntegerField;
+    cdsConsultaSUBGRUPODESPSA: TStringField;
+    cdsConsultaVALOR: TFMTBCDField;
+    cdsConsultaCODGRUPODESPESA: TIntegerField;
+    cdsConsultaGRUPODESPESA: TStringField;
+    cdsConsultaCARNELEAO: TIntegerField;
+    procedure FormCreate(Sender: TObject);
+  private
+    { Private declarations }
+    procedure mostraDados();
+  public
+    { Public declarations }
+  end;
+
+var
+  FDespeas: TFDespeas;
+
+implementation
+
+{$R *.dfm}
+
+uses uDM;
+
+{ TFDespeas }
+
+procedure TFDespeas.FormCreate(Sender: TObject);
+begin
+  inherited;
+ dtpInicio.Date := Date - 3;
+ dtpFinal.Date := Date;
+end;
+
+procedure TFDespeas.mostraDados;
+begin
+cdsConsulta.Close;
+cdsConsulta.Params[0].AsDate := dtpInicio.Date;
+cdsConsulta.Params[1].AsDate := dtpFinal.Date;
+cdsConsulta.Params[2].AsString := edBusca.Text + '%';
+cdsConsulta.Open;
+end;
+
+end.

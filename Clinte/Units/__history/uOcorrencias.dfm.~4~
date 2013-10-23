@@ -1,0 +1,44 @@
+inherited FOcorrencias: TFOcorrencias
+  Caption = 'Ocorr'#234'ncias'
+  ExplicitWidth = 742
+  ExplicitHeight = 504
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited dbgCadastros: TDBGrid
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'CODIGO'
+        Width = 100
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'NOME'
+        Visible = True
+      end>
+  end
+  inherited cdsConsulta: TClientDataSet
+    Params = <
+      item
+        DataType = ftString
+        Name = 'nome'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspConsulta'
+    RemoteServer = dspConection
+    object cdsConsultaCODIGO: TIntegerField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'CODIGO'
+      Required = True
+    end
+    object cdsConsultaNOME: TStringField
+      DisplayLabel = 'Nome'
+      FieldName = 'NOME'
+      Size = 100
+    end
+  end
+  inherited dspConection: TDSProviderConnection
+    ServerClassName = 'TsmOcorrencias'
+  end
+end

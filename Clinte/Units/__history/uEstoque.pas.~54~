@@ -1,0 +1,185 @@
+unit uEstoque;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, uPadraoVazio, StdCtrls, FMTBcd, DB, SqlExpr, Provider, DBClient,
+  Grids, DBGrids, Mask, DBCtrls, Buttons, uPadrao;
+
+type
+  TFEstoque = class(TFPadraoVazio)
+    GroupBox1: TGroupBox;
+    edBusca: TEdit;
+    DBGrid1: TDBGrid;
+    cdsBusca: TClientDataSet;
+    dspBusca: TDataSetProvider;
+    dsBusca: TDataSource;
+    sqsBusca: TSQLDataSet;
+    cdsBuscaCODIGO: TIntegerField;
+    cdsBuscaPRODUTO: TStringField;
+    cdsBuscaMARCA: TStringField;
+    cdsBuscaUNIDADE: TStringField;
+    cdsBuscaQUANTIDADE: TFMTBCDField;
+    cdsBuscaVALOR: TFMTBCDField;
+    GroupBox2: TGroupBox;
+    dsEstoque: TDataSource;
+    cdsEstoque: TClientDataSet;
+    dspEstoque: TDataSetProvider;
+    sqsEstoque: TSQLDataSet;
+    cdsEstoqueCODIGO: TIntegerField;
+    cdsEstoquePRODUTO: TIntegerField;
+    cdsEstoquePCOMPRA: TFMTBCDField;
+    cdsEstoqueLUCRO: TFMTBCDField;
+    cdsEstoqueVALOR: TFMTBCDField;
+    cdsEstoqueQUANTIDADE: TFMTBCDField;
+    GroupBox3: TGroupBox;
+    dbPCompra: TDBEdit;
+    GroupBox4: TGroupBox;
+    dbLucro: TDBEdit;
+    GroupBox5: TGroupBox;
+    dbValor: TDBEdit;
+    GroupBox6: TGroupBox;
+    edQuantidade: TEdit;
+    cdsBuscaCODESTOQUE: TIntegerField;
+    SpeedButton1: TSpeedButton;
+    procedure edBuscaKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FormShow(Sender: TObject);
+    procedure edQuantidadeExit(Sender: TObject);
+    procedure dbPCompraKeyPress(Sender: TObject; var Key: Char);
+    procedure DBGrid1CellClick(Column: TColumn);
+    procedure cdsBuscaAfterScroll(DataSet: TDataSet);
+    procedure cdsEstoqueNewRecord(DataSet: TDataSet);
+    procedure DBGrid1KeyPress(Sender: TObject; var Key: Char);
+    procedure dbValorEnter(Sender: TObject);
+    procedure dbLucroKeyPress(Sender: TObject; var Key: Char);
+    procedure dbLucroKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+  private
+    { Private declarations }
+    padrao: TFPadrao;
+    procedure salvar;
+    procedure atualizarGrid;
+    procedure selectStoque(codigo: Integer);
+  public
+    { Public declarations }
+  end;
+
+var
+  FEstoque: TFEstoque;
+
+implementation
+
+uses uDM;
+{$R *.dfm}
+{ TFEstoque }
+
+procedure TFEstoque.atualizarGrid;
+begin
+  cdsBusca.Close;
+  cdsBusca.Params[0].AsString := '%' + edBusca.Text + '%';
+  cdsBusca.Open;
+end;
+
+procedure TFEstoque.cdsBuscaAfterScroll(DataSet: TDataSet);
+begin
+  inherited;
+  selectStoque(cdsBuscaCODESTOQUE.AsInteger);
+end;
+
+procedure TFEstoque.cdsEstoqueNewRecord(DataSet: TDataSet);
+begin
+  inherited;
+  cdsEstoqueCODIGO.AsInteger := 0;
+end;
+
+procedure TFEstoque.DBGrid1CellClick(Column: TColumn);
+begin
+  inherited;
+  selectStoque(cdsBuscaCODESTOQUE.AsInteger);
+end;
+
+procedure TFEstoque.DBGrid1KeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+  if Key = #13 then
+    dbPCompra.SetFocus;
+end;
+
+procedure TFEstoque.dbLucroKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+  if Key = #13 then
+    salvar;
+end;
+
+procedure TFEstoque.dbLucroKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  if dbLucro.Text <> '' then
+  cdsEstoqueVALOR.AsFloat := (cdsEstoquePCOMPRA.AsFloat * StrToFloat(dbLucro.Text)) / 100;
+end;
+
+procedure TFEstoque.dbPCompraKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+  if Key = #13 then
+    salvar;
+end;
+
+procedure TFEstoque.dbValorEnter(Sender: TObject);
+begin
+  inherited;
+  if StrToFloat(dbLucro.Text) <> 0 then
+    cdsEstoqueVALOR.AsFloat := cdsEstoquePCOMPRA.AsFloat +
+      ((cdsEstoquePCOMPRA.AsFloat * cdsEstoqueLUCRO.AsFloat) / 100);
+end;
+
+procedure TFEstoque.edBuscaKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  atualizarGrid;
+end;
+
+procedure TFEstoque.edQuantidadeExit(Sender: TObject);
+begin
+  inherited;
+  if edQuantidade.Text = '' then
+    edQuantidade.Text := '0,00';
+end;
+
+procedure TFEstoque.FormShow(Sender: TObject);
+begin
+  inherited;
+  atualizarGrid;
+end;
+
+procedure TFEstoque.salvar;
+begin
+  cdsEstoqueQUANTIDADE.AsFloat := cdsEstoqueQUANTIDADE.AsFloat + StrToFloat
+    (edQuantidade.Text);
+  cdsEstoquePRODUTO.AsInteger := cdsBuscaCODIGO.AsInteger;
+  cdsEstoque.Post;
+  cdsEstoque.ApplyUpdates(-1);
+  ShowMessage(padrao.SUCESSO);
+  edQuantidade.Text := '0,00';
+  atualizarGrid;
+end;
+
+procedure TFEstoque.selectStoque(codigo: Integer);
+begin
+  cdsEstoque.Close;
+  cdsEstoque.Params[0].AsInteger := codigo;
+  cdsEstoque.Open;
+  if codigo = 0 then
+  begin
+    cdsEstoque.Insert;
+    cdsEstoquePCOMPRA.AsFloat := 0;
+    cdsEstoqueLUCRO.AsFloat := 0;
+  end
+  else
+    cdsEstoque.Edit;
+end;
+
+end.

@@ -1,0 +1,62 @@
+unit uCadMotivosProtesto;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uCadastroPadrao, Data.DB,
+  Datasnap.DBClient, Datasnap.DSConnect, Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask,
+  Vcl.DBCtrls, Vcl.ExtCtrls;
+
+type
+  TFCadMotivosProtesto = class(TFCadastroPadrao)
+    cdsCadastroCODIGO: TIntegerField;
+    cdsCadastroSIGLA: TStringField;
+    cdsCadastroNOME: TStringField;
+    cdsCadastroSTATUS: TSmallintField;
+    Label1: TLabel;
+    dbSigla: TDBEdit;
+    Label2: TLabel;
+    dbNome: TDBEdit;
+    Label3: TLabel;
+    dbDescricao: TDBMemo;
+    cdsCadastroPROTESTAVEL: TSmallintField;
+    dbProtestavel: TDBRadioGroup;
+    cdsCadastroDESCRICAO: TStringField;
+    procedure btSalvarClick(Sender: TObject);
+    procedure cdsCadastroNewRecord(DataSet: TDataSet);
+    procedure dbDescricaoKeyPress(Sender: TObject; var Key: Char);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FCadMotivosProtesto: TFCadMotivosProtesto;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFCadMotivosProtesto.btSalvarClick(Sender: TObject);
+begin
+  inherited;
+ dbSigla.SetFocus;
+end;
+
+procedure TFCadMotivosProtesto.cdsCadastroNewRecord(DataSet: TDataSet);
+begin
+  inherited;
+ cdsCadastroPROTESTAVEL.AsInteger := 0;
+end;
+
+procedure TFCadMotivosProtesto.dbDescricaoKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  inherited;
+if not dbDescricao.Text = '' then
+  dbDescricao.SetFocus;
+end;
+
+end.

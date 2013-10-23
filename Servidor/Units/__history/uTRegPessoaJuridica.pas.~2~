@@ -1,0 +1,34 @@
+unit uTRegPessoaJuridica;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, Mask, ComCtrls, FMTBcd, DBCtrls, uDM, CheckLst,
+  SqlExpr, DB, DBGrids;
+
+type
+  TRegPessoaJuridica = class
+
+  private
+
+  public
+    procedure setSequencia(seq:Integer);
+  end;
+
+implementation
+
+{ TRegPessoaJuridica }
+
+procedure TRegPessoaJuridica.setSequencia();
+var
+  sql: TSQLDataSet;
+begin
+    sql := TSQLDataSet.Create(nil);
+    sql.SQLConnection := DM.SQLConnection;
+    sql.CommandText := 'DELETE FROM REGISTROCIVIL WHERE CODIGO =:CODIGO';
+    sql.Params[0].AsInteger := codigo;
+    sql.ExecSQL;
+end;
+
+end.

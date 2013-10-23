@@ -1,0 +1,70 @@
+inherited FEmolumentos: TFEmolumentos
+  Caption = 'Emolumentos'
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited cdsConsulta: TClientDataSet
+    Params = <
+      item
+        DataType = ftString
+        Name = 'NOME'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'NOME'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspConsulta'
+    RemoteServer = dspConection
+    object cdsConsultaCODIGO: TIntegerField
+      FieldName = 'CODIGO'
+    end
+    object cdsConsultaGRUPOLEI: TSmallintField
+      FieldName = 'GRUPOLEI'
+    end
+    object cdsConsultaTIPOATO: TStringField
+      FieldName = 'TIPOATO'
+      Size = 1000
+    end
+    object cdsConsultaLEI: TStringField
+      FieldName = 'LEI'
+      Size = 100
+    end
+    object cdsConsultaATOGERAL: TStringField
+      FieldName = 'ATOGERAL'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsConsultaATOFIXO: TStringField
+      FieldName = 'ATOFIXO'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsConsultaTIPOSELO: TIntegerField
+      FieldName = 'TIPOSELO'
+    end
+    object cdsConsultaVALOR: TFMTBCDField
+      FieldName = 'VALOR'
+      Precision = 18
+      Size = 2
+    end
+    object cdsConsultaEDITAVEL: TStringField
+      FieldName = 'EDITAVEL'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsConsultaATIVO: TStringField
+      FieldName = 'ATIVO'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsConsultaVLRTRANSACAO: TFMTBCDField
+      FieldName = 'VLRTRANSACAO'
+      Precision = 18
+      Size = 2
+    end
+  end
+  inherited dspConection: TDSProviderConnection
+    ServerClassName = 'TsmEmolumentos'
+  end
+end

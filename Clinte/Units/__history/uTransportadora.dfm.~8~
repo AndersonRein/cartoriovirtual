@@ -1,0 +1,111 @@
+inherited FTransportadora: TFTransportadora
+  Caption = 'Transportadora'
+  ExplicitWidth = 742
+  ExplicitHeight = 503
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited dbgCadastros: TDBGrid
+    DataSource = dsCadastro
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'CODIGO'
+        Width = 80
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'RAZAOSOCIAL'
+        Visible = True
+      end>
+  end
+  inherited gpbCadastro: TGroupBox
+    inherited btbExcluir: TBitBtn
+      OnClick = btbExcluirClick
+    end
+  end
+  inherited dsCadastro: TDataSource
+    DataSet = cdsCadastro
+  end
+  inherited cdsCadastro: TClientDataSet
+    Params = <
+      item
+        DataType = ftString
+        Name = 'NOME'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspCadastro'
+    object cdsCadastroCODIGO: TIntegerField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'CODIGO'
+    end
+    object cdsCadastroRAZAOSOCIAL: TStringField
+      DisplayLabel = 'Raz'#227'o Social'
+      FieldName = 'RAZAOSOCIAL'
+      Size = 100
+    end
+  end
+  inherited dspCadastro: TDataSetProvider
+    DataSet = sqsCadastro
+  end
+  inherited sqsCadastro: TSQLDataSet
+    SchemaName = 'sysdba'
+    CommandText = 
+      'select CODIGO, RAZAOSOCIAL from VTRANSPORTADORA WHERE RAZAOSOCIA' +
+      'L LIKE :NOME'
+    Params = <
+      item
+        DataType = ftString
+        Name = 'NOME'
+        ParamType = ptInput
+      end>
+  end
+  inherited sqsExcluir: TSQLDataSet
+    SchemaName = 'sysdba'
+    CommandText = 'select * from TRANSPORTADORA where codigo =:codigo'
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'codigo'
+        ParamType = ptInput
+      end>
+  end
+  inherited cdsExcluir: TClientDataSet
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'codigo'
+        ParamType = ptInput
+      end>
+    object cdsExcluirCODIGO: TIntegerField
+      FieldName = 'CODIGO'
+      Required = True
+    end
+    object cdsExcluirRAZAOSOCIAL: TStringField
+      FieldName = 'RAZAOSOCIAL'
+      Size = 100
+    end
+    object cdsExcluirCNPJ: TStringField
+      FieldName = 'CNPJ'
+    end
+    object cdsExcluirISCEST: TStringField
+      FieldName = 'ISCEST'
+    end
+    object cdsExcluirENDERECO: TStringField
+      FieldName = 'ENDERECO'
+      Size = 100
+    end
+    object cdsExcluirCIDADE: TIntegerField
+      FieldName = 'CIDADE'
+    end
+    object cdsExcluirTELEFONE: TStringField
+      FieldName = 'TELEFONE'
+    end
+    object cdsExcluirANTT: TStringField
+      FieldName = 'ANTT'
+    end
+    object cdsExcluirPLACA: TStringField
+      FieldName = 'PLACA'
+    end
+  end
+end

@@ -1,0 +1,30 @@
+unit uCadUsuarios;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uCadastroPadrao, Data.DB,
+  Datasnap.DBClient, Datasnap.DSConnect, Vcl.StdCtrls, Vcl.Buttons;
+
+type
+  TFCadUsuarios = class(TFCadastroPadrao)
+    cdsCadastroCODIGO: TIntegerField;
+    cdsCadastroFUNCIONARIO: TIntegerField;
+    cdsCadastroUSUARIO: TStringField;
+    cdsCadastroSENHA: TStringField;
+    cdsCadastroSTATUS: TSmallintField;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FCadUsuarios: TFCadUsuarios;
+
+implementation
+
+{$R *.dfm}
+
+end.

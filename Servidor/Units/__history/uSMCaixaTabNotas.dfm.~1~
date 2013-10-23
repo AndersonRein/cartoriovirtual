@@ -1,0 +1,5 @@
+object smCaixaTabNotas: TsmCaixaTabNotas
+  OldCreateOrder = False
+  Height = 517
+  Width = 812
+end

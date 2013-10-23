@@ -1,0 +1,30 @@
+unit uSMFuncionario;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, Datasnap.DSServer, Datasnap.DSAuth,
+  Data.FMTBcd, Datasnap.Provider, Data.DB, Data.SqlExpr;
+
+type
+  TsmFuncionario = class(TDSServerModule)
+    sqsCadastro: TSQLDataSet;
+    dspCadastro: TDataSetProvider;
+    dspConsulta: TDataSetProvider;
+    sqsConsulta: TSQLDataSet;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+implementation
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+uses uDM;
+
+{$R *.dfm}
+
+end.
+

@@ -1,0 +1,89 @@
+inherited FCadFormasPagamento: TFCadFormasPagamento
+  Caption = 'Formas de pagamento'
+  ClientHeight = 147
+  ExplicitWidth = 434
+  ExplicitHeight = 175
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited gpbCadastro: TGroupBox
+    Height = 104
+    ExplicitHeight = 104
+    object lbl1: TLabel
+      Left = 8
+      Top = 15
+      Width = 27
+      Height = 13
+      Caption = 'Nome'
+      FocusControl = dbNome
+    end
+    object dbNome: TDBEdit
+      Left = 8
+      Top = 31
+      Width = 413
+      Height = 21
+      CharCase = ecUpperCase
+      DataField = 'NOME'
+      DataSource = dsCadastro
+      TabOrder = 0
+    end
+    object dbTipo: TDBRadioGroup
+      Left = 8
+      Top = 57
+      Width = 413
+      Height = 40
+      Caption = 'Tipo'
+      Columns = 3
+      Items.Strings = (
+        'Cr'#233'dito'
+        'D'#233'bito'
+        'Neutra')
+      ParentBackground = True
+      TabOrder = 1
+    end
+  end
+  inherited btSalvar: TBitBtn
+    Left = 107
+    Top = 111
+    ExplicitLeft = 107
+    ExplicitTop = 111
+  end
+  inherited btCancelar: TBitBtn
+    Left = 208
+    Top = 111
+    ExplicitLeft = 208
+    ExplicitTop = 111
+  end
+  inherited cdsCadastro: TClientDataSet
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'codigo'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspCadastro'
+    Left = 128
+    Top = 16
+    object cdsCadastroCODIGO: TIntegerField
+      FieldName = 'CODIGO'
+      Required = True
+    end
+    object cdsCadastroNOME: TStringField
+      DisplayLabel = 'Nome'
+      FieldName = 'NOME'
+      Required = True
+      Size = 100
+    end
+    object cdsCadastroTIPO: TSmallintField
+      FieldName = 'TIPO'
+    end
+  end
+  inherited dsCadastro: TDataSource
+    Left = 200
+    Top = 16
+  end
+  inherited dspConection: TDSProviderConnection
+    ServerClassName = 'TsmFormaPagamento'
+    Left = 168
+    Top = 16
+  end
+end

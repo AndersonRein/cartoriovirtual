@@ -1,0 +1,11 @@
+object smFormaPagamento: TsmFormaPagamento
+  OldCreateOrder = False
+  Height = 381
+  Width = 722
+  object sqsCadastro: TSQLDataSet
+    DbxCommandType = 'Dbx.SQL'
+    Params = <>
+    Left = 24
+    Top = 16
+  end
+end

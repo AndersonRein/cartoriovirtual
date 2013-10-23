@@ -1,0 +1,5 @@
+object smTitulos: TsmTitulos
+  OldCreateOrder = False
+  Height = 450
+  Width = 685
+end

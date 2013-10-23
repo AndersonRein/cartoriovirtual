@@ -1,0 +1,329 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{20C7E503-6F35-46CE-86D7-CEA63FB90E96}</ProjectGuid>
+			<ProjectVersion>13.4</ProjectVersion>
+			<FrameworkType>VCL</FrameworkType>
+			<MainSource>CVServidor.dpr</MainSource>
+			<Base>True</Base>
+			<Config Condition="'$(Config)'==''">Debug</Config>
+			<Platform Condition="'$(Platform)'==''">Win32</Platform>
+			<TargetedPlatforms>1</TargetedPlatforms>
+			<AppType>Application</AppType>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Base)'=='true') or '$(Base_Win64)'!=''">
+			<Base_Win64>true</Base_Win64>
+			<CfgParent>Base</CfgParent>
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Base)'=='true') or '$(Base_Win32)'!=''">
+			<Base_Win32>true</Base_Win32>
+			<CfgParent>Base</CfgParent>
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Config)'=='Debug' or '$(Cfg_1)'!=''">
+			<Cfg_1>true</Cfg_1>
+			<CfgParent>Base</CfgParent>
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_1)'=='true') or '$(Cfg_1_Win32)'!=''">
+			<Cfg_1_Win32>true</Cfg_1_Win32>
+			<CfgParent>Cfg_1</CfgParent>
+			<Cfg_1>true</Cfg_1>
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_2)'!=''">
+			<Cfg_2>true</Cfg_2>
+			<CfgParent>Base</CfgParent>
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Base)'!=''">
+			<DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
+			<Icon_MainIcon>$(BDS)\bin\delphi_PROJECTICON.ico</Icon_MainIcon>
+			<DCC_UsePackage>bindcompfmx;fmx;rtl;dbrtl;IndySystem;DbxClientDriver;bindcomp;inetdb;DBXInterBaseDriver;DataSnapCommon;DataSnapClient;DataSnapServer;DataSnapProviderClient;xmlrtl;DbxCommonDriver;IndyProtocols;DBXMySQLDriver;dbxcds;soaprtl;bindengine;DBXOracleDriver;dsnap;DBXInformixDriver;IndyCore;fmxase;DBXFirebirdDriver;inet;fmxobj;inetdbxpress;DBXSybaseASADriver;fmxdae;dbexpress;DataSnapIndy10ServerTransport;IPIndyImpl;$(DCC_UsePackage)</DCC_UsePackage>
+			<DCC_DcuOutput>.\$(Platform)\$(Config)</DCC_DcuOutput>
+			<DCC_ExeOutput>.\$(Platform)\$(Config)</DCC_ExeOutput>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Base_Win64)'!=''">
+			<DCC_UsePackage>DBXOdbcDriver;DBXSybaseASEDriver;vclimg;vclactnband;vcldb;bindcompvcl;vcldsnap;vclie;vcltouch;DBXDb2Driver;websnap;vclribbon;VclSmp;vcl;DBXMSSQLDriver;dsnapcon;vclx;webdsnap;$(DCC_UsePackage)</DCC_UsePackage>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Base_Win32)'!=''">
+			<DCC_UsePackage>ACBr_Convenio115;ACBrOpenSSL;ACBrDiversos;vcldbx;frx15;ACBrCapicom;ACBr_BoletoFC_FR;TWebCam;TeeDB;ACBrSerial;ACBrTCP;Rave100VCL;vclib;Tee;inetdbbde;DBXOdbcDriver;Scanner;ACBr_CTe;svnui;ibxpress;DBXSybaseASEDriver;vclimg;fs15;intrawebdb_120_160;fmi;vclactnband;FMXTee;vcldb;TeeUI;bindcompvcl;vcldsnap;ACBrComum;synapse;vclie;vcltouch;Intraweb_120_160;DBXDb2Driver;websnap;ACBr_TEFD;vclribbon;VclSmp;ACBr_MDFe;frxe15;vcl;DataSnapConnectors;ACBr_SPED;CloudService;DBXMSSQLDriver;CodeSiteExpressPkg;FmxTeeUI;dsnapcon;ACBr_Boleto;PCN2;ACBr_NFe2;vclx;webdsnap;svn;ACBr_LFD;bdertl;frxDB15;adortl;$(DCC_UsePackage)</DCC_UsePackage>
+			<VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+			<DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
+			<VerInfo_Locale>1033</VerInfo_Locale>
+			<Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+			<VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Cfg_1)'!=''">
+			<DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
+			<DCC_Optimize>false</DCC_Optimize>
+			<DCC_GenerateStackFrames>true</DCC_GenerateStackFrames>
+			<DCC_DebugInfoInExe>true</DCC_DebugInfoInExe>
+			<DCC_RemoteDebug>true</DCC_RemoteDebug>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+			<VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+			<Icon_MainIcon>CVServidor_Icon1.ico</Icon_MainIcon>
+			<VerInfo_Locale>1033</VerInfo_Locale>
+			<DCC_RemoteDebug>false</DCC_RemoteDebug>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Cfg_2)'!=''">
+			<DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
+			<DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
+			<DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+			<DCC_DebugInformation>false</DCC_DebugInformation>
+		</PropertyGroup>
+		<ItemGroup>
+			<DelphiCompile Include="$(MainSource)">
+				<MainSource>MainSource</MainSource>
+			</DelphiCompile>
+			<DCCReference Include="Units\uPrincipal.pas">
+				<Form>FPrincipal</Form>
+				<FormType>dfm</FormType>
+			</DCCReference>
+			<DCCReference Include="Units\uServerMethods.pas">
+				<Form>ServerMethods</Form>
+				<FormType>dfm</FormType>
+				<DesignClass>TDataModule</DesignClass>
+			</DCCReference>
+			<DCCReference Include="Units\uServerContainer.pas">
+				<Form>ServerContainer</Form>
+				<FormType>dfm</FormType>
+				<DesignClass>TDataModule</DesignClass>
+			</DCCReference>
+			<DCCReference Include="Units\uDM.pas">
+				<Form>DM</Form>
+				<DesignClass>TDataModule</DesignClass>
+			</DCCReference>
+			<DCCReference Include="Units\uSMFuncionario.pas">
+				<Form>smFuncionario</Form>
+				<DesignClass>TDSServerModule</DesignClass>
+			</DCCReference>
+			<DCCReference Include="Units\uSMUsuario.pas">
+				<Form>smUsuario</Form>
+				<FormType>dfm</FormType>
+				<DesignClass>TDSServerModule</DesignClass>
+			</DCCReference>
+			<DCCReference Include="Units\uSMBusca.pas">
+				<Form>smBusca</Form>
+				<DesignClass>TDSServerModule</DesignClass>
+			</DCCReference>
+			<DCCReference Include="Units\uTUsuario.pas"/>
+			<DCCReference Include="Units\uTFuncionario.pas"/>
+			<DCCReference Include="Units\uTCidade.pas"/>
+			<DCCReference Include="Units\uSMAutografos.pas">
+				<Form>smAutografos</Form>
+				<FormType>dfm</FormType>
+				<DesignClass>TDSServerModule</DesignClass>
+			</DCCReference>
+			<DCCReference Include="Units\uTAutografos.pas"/>
+			<DCCReference Include="Units\uSMEmpresa.pas">
+				<Form>smEmpresa</Form>
+				<FormType>dfm</FormType>
+				<DesignClass>TDSServerModule</DesignClass>
+			</DCCReference>
+			<DCCReference Include="Units\uTEmpresa.pas"/>
+			<DCCReference Include="Units\uSMProtesto.pas">
+				<Form>smProtesto</Form>
+				<FormType>dfm</FormType>
+				<DesignClass>TDSServerModule</DesignClass>
+			</DCCReference>
+			<DCCReference Include="Units\uSMTitulos.pas">
+				<Form>smTitulos</Form>
+				<FormType>dfm</FormType>
+				<DesignClass>TDSServerModule</DesignClass>
+			</DCCReference>
+			<DCCReference Include="Units\uTTitulos.pas"/>
+			<DCCReference Include="Units\uTProtesto.pas"/>
+			<DCCReference Include="Units\uTTransacoes.pas"/>
+			<DCCReference Include="Units\uSMTrasacoes.pas">
+				<Form>smTrasacoes</Form>
+				<DesignClass>TDSServerModule</DesignClass>
+			</DCCReference>
+			<DCCReference Include="Units\uTProtocolo.pas"/>
+			<DCCReference Include="Units\uSMProtocolo.pas">
+				<Form>smProtocolo</Form>
+				<DesignClass>TDSServerModule</DesignClass>
+			</DCCReference>
+			<DCCReference Include="Units\uSMIntimacao.pas">
+				<Form>smIntimacao</Form>
+				<DesignClass>TDSServerModule</DesignClass>
+			</DCCReference>
+			<DCCReference Include="Units\uTIntimacao.pas"/>
+			<DCCReference Include="Units\uSMCertidao.pas">
+				<Form>smCertidao</Form>
+				<FormType>dfm</FormType>
+				<DesignClass>TDSServerModule</DesignClass>
+			</DCCReference>
+			<DCCReference Include="Units\uSMRegistroCivil.pas">
+				<Form>smRegistroCivil</Form>
+				<FormType>dfm</FormType>
+				<DesignClass>TDSServerModule</DesignClass>
+			</DCCReference>
+			<DCCReference Include="Units\uTRegistroCivil.pas"/>
+			<DCCReference Include="Units\uSMMotivoProtesto.pas">
+				<Form>smMotivoProtesto</Form>
+				<FormType>dfm</FormType>
+				<DesignClass>TDSServerModule</DesignClass>
+			</DCCReference>
+			<DCCReference Include="Units\uTMotivoProtesto.pas"/>
+			<DCCReference Include="Units\uOcorrencias.pas">
+				<Form>smOcorrencias</Form>
+				<FormType>dfm</FormType>
+				<DesignClass>TDSServerModule</DesignClass>
+			</DCCReference>
+			<DCCReference Include="Units\uTOcorrencia.pas"/>
+			<DCCReference Include="Units\uTSThread.pas"/>
+			<DCCReference Include="Units\uSMFeriados.pas">
+				<Form>smFeriados</Form>
+				<FormType>dfm</FormType>
+				<DesignClass>TDSServerModule</DesignClass>
+			</DCCReference>
+			<DCCReference Include="Units\uTCalendario.pas"/>
+			<DCCReference Include="Units\uSMEmolumentos.pas">
+				<Form>smEmolumentos</Form>
+				<FormType>dfm</FormType>
+				<DesignClass>TDSServerModule</DesignClass>
+			</DCCReference>
+			<DCCReference Include="Units\uTEmolumentos.pas"/>
+			<DCCReference Include="Units\uSMCaixaTabNotas.pas">
+				<Form>smCaixaTabNotas</Form>
+				<FormType>dfm</FormType>
+				<DesignClass>TDSServerModule</DesignClass>
+			</DCCReference>
+			<DCCReference Include="Units\uSMKitSelo.pas">
+				<Form>smKitSelo</Form>
+				<FormType>dfm</FormType>
+				<DesignClass>TDSServerModule</DesignClass>
+			</DCCReference>
+			<DCCReference Include="Units\uTKitSelo.pas"/>
+			<DCCReference Include="Units\uSMRegistroSelo.pas">
+				<Form>smRegistroSelo</Form>
+				<FormType>dfm</FormType>
+				<DesignClass>TDSServerModule</DesignClass>
+			</DCCReference>
+			<DCCReference Include="Units\uTRegistroSelo.pas"/>
+			<DCCReference Include="Units\uSMRegBoletos.pas">
+				<Form>smRegBoletos</Form>
+				<FormType>dfm</FormType>
+				<DesignClass>TDSServerModule</DesignClass>
+			</DCCReference>
+			<DCCReference Include="Units\uTRegBoleto.pas"/>
+			<DCCReference Include="Units\uSMBoletim.pas">
+				<Form>smBoletim</Form>
+				<FormType>dfm</FormType>
+				<DesignClass>TDSServerModule</DesignClass>
+			</DCCReference>
+			<DCCReference Include="Units\uTBoletim.pas"/>
+			<DCCReference Include="Units\uSMTipoSelo.pas">
+				<Form>smTipoSelo</Form>
+				<FormType>dfm</FormType>
+				<DesignClass>TDSServerModule</DesignClass>
+			</DCCReference>
+			<DCCReference Include="Units\uBackup.pas"/>
+			<DCCReference Include="Units\uPadraoVazio.pas">
+				<Form>FPadraoVazio</Form>
+			</DCCReference>
+			<DCCReference Include="Units\uTConfiguracoes.pas"/>
+			<DCCReference Include="Units\uSMGrupoDespesas.pas">
+				<Form>smGrupoDespesas</Form>
+				<FormType>dfm</FormType>
+				<DesignClass>TDSServerModule</DesignClass>
+			</DCCReference>
+			<DCCReference Include="Units\uTGrupoDespesa.pas"/>
+			<DCCReference Include="Units\uSubGrupoDespesas.pas">
+				<Form>smSubGrupoDespesas</Form>
+				<FormType>dfm</FormType>
+				<DesignClass>TDSServerModule</DesignClass>
+			</DCCReference>
+			<DCCReference Include="Units\uTSubGrupoDespesa.pas"/>
+			<DCCReference Include="Units\uSMLancDespesas.pas">
+				<Form>smLancDespesas</Form>
+				<FormType>dfm</FormType>
+				<DesignClass>TDSServerModule</DesignClass>
+			</DCCReference>
+			<DCCReference Include="Units\uTDespesas.pas"/>
+			<DCCReference Include="Units\uSMFormaPagamento.pas">
+				<Form>smFormaPagamento</Form>
+				<FormType>dfm</FormType>
+				<DesignClass>TDSServerModule</DesignClass>
+			</DCCReference>
+			<DCCReference Include="Units\uTFormasPagamento.pas"/>
+			<DCCReference Include="Units\uSMRegPessoaJuridica.pas">
+				<Form>smRegPessoaJuridica</Form>
+				<FormType>dfm</FormType>
+				<DesignClass>TDSServerModule</DesignClass>
+			</DCCReference>
+			<DCCReference Include="Units\uTRegPessoaJuridica.pas"/>
+			<DCCReference Include="Units\uSMRegTitulosDocs.pas">
+				<Form>smRegTitulosDocs</Form>
+				<FormType>dfm</FormType>
+				<DesignClass>TDSServerModule</DesignClass>
+			</DCCReference>
+			<DCCReference Include="Units\uTRegTitulosDocs.pas"/>
+			<BuildConfiguration Include="Release">
+				<Key>Cfg_2</Key>
+				<CfgParent>Base</CfgParent>
+			</BuildConfiguration>
+			<BuildConfiguration Include="Base">
+				<Key>Base</Key>
+			</BuildConfiguration>
+			<BuildConfiguration Include="Debug">
+				<Key>Cfg_1</Key>
+				<CfgParent>Base</CfgParent>
+			</BuildConfiguration>
+		</ItemGroup>
+		<ProjectExtensions>
+			<Borland.Personality>Delphi.Personality.12</Borland.Personality>
+			<Borland.ProjectType/>
+			<BorlandProject>
+				<Delphi.Personality>
+					<VersionInfo>
+						<VersionInfo Name="IncludeVerInfo">False</VersionInfo>
+						<VersionInfo Name="AutoIncBuild">False</VersionInfo>
+						<VersionInfo Name="MajorVer">1</VersionInfo>
+						<VersionInfo Name="MinorVer">0</VersionInfo>
+						<VersionInfo Name="Release">0</VersionInfo>
+						<VersionInfo Name="Build">0</VersionInfo>
+						<VersionInfo Name="Debug">False</VersionInfo>
+						<VersionInfo Name="PreRelease">False</VersionInfo>
+						<VersionInfo Name="Special">False</VersionInfo>
+						<VersionInfo Name="Private">False</VersionInfo>
+						<VersionInfo Name="DLL">False</VersionInfo>
+						<VersionInfo Name="Locale">1046</VersionInfo>
+						<VersionInfo Name="CodePage">1252</VersionInfo>
+					</VersionInfo>
+					<VersionInfoKeys>
+						<VersionInfoKeys Name="CompanyName"/>
+						<VersionInfoKeys Name="FileDescription"/>
+						<VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys>
+						<VersionInfoKeys Name="InternalName"/>
+						<VersionInfoKeys Name="LegalCopyright"/>
+						<VersionInfoKeys Name="LegalTrademarks"/>
+						<VersionInfoKeys Name="OriginalFilename"/>
+						<VersionInfoKeys Name="ProductName"/>
+						<VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
+						<VersionInfoKeys Name="Comments"/>
+					</VersionInfoKeys>
+					<Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\dcloffice2k160.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\dclofficexp160.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+					</Excluded_Packages>
+					<Source>
+						<Source Name="MainSource">CVServidor.dpr</Source>
+					</Source>
+				</Delphi.Personality>
+				<Deployment/>
+				<Platforms>
+					<Platform value="Win64">False</Platform>
+					<Platform value="Win32">True</Platform>
+				</Platforms>
+			</BorlandProject>
+			<ProjectFileVersion>12</ProjectFileVersion>
+		</ProjectExtensions>
+		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')" Project="$(BDS)\Bin\CodeGear.Delphi.Targets"/>
+		<Import Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')" Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj"/>
+	</Project>

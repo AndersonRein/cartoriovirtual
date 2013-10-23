@@ -1,0 +1,33 @@
+inherited FRelatorioPadrao1: TFRelatorioPadrao1
+  Caption = 'FRelatorioPadrao1'
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Relatorio: TfrxReport
+    Datasets = <>
+    Variables = <>
+    Style = <>
+  end
+  object sqsCliente: TSQLDataSet
+    CommandText = 
+      'SELECT CODIGO, NOME, TELEFONE, DATACADASTRO FROM VCLIENTES WHERE' +
+      ' DATACADASTRO BETWEEN :DATAINI AND :DATAFIM'
+    DbxCommandType = 'Dbx.SQL'
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.SQLConnection
+    Left = 128
+    Top = 8
+  end
+  object cdsCliente: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspCliente'
+    Left = 88
+    Top = 8
+  end
+  object dspCliente: TDataSetProvider
+    DataSet = sqsCliente
+    Left = 160
+    Top = 8
+  end
+end

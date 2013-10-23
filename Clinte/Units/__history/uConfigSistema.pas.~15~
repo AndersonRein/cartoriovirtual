@@ -1,0 +1,85 @@
+unit uConfigSistema;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uPadraoVazio, Vcl.Buttons, Vcl.StdCtrls, FileCtrl,
+  Vcl.ExtDlgs, iniFiles;
+
+type
+  TFConfigSistema = class(TFPadraoVazio)
+    GroupBox1: TGroupBox;
+    edFerj: TEdit;
+    spbOpenFerj: TSpeedButton;
+    btSalvar: TBitBtn;
+    btCancelar: TBitBtn;
+    procedure spbOpenFerjClick(Sender: TObject);
+    procedure btSalvarClick(Sender: TObject);
+    procedure btCancelarClick(Sender: TObject);
+  private
+    { Private declarations }
+    procedure getFerj();
+    procedure setFerj(endereco: string);
+  public
+    { Public declarations }
+  end;
+
+var
+  FConfigSistema: TFConfigSistema;
+
+implementation
+
+{$R *.dfm}
+
+uses uSelectDiretorio;
+
+procedure TFConfigSistema.btCancelarClick(Sender: TObject);
+begin
+  inherited;
+ Close;
+end;
+
+procedure TFConfigSistema.btSalvarClick(Sender: TObject);
+begin
+  inherited;
+setFerj(edFerj.Text);
+Close;
+end;
+
+procedure TFConfigSistema.getFerj;
+var
+  myini: TMEMInifile;
+begin
+  myini:=TMEMInifile.Create('CONFIG\CONFIG.ini');
+  with myini do
+    edFerj.Text := Readstring('FERJ','PASTA','');
+  myini.Free;
+end;
+
+procedure TFConfigSistema.setFerj(endereco: string);
+var
+  myini: TMEMInifile;
+begin
+  myini:=TMEMInifile.Create('CONFIG\CONFIG.ini');
+  with myini do
+    WriteString('FERJ','PASTA',edFerj.Text);
+  myini.Free;
+end;
+
+procedure TFConfigSistema.spbOpenFerjClick(Sender: TObject);
+var
+diretorio: TFSelectDiretorio;
+begin
+  inherited;
+    diretorio := TFSelectDiretorio.Create(nil);
+    diretorio.ShowModal;
+    if diretorio.getCancelou then
+      begin
+        diretorio.Free;
+        Exit;
+      end;
+    edFerj.Text := diretorio.getDiretorio;
+end;
+
+end.

@@ -1,0 +1,70 @@
+unit uRegBoletos;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uAcessoPadrao, Data.DB, uCadRegBoleto, uTRegBoleto,
+  Datasnap.DBClient, Datasnap.DSConnect, Vcl.StdCtrls, Vcl.Buttons, Vcl.Grids,
+  Vcl.DBGrids;
+
+type
+  TFRegBoletos = class(TFAcessoCadPadrao)
+    cdsConsultaCODIGO: TIntegerField;
+    cdsConsultaENTREGA: TDateField;
+    cdsConsultaQUANTIDADE: TIntegerField;
+    cdsConsultaSERIEFIM: TLargeintField;
+    cdsConsultaSERIEINI: TLargeintField;
+    cdsConsultaCODTIPOBOLETO: TSmallintField;
+    cdsConsultaTIPOBOLETO: TStringField;
+    procedure btbInserirClick(Sender: TObject);
+    procedure btbAlterarClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+  private
+    { Private declarations }
+    regBoleto: TRegBoleto;
+
+  public
+    { Public declarations }
+  end;
+
+var
+  FRegBoletos: TFRegBoletos;
+
+implementation
+
+{$R *.dfm}
+
+
+
+uses uPadrao;
+
+procedure TFRegBoletos.btbAlterarClick(Sender: TObject);
+var
+cadRegBoleto: TFCadRegBoleto;
+begin
+  inherited;
+  cadRegBoleto := TFCadRegBoleto.Create(nil);
+  cadRegBoleto.alterar(cdsConsultaCODIGO.AsInteger);
+  cadRegBoleto.Free;
+  atualizaGrid;
+end;
+
+procedure TFRegBoletos.btbInserirClick(Sender: TObject);
+var
+cadRegBoleto: TFCadRegBoleto;
+begin
+  inherited;
+  cadRegBoleto := TFCadRegBoleto.Create(nil);
+  cadRegBoleto.inserir;
+  cadRegBoleto.Free;
+  atualizaGrid;
+end;
+
+procedure TFRegBoletos.FormCreate(Sender: TObject);
+begin
+  inherited;
+ regBoleto := TRegBoleto.Create;
+end;
+
+end.

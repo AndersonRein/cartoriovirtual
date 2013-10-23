@@ -1,0 +1,10 @@
+inherited FCadTitulos: TFCadTitulos
+  Caption = 'Cadastro de t'#237'tulos'
+  ExplicitWidth = 434
+  ExplicitHeight = 251
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited dspConection: TDSProviderConnection
+    ServerClassName = 'TsmTitulos'
+  end
+end

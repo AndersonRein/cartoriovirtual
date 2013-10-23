@@ -1,0 +1,56 @@
+unit uTitulos;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uAcessoPadrao, Data.DB,
+  Datasnap.DBClient, Datasnap.DSConnect, Vcl.StdCtrls, Vcl.Buttons, Vcl.Grids,
+  Vcl.DBGrids;
+
+type
+  TFTitulos = class(TFAcessoCadPadrao)
+    cdsConsultaCODIGO: TIntegerField;
+    cdsConsultaSIGLA: TStringField;
+    cdsConsultaNOME: TStringField;
+    cdsConsultaDESCRICAO: TStringField;
+    procedure btbInserirClick(Sender: TObject);
+    procedure btbAlterarClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FTitulos: TFTitulos;
+
+implementation
+
+{$R *.dfm}
+
+uses uCadTitulos;
+
+procedure TFTitulos.btbAlterarClick(Sender: TObject);
+var
+cadTitulo: TFCadTitulos;
+begin
+  inherited;
+  cadTitulo := TFCadTitulos.Create(nil);
+  cadTitulo.alterar(cdsConsultaCODIGO.AsInteger);
+  cadTitulo.Free;
+  atualizaGrid;
+end;
+
+procedure TFTitulos.btbInserirClick(Sender: TObject);
+var
+cadTitulo: TFCadTitulos;
+begin
+  inherited;
+  cadTitulo := TFCadTitulos.Create(nil);
+  cadTitulo.inserir;
+  cadTitulo.Free;
+  atualizaGrid;
+end;
+
+end.

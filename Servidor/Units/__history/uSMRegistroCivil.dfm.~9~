@@ -1,0 +1,161 @@
+object smRegistroCivil: TsmRegistroCivil
+  OldCreateOrder = False
+  OnCreate = DSServerModuleCreate
+  Height = 425
+  Width = 639
+  object sqsCadastro: TSQLDataSet
+    SchemaName = 'sysdba'
+    CommandText = 'select * from REGISTROCIVIL WHERE CODIGO =:CODIGO'
+    DbxCommandType = 'Dbx.SQL'
+    MaxBlobSize = 1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'CODIGO'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.SQLConnection
+    Left = 24
+    Top = 16
+  end
+  object sqsConsulta: TSQLDataSet
+    SchemaName = 'sysdba'
+    CommandText = 'select * from VREGISTROCIVIL where nome like :nome'
+    DbxCommandType = 'Dbx.SQL'
+    MaxBlobSize = 1
+    Params = <
+      item
+        DataType = ftString
+        Name = 'nome'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.SQLConnection
+    Left = 16
+    Top = 88
+  end
+  object dspCadastro: TDataSetProvider
+    DataSet = sqsCadastro
+    Left = 64
+    Top = 16
+  end
+  object dspConsulta: TDataSetProvider
+    DataSet = sqsConsulta
+    Left = 56
+    Top = 88
+  end
+  object dspNovoAutografo: TDataSetProvider
+    DataSet = stpNovoAutografo
+    Left = 208
+    Top = 16
+  end
+  object stpNovoAutografo: TSQLStoredProc
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Precision = 4
+        Name = 'CODIGO'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Precision = 100
+        Name = 'BAIRRO'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Precision = 20
+        Name = 'CELULAR'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Precision = 20
+        Name = 'CEP'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Precision = 4
+        Name = 'CIDADE'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Precision = 20
+        Name = 'CPF'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Precision = 100
+        Name = 'EMAIL'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Precision = 100
+        Name = 'ENDERECO'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Precision = 100
+        Name = 'ESTADOCIVIL'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Precision = 4
+        Name = 'NASCIDO'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Precision = 100
+        Name = 'NOME'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Precision = 20
+        Name = 'NUMERO'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Precision = 100
+        Name = 'PROFISSAO'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftSmallint
+        Precision = 2
+        Name = 'REGIMECASAMENTO'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Precision = 20
+        Name = 'RG'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Precision = 20
+        Name = 'TELEFONE'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Precision = 100
+        Name = 'NACIONALIDADE'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.SQLConnection
+    StoredProcName = 'NOVO_AUTOGRAFO'
+    Left = 160
+    Top = 16
+  end
+end

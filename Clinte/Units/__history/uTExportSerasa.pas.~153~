@@ -1,0 +1,452 @@
+unit uTExportSerasa;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, Mask, ComCtrls, FMTBcd, DBCtrls, uDM, CheckLst,
+  SqlExpr, DB, uBusca, DBGrids, dateUtils;
+
+type
+  TExportSerasa = class
+
+  private
+    arq: TextFile;
+    I:SmallInt;
+    dtMovimento, cnpjCartorio, dddCartorio, foneCartorio, ramalCartorio, nomeContatoCartorio:string;
+    codEDI, emailCartorio, UFCartorio, codEmbratel, nomeSacador, docSacador, filialDocSacador, digitoSacado:string;
+    endSacado, CEPSacado, cidadeSacado, UFSacado, numLivro, tipoLivro, numFolha:string;
+    espDocProtesto, valorProstesto, coResponsavel, nomeDevedor, docBaseDevedor:string;
+    filialDevedor, digitoDevedor, endDevedor, CEPDevedor, cidadeDevedor, UFDevedor:string;
+    numCartorio, numProtocolo, CEPCartorio, dataCancelProteso, dataEmissaoTitulo:string;
+    dataVencimentoTitulo, numRemessa, siglaEmbratel, enderecoArq, tipoInformacao:string;
+    tipoDocumento, periodicidade, operacao, pessoaSacado, pessoaDevedor, tipoDocDevedor:string;
+    espProtesto, tipoRemessa:string;
+    dia,Mes:Integer;
+    function preencherEspacoVazio(quantidade, limite:Integer):string;
+    function getIdentificacao():string;
+    function sequencialRegistro(seq:Integer):string;
+  public
+    procedure setDtMovimento(data: TDate);
+    procedure setCnpjCartorio(cnpj: string);
+    procedure setDddCartorio(ddd: string);
+    procedure setFoneCartorio(fone:string);
+    procedure setRamalCartorio(ramal:string);
+    procedure setNomeContatoCartorio(contato:string);
+    procedure setCodEDI(codigo:string);
+    procedure setEmailCartorio(email:string);
+    procedure setUFCartorio(uf:string);
+    procedure setCodEmbratel(codigo:Integer);
+    procedure setNomeSacador(sacador:string);
+    procedure setDocSacador(cnpj:string);
+    procedure setEndSacado(endereco, numero, complemento, bairro:string);
+    procedure setCEPSacado(cep:string);
+    procedure setCidadeSacado(cidade:string);
+    procedure setUFSacado(uf:string);
+    procedure setNumLivro(numero:Integer);
+    procedure setTipoLivro(tipo:string);
+    procedure setNumFolha(folha:Integer);
+    procedure setEspDocProtesto(espDoc:string);
+    procedure setValorProstesto(valor:Double);
+    procedure setCoResponsavel(codigo:string);
+    procedure setNomeDevedor(nome:string);
+    procedure setDocDevedor(cnpj:string);
+    procedure setEndDevedor(endereco, numero, complemento, bairro:string);
+    procedure setCEPDevedor(cep:string);
+    procedure setCidadeDevedor(cidade:string);
+    procedure setUFDevedor(uf:string);
+    procedure setNumCartorio(numero:string);
+    procedure setNumProtocolo(protocolo:Integer);
+    procedure setCEPCartorio(cep:string);
+    procedure setDataCancelProteso(data:TDate);
+    procedure setDataEmissaoTitulo(data:TDate);
+    procedure setDataVencimentoTitulo(data:TDate);
+    procedure setNumRemessa(numero:Integer);
+    procedure setSiglaEmbratel(sigla:string);
+    procedure setEnderecoArq(endereco:string);
+    function getNomeArq():string;
+    procedure criarArquivo();
+    procedure inserirItem();
+    procedure salvarArquivo();
+    procedure setTipoInformacao(tipo:string);
+    procedure setTipoDocumento(tipo:string);
+    procedure setPeriodicidade(periodo:string);
+    procedure setOperacao(operacao:string);
+    procedure setPessoaSacado(tipoPessoa:string);
+    procedure setPessoaDevedor(tipoPessoa:string);
+    procedure setTipoDocDevedor(tipoDoc:string);
+    procedure setEspProtesto(espProtesto:string);
+    procedure setTipoRemessa(remessa:string);
+  const
+   sequencialRegistroHeader = '0000001';
+   codigoRegistroCabecalho = '0';
+   emBranco31 = '                               ';
+   emBranco1 = ' ';
+   emBranco43 = '                                           ';
+   emBranco9 = '         ';
+   emBranco22 = '                      ';
+   emBranco172 ='                                                                                                                                                                           ';
+   emBranco100 = '                                                                                                   ';
+   codErro = '                                                            ';
+   emBranco55 = '                                                       ';
+   vsSoftware = '1,5';
+   codigoRegistroDetalhe = '1';
+   protestoLavrado = 'P';
+   protestoCancelado = 'C';
+   tipoDocCnpj = '1';
+   tipoDocCpf = '2';
+   identeSerasa = 'SERASA';
+   identeConcentre = 'CONCENTRE';
+   identeProtesto = 'PROTESTO';
+   codRemessEnvio = 'E';
+   codRemessaRetorno= 'R';
+   diario = 'D';
+   semanal = 'S';
+   quinsenal = 'Q';
+   mensal = 'M';
+   inclusao = 'I';
+   cancelamento = 'E';
+   fisica = 'F';
+   juridica = 'J';
+   emBranco = '       ';
+   responsavelPrincipal = '00';
+   emBranco25 = '                         ';
+   emBranco3 = '   ';
+   emBranco10 = '          ';
+   emBranco12 = '            ';
+   faltaPagamento = '1';
+   faltaAceita = '2';
+   faltaDevolucao = '3';
+   finsFalimentares = '4';
+   trailler = '9';
+   emBranco92 = '                                                                                           ';
+   remessaTeste = 999999;
+   emBranco7 = '       ';
+  end;
+implementation
+
+{ TExportSerasa }
+
+procedure TExportSerasa.criarArquivo;
+begin
+I := 1;
+AssignFile(arq,enderecoArq+getNomeArq);
+Rewrite(arq);
+//cabeçalho
+Writeln(arq,codigoRegistroCabecalho+emBranco43+dtMovimento+emBranco9+numRemessa+emBranco22+tipoDocumento+cnpjCartorio+getIdentificacao+codRemessEnvio+dddCartorio+foneCartorio+ramalCartorio+nomeContatoCartorio+vsSoftware+codEDI+periodicidade+emailCartorio+emBranco172+emBranco100+codErro+sequencialRegistroHeader);
+end;
+
+function TExportSerasa.getIdentificacao: string;
+begin
+Result := 'SERASA-CONCENTRE-PROTESTO';
+end;
+
+function TExportSerasa.getNomeArq: string;
+begin
+Result := tipoInformacao+numCartorio+FormatFloat('00',dia)+FormatFloat('00',Mes)+siglaEmbratel+'.PCA';
+end;
+
+procedure TExportSerasa.inserirItem;
+begin
+//Registro Detalhe
+Write(arq,codigoRegistroDetalhe+tipoInformacao+operacao+UFCartorio+codEmbratel+emBranco55);
+//Dados do credor
+Write(arq,nomeSacador+docSacador+filialDocSacador+digitoSacado+endSacado+CEPSacado+UFSacado+cidadeSacado+pessoaSacado+tipoDocumento+emBranco7+numLivro+tipoLivro+numFolha+espDocProtesto+valorProstesto+dtMovimento);
+//Dados do devedor
+Write(arq,pessoaDevedor+tipoDocDevedor+responsavelPrincipal+emBranco25+nomeDevedor+emBranco3+docBaseDevedor+filialDevedor+digitoDevedor+emBranco10+endDevedor+CEPDevedor+cidadeDevedor+UFDevedor+numCartorio);
+//Dados do protesto
+Inc(I);
+Writeln(arq,numProtocolo+CEPCartorio+emBranco12+dataCancelProteso+espProtesto+dataEmissaoTitulo+dataVencimentoTitulo+emBranco31+codErro+sequencialRegistro(I));
+end;
+
+function TExportSerasa.preencherEspacoVazio(quantidade, limite: Integer): string;
+var
+I:SmallInt;
+s:string;
+begin
+limite := limite - quantidade;
+for I := 1 to limite do
+   s := s +' ';
+Result := s;
+end;
+
+procedure TExportSerasa.salvarArquivo;
+begin
+//Trailler
+Inc(I);
+Write(arq,trailler+emBranco100+emBranco100+emBranco100+emBranco100+emBranco100+emBranco92+sequencialRegistro(I));
+CloseFile(arq);
+end;
+
+function TExportSerasa.sequencialRegistro(seq: Integer): string;
+begin
+Result := FormatFloat('0000000',seq);
+end;
+
+procedure TExportSerasa.setCEPCartorio(cep: string);
+begin
+CEPCartorio := StringReplace(cep,'-','',[rfReplaceAll]);
+end;
+
+procedure TExportSerasa.setCEPDevedor(cep: string);
+begin
+CEPDevedor := StringReplace(cep,'-','',[rfReplaceAll]);
+end;
+
+procedure TExportSerasa.setCEPSacado(cep: string);
+begin
+CEPSacado := StringReplace(cep,'-','',[rfReplaceAll]);
+end;
+
+procedure TExportSerasa.setCidadeDevedor(cidade: string);
+begin
+cidadeDevedor := cidade+preencherEspacoVazio(StrCharLength(pansichar(cidade)),20);
+cidadeDevedor := Copy(cidadeDevedor,0,19);
+end;
+
+procedure TExportSerasa.setCidadeSacado(cidade: string);
+begin
+cidadeSacado := cidade+preencherEspacoVazio(StrCharLength(pansichar(cidade)),20);
+cidadeSacado := Copy(cidadeSacado,0,19);
+end;
+
+procedure TExportSerasa.setCnpjCartorio(cnpj: string);
+begin
+cnpj := StringReplace(cnpj,'.','',[rfReplaceAll]);
+cnpj := StringReplace(cnpj,'/','',[rfReplaceAll]);
+cnpj := StringReplace(cnpj,'-','',[rfReplaceAll]);
+cnpjCartorio := Copy(cnpj,0,9);
+end;
+
+procedure TExportSerasa.setCodEDI(codigo: string);
+begin
+
+end;
+
+procedure TExportSerasa.setCodEmbratel(codigo: Integer);
+begin
+codEmbratel := FormatFloat('0000',codigo);
+end;
+
+procedure TExportSerasa.setCoResponsavel(codigo: string);
+begin
+coResponsavel := codigo;
+end;
+
+procedure TExportSerasa.setDataCancelProteso(data: TDate);
+begin
+dataCancelProteso := DateToStr(data);
+dataCancelProteso := StringReplace(dataCancelProteso,'/','',[rfReplaceAll]);
+end;
+
+procedure TExportSerasa.setDataEmissaoTitulo(data: TDate);
+begin
+dataEmissaoTitulo := DateToStr(data);
+dataEmissaoTitulo := StringReplace(dataEmissaoTitulo,'/','',[rfReplaceAll]);
+end;
+
+procedure TExportSerasa.setDataVencimentoTitulo(data: TDate);
+begin
+dataVencimentoTitulo := DateToStr(data);
+dataVencimentoTitulo := StringReplace(dataVencimentoTitulo,'/','',[rfReplaceAll]);
+end;
+
+procedure TExportSerasa.setDddCartorio(ddd: string);
+var
+fone: string;
+begin
+fone := Copy(ddd,2,2);
+dddCartorio := FormatFloat('0000',StrToInt(fone));
+end;
+
+procedure TExportSerasa.setDocDevedor(cnpj: string);
+begin
+cnpj := StringReplace(cnpj,'.','',[rfReplaceAll]);
+cnpj := StringReplace(cnpj,'/','',[rfReplaceAll]);
+cnpj := StringReplace(cnpj,'-','',[rfReplaceAll]);
+docBaseDevedor := Copy(cnpj,0,8);
+filialDevedor := Copy(cnpj,8,11);
+digitoDevedor := Copy(cnpj,12,13);
+end;
+
+procedure TExportSerasa.setDocSacador(cnpj: string);
+begin
+cnpj := StringReplace(cnpj,'.','',[rfReplaceAll]);
+cnpj := StringReplace(cnpj,'/','',[rfReplaceAll]);
+cnpj := StringReplace(cnpj,'-','',[rfReplaceAll]);
+docSacador := Copy(cnpj,0,8);
+filialDocSacador := Copy(cnpj,8,11);
+digitoSacado := Copy(cnpj,12,13);
+end;
+
+procedure TExportSerasa.setDtMovimento(data: TDate);
+begin
+dtMovimento := DateToStr(data);
+dtMovimento := StringReplace(dtMovimento,'/','',[rfReplaceAll]);
+dia := DayOfTheMonth(data);
+Mes := MonthOf(data);
+end;
+
+procedure TExportSerasa.setEmailCartorio(email: string);
+begin
+emailCartorio := email + preencherEspacoVazio(StrCharLength(PAnsiChar(email)),40);
+end;
+
+procedure TExportSerasa.setEndDevedor(endereco, numero, complemento,
+  bairro: string);
+begin
+endDevedor := endereco+' '+numero+' '+complemento+' '+bairro;
+endDevedor := endSacado+preencherEspacoVazio(StrCharLength(pansiChar(endDevedor)),45);
+endDevedor := Copy(endDevedor,0,44);
+end;
+
+procedure TExportSerasa.setEnderecoArq(endereco: string);
+begin
+
+end;
+
+procedure TExportSerasa.setEndSacado(endereco, numero, complemento,
+  bairro: string);
+begin
+endSacado := endereco+' '+numero+' '+complemento+' '+bairro;
+endSacado := endSacado+preencherEspacoVazio(StrCharLength(pansiChar(endSacado)),44);
+endSacado := Copy(endSacado,0,43);
+end;
+
+procedure TExportSerasa.setEspDocProtesto(espDoc: string);
+begin
+espDocProtesto := espDoc+preencherEspacoVazio(StrCharLength(pansichar(espDoc)),3);
+end;
+
+procedure TExportSerasa.setEspProtesto(espProtesto: string);
+begin
+Self.espProtesto := espProtesto;
+end;
+
+procedure TExportSerasa.setFoneCartorio(fone: string);
+VAR
+S:string;
+begin
+fone := StringReplace(fone,'(','',[rfReplaceAll]);
+fone := StringReplace(fone,')','',[rfReplaceAll]);
+fone := StringReplace(fone,'-','',[rfReplaceAll]);
+S := Copy(fone,5,8);
+foneCartorio := fone;
+end;
+
+procedure TExportSerasa.setNomeContatoCartorio(contato: string);
+begin
+contato := contato + preencherEspacoVazio(StrCharLength(PAnsiChar(contato)),70);
+end;
+
+procedure TExportSerasa.setNomeDevedor(nome: string);
+begin
+nomeDevedor := nome + preencherEspacoVazio(StrCharLength(pansichar(nome)),45);
+end;
+
+procedure TExportSerasa.setNomeSacador(sacador: string);
+begin
+nomeSacador := sacador + preencherEspacoVazio(StrCharLength(pansiChar(sacador)),45);
+end;
+
+procedure TExportSerasa.setNumCartorio(numero: string);
+begin
+numCartorio := FormatFloat('00',StrToInt(numero));
+end;
+
+procedure TExportSerasa.setNumFolha(folha: Integer);
+begin
+numFolha := FormatFloat('0000',folha);
+end;
+
+procedure TExportSerasa.setNumLivro(numero: Integer);
+begin
+numLivro := FormatFloat('000000',numero);
+end;
+
+procedure TExportSerasa.setNumProtocolo(protocolo: Integer);
+begin
+numProtocolo := FormatFloat('0000000000', protocolo);
+end;
+
+procedure TExportSerasa.setNumRemessa(numero: Integer);
+begin
+numRemessa := FormatFloat('000000',numero);
+end;
+
+procedure TExportSerasa.setOperacao(operacao: string);
+begin
+Self.operacao := operacao;
+end;
+
+procedure TExportSerasa.setPeriodicidade(periodo: string);
+begin
+periodicidade := periodo;
+end;
+
+procedure TExportSerasa.setPessoaDevedor(tipoPessoa: string);
+begin
+pessoaDevedor := tipoPessoa;
+end;
+
+procedure TExportSerasa.setPessoaSacado(tipoPessoa: string);
+begin
+pessoaSacado := tipoPessoa;
+end;
+
+procedure TExportSerasa.setRamalCartorio(ramal: string);
+begin
+ramalCartorio := FormatFloat('0000',StrToInt(ramal));
+end;
+
+procedure TExportSerasa.setSiglaEmbratel(sigla: string);
+begin
+siglaEmbratel := sigla;
+end;
+
+procedure TExportSerasa.setTipoDocDevedor(tipoDoc: string);
+begin
+tipoDocDevedor := tipoDoc;
+end;
+
+procedure TExportSerasa.setTipoDocumento(tipo: string);
+begin
+tipoDocumento := tipo;
+end;
+
+procedure TExportSerasa.setTipoInformacao(tipo: string);
+begin
+tipoInformacao := tipo;
+end;
+
+procedure TExportSerasa.setTipoLivro(tipo: string);
+begin
+tipoLivro := tipo;
+end;
+
+procedure TExportSerasa.setTipoRemessa(remessa: string);
+begin
+tipoRemessa := remessa;
+end;
+
+procedure TExportSerasa.setUFCartorio(uf: string);
+begin
+UFCartorio := uf;
+end;
+
+procedure TExportSerasa.setUFDevedor(uf: string);
+begin
+UFDevedor := uf;
+end;
+
+procedure TExportSerasa.setUFSacado(uf: string);
+begin
+UFSacado := uf;
+end;
+
+procedure TExportSerasa.setValorProstesto(valor: Double);
+begin
+valorProstesto := FormatFloat('00000000000000',valor);
+end;
+
+end.

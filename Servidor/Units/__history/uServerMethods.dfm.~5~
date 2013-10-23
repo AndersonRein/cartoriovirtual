@@ -1,0 +1,22 @@
+object ServerMethods: TServerMethods
+  OldCreateOrder = False
+  OnCreate = DataModuleCreate
+  Height = 560
+  Width = 823
+  object sqsProtestosIntimacao: TSQLDataSet
+    CommandText = 
+      'SELECT * FROM VPROTESTO WHERE CADASTRO < (CURRENT_DATE + 3) ORDE' +
+      'R BY CADASTRO'
+    DbxCommandType = 'Dbx.SQL'
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.SQLConnection
+    Left = 32
+    Top = 16
+  end
+  object dspProtestosIntimacao: TDataSetProvider
+    DataSet = sqsProtestosIntimacao
+    Left = 72
+    Top = 16
+  end
+end

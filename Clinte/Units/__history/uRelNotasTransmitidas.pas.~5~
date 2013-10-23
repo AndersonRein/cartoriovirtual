@@ -1,0 +1,30 @@
+unit uRelNotasTransmitidas;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, uRelatorioPadrao, ComCtrls, StdCtrls, Buttons, frxClass, FMTBcd,
+  Provider, DBClient, DB, SqlExpr, frxDBSet;
+
+type
+  TFRelNotasTransmitidas = class(TFRelatorioPadrao)
+    sqsRelatorio: TSQLDataSet;
+    cdsRelatorio: TClientDataSet;
+    dspRelatorio: TDataSetProvider;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FRelNotasTransmitidas: TFRelNotasTransmitidas;
+
+implementation
+
+uses uDM;
+
+{$R *.dfm}
+
+end.

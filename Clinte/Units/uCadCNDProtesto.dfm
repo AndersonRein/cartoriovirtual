@@ -1,0 +1,109 @@
+inherited FCadCNDProtesto: TFCadCNDProtesto
+  Caption = 'Cadastro de CND'
+  ExplicitWidth = 434
+  ExplicitHeight = 251
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited gpbCadastro: TGroupBox
+    object Label1: TLabel
+      Left = 8
+      Top = 14
+      Width = 49
+      Height = 13
+      Caption = 'Aut'#243'grafo'
+      FocusControl = dbAutografo
+    end
+    object Label2: TLabel
+      Left = 8
+      Top = 53
+      Width = 20
+      Height = 13
+      Caption = 'Selo'
+      FocusControl = dbSelo
+    end
+    object Label3: TLabel
+      Left = 131
+      Top = 53
+      Width = 26
+      Height = 13
+      Caption = 'FERC'
+      FocusControl = dbFerc
+    end
+    object dbAutografo: TDBEdit
+      Left = 8
+      Top = 29
+      Width = 40
+      Height = 21
+      Color = clSilver
+      DataField = 'AUTOGRAFO'
+      DataSource = dsCadastro
+      ReadOnly = True
+      TabOrder = 0
+    end
+    object Edit1: TEdit
+      Left = 47
+      Top = 29
+      Width = 375
+      Height = 21
+      CharCase = ecUpperCase
+      ReadOnly = True
+      TabOrder = 1
+    end
+    object dbSelo: TDBEdit
+      Left = 8
+      Top = 67
+      Width = 121
+      Height = 21
+      CharCase = ecUpperCase
+      DataField = 'SELO'
+      DataSource = dsCadastro
+      TabOrder = 2
+    end
+    object dbFerc: TDBEdit
+      Left = 131
+      Top = 67
+      Width = 102
+      Height = 21
+      CharCase = ecUpperCase
+      DataField = 'FERC'
+      DataSource = dsCadastro
+      TabOrder = 3
+    end
+  end
+  inherited cdsCadastro: TClientDataSet
+    ProviderName = 'dspCadCND'
+    object cdsCadastroCODIGO: TIntegerField
+      FieldName = 'CODIGO'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object cdsCadastroSELO: TStringField
+      DisplayLabel = 'Selo'
+      FieldName = 'SELO'
+      Size = 50
+    end
+    object cdsCadastroAUTOGRAFO: TIntegerField
+      DisplayLabel = 'Aut'#243'grafo'
+      FieldName = 'AUTOGRAFO'
+      Required = True
+    end
+    object cdsCadastroUSUARIO: TIntegerField
+      FieldName = 'USUARIO'
+      Required = True
+    end
+    object cdsCadastroFERC: TFMTBCDField
+      FieldName = 'FERC'
+      Required = True
+      Precision = 15
+      Size = 2
+    end
+    object cdsCadastroDATA: TDateField
+      FieldName = 'DATA'
+    end
+  end
+  inherited dspConection: TDSProviderConnection
+    ServerClassName = 'TsmProtesto'
+    Left = 184
+    Top = 64
+  end
+end

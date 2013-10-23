@@ -1,0 +1,144 @@
+unit uCadTransportadora;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, uCadastroPadrao, StdCtrls, Buttons, FMTBcd, DB, SqlExpr, Provider,
+  DBClient, Mask, DBCtrls, uPadrao;
+
+type
+  TFCadTransportadora = class(TFCadastroPadrao)
+    cdsTransportadora: TClientDataSet;
+    dspTransportadora: TDataSetProvider;
+    dsTransportadora: TDataSource;
+    sqsTransportadora: TSQLDataSet;
+    cdsTransportadoraCODIGO: TIntegerField;
+    cdsTransportadoraRAZAOSOCIAL: TStringField;
+    cdsTransportadoraCNPJ: TStringField;
+    cdsTransportadoraISCEST: TStringField;
+    cdsTransportadoraENDERECO: TStringField;
+    cdsTransportadoraCIDADE: TIntegerField;
+    cdsTransportadoraTELEFONE: TStringField;
+    cdsTransportadoraANTT: TStringField;
+    cdsTransportadoraPLACA: TStringField;
+    Label1: TLabel;
+    dbRazaoSocial: TDBEdit;
+    Label2: TLabel;
+    dbCNPJ: TDBEdit;
+    Label3: TLabel;
+    dbInscEst: TDBEdit;
+    Label4: TLabel;
+    dbEndereco: TDBEdit;
+    Label5: TLabel;
+    dbCidade: TDBEdit;
+    edCidade: TEdit;
+    Label6: TLabel;
+    dbTelefone: TDBEdit;
+    Label7: TLabel;
+    dbANTT: TDBEdit;
+    Label8: TLabel;
+    dbPlaca: TDBEdit;
+    procedure cdsTransportadoraNewRecord(DataSet: TDataSet);
+    procedure btSalvarClick(Sender: TObject);
+    procedure dbCidadeClick(Sender: TObject);
+    procedure dbPlacaKeyPress(Sender: TObject; var Key: Char);
+  private
+    { Private declarations }
+    modo, codAlteracao : Integer;
+    padrao: TFPadrao;
+    procedure abrirCadastro;
+    procedure editarCadastro;
+    procedure salvar;
+  public
+    { Public declarations }
+    procedure inserir(md: Integer);
+    procedure alterar(md, codigo: Integer);
+  end;
+
+var
+  FCadTransportadora: TFCadTransportadora;
+
+implementation
+
+uses uDM, uBusca;
+
+{$R *.dfm}
+
+{ TFCadTransportadora }
+
+procedure TFCadTransportadora.abrirCadastro;
+begin
+cdsTransportadora.Close;
+cdsTransportadora.Params[0].AsInteger := 0;
+cdsTransportadora.Open;
+cdsTransportadora.Insert;
+end;
+
+procedure TFCadTransportadora.alterar(md, codigo: Integer);
+begin
+modo := md;
+codAlteracao := codigo;
+editarCadastro;
+Self.ShowModal;
+end;
+
+procedure TFCadTransportadora.btSalvarClick(Sender: TObject);
+begin
+  inherited;
+salvar;
+if modo = 0 then
+  abrirCadastro
+else
+  editarCadastro;
+end;
+
+procedure TFCadTransportadora.cdsTransportadoraNewRecord(DataSet: TDataSet);
+begin
+  inherited;
+cdsTransportadoraCODIGO.AsInteger := 0;
+end;
+
+procedure TFCadTransportadora.dbCidadeClick(Sender: TObject);
+var
+busca : TFBusca;
+begin
+  inherited;
+  busca := TFBusca.Create(nil);
+  busca.new('Cidade', 'cidade', 'codigo, nome, uf', 'nome');
+  cdsTransportadoraCIDADE.AsInteger := busca.getCodigo;
+  edCidade.Text := busca.getNome;
+  busca.Free;
+end;
+
+procedure TFCadTransportadora.dbPlacaKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+ if key = #13 then
+    btSalvarClick(Sender);
+end;
+
+procedure TFCadTransportadora.editarCadastro;
+begin
+cdsTransportadora.Close;
+cdsTransportadora.Params[0].AsInteger := codAlteracao;
+cdsTransportadora.Open;
+cdsTransportadora.Edit;
+edCidade.Text := padrao.getCidade(cdsTransportadoraCIDADE.AsInteger);
+end;
+
+procedure TFCadTransportadora.inserir(md: Integer);
+begin
+modo := md;
+abrirCadastro;
+Self.ShowModal;
+end;
+
+procedure TFCadTransportadora.salvar;
+begin
+cdsTransportadora.Post;
+cdsTransportadora.ApplyUpdates(-1);
+ShowMessage(padrao.SUCESSO);
+end;
+
+end.

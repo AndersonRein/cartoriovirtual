@@ -1,0 +1,66 @@
+inherited FRegPessoaJuridica: TFRegPessoaJuridica
+  Caption = 'Registro de pessoas jur'#237'dicas'
+  ExplicitWidth = 742
+  ExplicitHeight = 503
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited dbgCadastros: TDBGrid
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'CODIGO'
+        Width = 80
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'NOME'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'FICHA'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DATA'
+        Visible = True
+      end>
+  end
+  inherited cdsConsulta: TClientDataSet
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'NOME'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'NOME'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspConsulta'
+    RemoteServer = dspConection
+    object cdsConsultaCODIGO: TIntegerField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'CODIGO'
+      Required = True
+    end
+    object cdsConsultaNOME: TSmallintField
+      DisplayLabel = 'Nome'
+      FieldName = 'NOME'
+    end
+    object cdsConsultaFICHA: TIntegerField
+      DisplayLabel = 'Ficha'
+      FieldName = 'FICHA'
+    end
+    object cdsConsultaDATA: TDateField
+      DisplayLabel = 'Data'
+      FieldName = 'DATA'
+    end
+  end
+  inherited dspConection: TDSProviderConnection
+    ServerClassName = 'TsmRegPessoaJuridica'
+  end
+end

@@ -1,0 +1,109 @@
+unit uCadServicos;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, uCadastroPadrao, StdCtrls, Buttons, FMTBcd, DB, Provider, DBClient,
+  SqlExpr, Mask, DBCtrls, uPadrao;
+
+type
+  TFCadServicos = class(TFCadastroPadrao)
+    sqsServicos: TSQLDataSet;
+    cdsServicos: TClientDataSet;
+    dspServicos: TDataSetProvider;
+    dsServicos: TDataSource;
+    cdsServicosCODIGO: TIntegerField;
+    cdsServicosNOME: TStringField;
+    cdsServicosVALOR: TFMTBCDField;
+    Label1: TLabel;
+    dbNome: TDBEdit;
+    Label2: TLabel;
+    dbValor: TDBEdit;
+    procedure dbValorKeyPress(Sender: TObject; var Key: Char);
+    procedure btSalvarClick(Sender: TObject);
+    procedure cdsServicosNewRecord(DataSet: TDataSet);
+  private
+    { Private declarations }
+    modo, codAlteracao: Integer;
+    padrao: TFPadrao;
+    procedure abrirCadastro;
+    procedure editarCadastro;
+    procedure salvar;
+  public
+    { Public declarations }
+    procedure inserir;
+    procedure alterar(codigo: Integer);
+  end;
+
+var
+  FCadServicos: TFCadServicos;
+
+implementation
+
+uses uDM;
+{$R *.dfm}
+{ TFCadServicos }
+
+procedure TFCadServicos.abrirCadastro;
+begin
+  cdsServicos.Close;
+  cdsServicos.Params[0].AsInteger := 0;
+  cdsServicos.Open;
+  cdsServicos.Insert;
+end;
+
+procedure TFCadServicos.alterar(codigo: Integer);
+begin
+  modo := 2;
+  codAlteracao := codigo;
+  editarCadastro;
+  Self.ShowModal;
+end;
+
+procedure TFCadServicos.btSalvarClick(Sender: TObject);
+begin
+  inherited;
+  salvar;
+  if modo = 1 then
+    abrirCadastro
+  else
+    editarCadastro;
+end;
+
+procedure TFCadServicos.cdsServicosNewRecord(DataSet: TDataSet);
+begin
+  inherited;
+ cdsServicosCODIGO.AsInteger := 0;
+end;
+
+procedure TFCadServicos.dbValorKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+  if Key = #13 then
+    btSalvarClick(Sender);
+end;
+
+procedure TFCadServicos.editarCadastro;
+begin
+  cdsServicos.Close;
+  cdsServicos.Params[0].AsInteger := codAlteracao;
+  cdsServicos.Open;
+  cdsServicos.Edit;
+end;
+
+procedure TFCadServicos.inserir;
+begin
+  modo := 1;
+  abrirCadastro;
+  Self.ShowModal;
+end;
+
+procedure TFCadServicos.salvar;
+begin
+  cdsServicos.Post;
+  cdsServicos.ApplyUpdates(-1);
+  ShowMessage(padrao.SUCESSO);
+end;
+
+end.

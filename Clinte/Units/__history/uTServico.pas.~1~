@@ -1,0 +1,35 @@
+unit uTServico;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, Mask, ComCtrls, FMTBcd, DBCtrls, uDM, CheckLst,
+  SqlExpr, DB;
+
+type
+  TFServico = Class
+  private
+
+  public
+      function getValor(codigo : Integer): Double;
+  End;
+
+implementation
+
+{ TFServico }
+
+function TFServico.getValor(codigo: Integer): Double;
+var
+  sql: TSQLDataSet;
+begin
+  sql := TSQLDataSet.Create(nil);
+  sql.SQLConnection := DM.SQLConnection;
+  sql.CommandText := 'SELECT VALOR FROM VSERVICOS_SB WHERE CODIGO =:CODIGO';
+  sql.Params[0].AsInteger := codigo;
+  sql.Open;
+
+  Result := sql.FieldByName('VALOR').AsFloat;
+end;
+
+end.

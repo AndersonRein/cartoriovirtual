@@ -1,0 +1,44 @@
+inherited FRelNovosClientes: TFRelNovosClientes
+  Caption = 'Relat'#243'rio de novos clientes'
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Relatorio: TfrxReport
+    Datasets = <>
+    Variables = <>
+    Style = <>
+  end
+  object sqsCliente: TSQLDataSet
+    SchemaName = 'sysdba'
+    CommandText = 
+      'SELECT CODIGO, NOME, TELEFONE, DATACADASTRO FROM VCLIENTES WHERE' +
+      ' DATACADASTRO BETWEEN :DATAINI AND :DATAFIM'
+    DbxCommandType = 'Dbx.SQL'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftDate
+        Name = 'DATAINI'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'DATAFIM'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.SQLConnection
+    Left = 128
+    Top = 8
+  end
+  object cdsCliente: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspCliente'
+    Left = 88
+    Top = 8
+  end
+  object dspCliente: TDataSetProvider
+    DataSet = sqsCliente
+    Left = 160
+    Top = 8
+  end
+end

@@ -1,0 +1,40 @@
+inherited FSuprimento: TFSuprimento
+  Caption = 'Suprimento'
+  ClientHeight = 109
+  ClientWidth = 473
+  ExplicitWidth = 479
+  ExplicitHeight = 137
+  PixelsPerInch = 96
+  TextHeight = 13
+  object GroupBox1: TGroupBox
+    Left = 3
+    Top = 2
+    Width = 382
+    Height = 40
+    Caption = 'Descricao'
+    TabOrder = 0
+    object edDescricao: TEdit
+      Left = 6
+      Top = 14
+      Width = 368
+      Height = 21
+      TabOrder = 0
+    end
+  end
+  object GroupBox2: TGroupBox
+    Left = 392
+    Top = 2
+    Width = 76
+    Height = 40
+    Caption = 'Valor'
+    TabOrder = 1
+    object Edit1: TEdit
+      Left = 7
+      Top = 14
+      Width = 60
+      Height = 21
+      TabOrder = 0
+      Text = 'Edit1'
+    end
+  end
+end

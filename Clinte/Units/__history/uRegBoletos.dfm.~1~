@@ -1,0 +1,7 @@
+inherited FRegBoletos: TFRegBoletos
+  Caption = 'Registro de Boletos'
+  ExplicitWidth = 742
+  ExplicitHeight = 503
+  PixelsPerInch = 96
+  TextHeight = 13
+end

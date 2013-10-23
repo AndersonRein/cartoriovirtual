@@ -1,0 +1,10 @@
+inherited FFormasPagamento: TFFormasPagamento
+  Caption = 'Formas de pagamento'
+  ExplicitWidth = 742
+  ExplicitHeight = 503
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited dspConection: TDSProviderConnection
+    ServerClassName = 'TsmFormaPagamento'
+  end
+end

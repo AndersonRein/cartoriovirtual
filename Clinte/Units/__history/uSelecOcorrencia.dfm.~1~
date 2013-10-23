@@ -1,0 +1,6 @@
+inherited FSelecOcorrencia: TFSelecOcorrencia
+  Caption = 'Selecionar um ocorrencia'
+  ExplicitWidth = 380
+  PixelsPerInch = 96
+  TextHeight = 13
+end

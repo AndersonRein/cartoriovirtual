@@ -1,0 +1,35 @@
+unit uSMRegistroCivil;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, Datasnap.DSServer, Datasnap.DSAuth,
+  Data.FMTBcd, Datasnap.Provider, Data.DB, Data.SqlExpr, uTRegistroCivil;
+
+type
+  TsmRegistroCivil = class(TDSServerModule)
+    sqsCadastro: TSQLDataSet;
+    sqsConsulta: TSQLDataSet;
+    dspCadastro: TDataSetProvider;
+    dspConsulta: TDataSetProvider;
+    procedure DSServerModuleCreate(Sender: TObject);
+  private
+    { Private declarations }
+    registroCivil: TRegistroCivil;
+  public
+    { Public declarations }
+  end;
+
+implementation
+
+{$R *.dfm}
+
+uses uDM;
+
+procedure TsmRegistroCivil.DSServerModuleCreate(Sender: TObject);
+begin
+ registroCivil := TRegistroCivil.Create;
+end;
+
+end.
+

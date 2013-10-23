@@ -1,0 +1,5 @@
+object smMotivoProtesto: TsmMotivoProtesto
+  OldCreateOrder = False
+  Height = 454
+  Width = 600
+end

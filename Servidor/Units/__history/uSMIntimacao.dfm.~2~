@@ -1,0 +1,16 @@
+object smIntimacao: TsmIntimacao
+  OldCreateOrder = False
+  OnCreate = DSServerModuleCreate
+  Height = 441
+  Width = 686
+  object DataSetProvider1: TDataSetProvider
+    Left = 256
+    Top = 160
+  end
+  object SQLDataSet1: TSQLDataSet
+    DbxCommandType = 'Dbx.SQL'
+    Params = <>
+    Left = 224
+    Top = 152
+  end
+end

@@ -1,0 +1,25 @@
+inherited FRegPessoaJuridica: TFRegPessoaJuridica
+  Caption = 'Registro de pessoas jur'#237'dicas'
+  ExplicitWidth = 742
+  ExplicitHeight = 503
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited cdsConsulta: TClientDataSet
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'NOME'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'NOME'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspConsulta'
+    RemoteServer = dspConection
+  end
+  inherited dspConection: TDSProviderConnection
+    ServerClassName = 'TsmRegPessoaJuridica'
+  end
+end

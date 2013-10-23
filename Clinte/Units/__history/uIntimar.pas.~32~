@@ -1,0 +1,135 @@
+unit uIntimar;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uPadraoVazio, Vcl.StdCtrls, Vcl.ExtCtrls,
+  Vcl.Buttons, uTRegistoSelos, uTEmolumentos;
+
+type
+  TFIntimar = class(TFPadraoVazio)
+    GroupBox1: TGroupBox;
+    lblApresentante: TLabel;
+    GroupBox2: TGroupBox;
+    lblDevedor: TLabel;
+    gpbAceite: TGroupBox;
+    lblProtocolo: TLabel;
+    gpbSelo: TGroupBox;
+    edSelo: TEdit;
+    btSalvar: TBitBtn;
+    btCancelar: TBitBtn;
+    GroupBox3: TGroupBox;
+    edFerj: TEdit;
+    GroupBox4: TGroupBox;
+    lblValor: TLabel;
+    rgAceite: TRadioGroup;
+    btnEmol: TSpeedButton;
+    procedure FormCreate(Sender: TObject);
+    procedure btCancelarClick(Sender: TObject);
+    procedure btSalvarClick(Sender: TObject);
+    procedure btnEmolClick(Sender: TObject);
+  private
+    { Private declarations }
+    registroSelo: TRegistroSelos;
+    cancelou: Boolean;
+    emolumento: TEmolumentos;
+  public
+    { Public declarations }
+    procedure new(apresentante, devedor, protocolo:string);
+    procedure protestar(apresentante, devedor, protocolo:string; valor: Double);
+    function getCancelou:Boolean;
+    function getAceite:Integer;
+    function getSelo:string;
+    function getFerj:string;
+  end;
+
+var
+  FIntimar: TFIntimar;
+
+implementation
+
+{$R *.dfm}
+
+{ TFIntimar }
+
+procedure TFIntimar.btCancelarClick(Sender: TObject);
+begin
+  inherited;
+ Close;
+end;
+
+procedure TFIntimar.btnEmolClick(Sender: TObject);
+begin
+  inherited;
+  emolumento.getBusca(edFerj);
+end;
+
+procedure TFIntimar.btSalvarClick(Sender: TObject);
+begin
+  inherited;
+  if not registroSelo.permitirSelo(StrToIntDef(edSelo.Text,0)) then
+  begin
+    Application.MessageBox('O selo informado não esta registrado.','Informação',MB_ICONEXCLAMATION);
+    edSelo.SetFocus;
+    Exit;
+  end;
+  if registroSelo.seloLancado(StrToIntDef(edSelo.Text,0)) then
+  begin
+    Application.MessageBox('O selo informado já esta em uso.','Informação',MB_ICONEXCLAMATION);
+    edSelo.SetFocus;
+    Exit;
+  end;
+ cancelou := False;
+ Close;
+end;
+
+procedure TFIntimar.protestar(apresentante, devedor, protocolo: string; valor: Double);
+begin
+lblApresentante.Caption := apresentante;
+lblDevedor.Caption := devedor;
+lblProtocolo.Caption := protocolo;
+lblValor.Caption := FormatFloat('R$ ###,##0.00', valor);
+rgAceite.Visible := False;
+Self.Caption := 'Protesto';
+Self.ShowModal;
+end;
+
+procedure TFIntimar.FormCreate(Sender: TObject);
+begin
+  inherited;
+  registroSelo := TRegistroSelos.Create;
+  emolumento := TEmolumentos.Create;
+  cancelou := True;
+end;
+
+function TFIntimar.getAceite: Integer;
+begin
+Result := rgAceite.ItemIndex;
+end;
+
+function TFIntimar.getCancelou: Boolean;
+begin
+Result := cancelou;
+end;
+
+function TFIntimar.getFerj: string;
+begin
+Result := edFerj.Text;
+end;
+
+function TFIntimar.getSelo: string;
+begin
+Result := edSelo.Text;
+end;
+
+procedure TFIntimar.new(apresentante, devedor, protocolo: string);
+begin
+lblApresentante.Caption := apresentante;
+lblDevedor.Caption := devedor;
+lblProtocolo.Caption := protocolo;
+edFerj.Text := '17.2';
+Self.ShowModal;
+end;
+
+end.

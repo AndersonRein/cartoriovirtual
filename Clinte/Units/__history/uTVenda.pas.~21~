@@ -1,0 +1,141 @@
+unit uTVenda;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, Mask, ComCtrls, FMTBcd, DBCtrls, uDM, CheckLst,
+  SqlExpr, DB;
+
+type
+  TFVenda = Class
+  private
+
+  public
+    function inseriIten(venda, produto, servico: Integer; valor, quantidade: Double;
+      unidade, observacao: string): Boolean;
+    function getCodigoVenda: Integer;
+    function getTotalProdutos(codigo: Integer):Double;
+    function getTotalServicos(codigo: integer):Double;
+    function getTotalVenda(codigo: Integer): Double;
+    function faturarVenda(caixa, codigo: Integer):Boolean;
+    function cancelarVenda(codigo: Integer):Boolean;
+  End;
+
+implementation
+
+{ TFVenda }
+
+function TFVenda.cancelarVenda(codigo: Integer): Boolean;
+var
+  sql: TSQLDataSet;
+begin
+  try
+    sql := TSQLDataSet.Create(nil);
+    sql.SQLConnection := DM.SQLConnection;
+    sql.CommandText := 'UPDATE VENDAS_SB SET STATUS = 2, CANCELADO =:DATA WHERE CODIGO =:CODIGO';
+    sql.Params[0].AsDateTime := Now;
+    sql.Params[1].AsInteger := codigo;
+    sql.ExecSQL;
+
+  except
+    Result := False;
+  end;
+  Result := True;
+end;
+
+function TFVenda.faturarVenda(caixa, codigo: Integer): Boolean;
+var
+  sql: TSQLDataSet;
+begin
+  try
+    sql := TSQLDataSet.Create(nil);
+    sql.SQLConnection := DM.SQLConnection;
+    sql.CommandText := 'UPDATE VENDAS_SB SET CAIXA = :CAIXA, DATAFATURA =:DATAFATURA, STATUS = 0 WHERE CODIGO =:CODIGO';
+    sql.Params[0].AsInteger := caixa;
+    sql.Params[1].AsDateTime := Now;
+    sql.Params[2].AsInteger := codigo;
+    sql.ExecSQL;
+
+  except
+    Result := False;
+  end;
+  Result := True;
+end;
+
+function TFVenda.getCodigoVenda: Integer;
+var
+  sql: TSQLDataSet;
+begin
+  sql := TSQLDataSet.Create(nil);
+  sql.SQLConnection := DM.SQLConnection;
+  sql.CommandText := 'SELECT MAX(CODIGO) AS CODIGO FROM VVENDAS_SB';
+  sql.Open;
+
+  Result := sql.FieldByName('CODIGO').AsInteger + 1;
+end;
+
+function TFVenda.getTotalProdutos(codigo: Integer): Double;
+var
+  sql: TSQLDataSet;
+begin
+  sql := TSQLDataSet.Create(nil);
+  sql.SQLConnection := DM.SQLConnection;
+  sql.CommandText := 'SELECT COALESCE(SUM(TOTAL),0) AS TOTAL FROM VIVENDAS_SB WHERE VENDA =:VENDA AND CODPRODUTO > 0';
+  sql.Params[0].AsInteger := codigo;
+  sql.Open;
+
+  Result := sql.FieldByName('TOTAL').AsFloat;
+end;
+
+function TFVenda.getTotalServicos(codigo: integer): Double;
+var
+  sql: TSQLDataSet;
+begin
+  sql := TSQLDataSet.Create(nil);
+  sql.SQLConnection := DM.SQLConnection;
+  sql.CommandText := 'SELECT COALESCE(SUM(TOTAL),0) AS TOTAL FROM VIVENDAS_SB WHERE VENDA =:VENDA AND CODSERVICO > 0';
+  sql.Params[0].AsInteger := codigo;
+  sql.Open;
+
+  Result := sql.FieldByName('TOTAL').AsFloat;
+end;
+
+function TFVenda.getTotalVenda(codigo: Integer): Double;
+var
+  sql: TSQLDataSet;
+begin
+  sql := TSQLDataSet.Create(nil);
+  sql.SQLConnection := DM.SQLConnection;
+  sql.CommandText := 'SELECT COALESCE(TOTAL,0) AS TOTAL FROM VVENDAS_SB WHERE CODIGO =:CODIGO';
+  sql.Params[0].AsInteger := codigo;
+  sql.Open;
+
+  Result := sql.FieldByName('TOTAL').AsFloat;
+end;
+
+function TFVenda.inseriIten(venda, produto, servico: Integer; valor, quantidade: Double;
+  unidade, observacao: string): Boolean;
+var
+  sql: TSQLDataSet;
+begin
+  try
+    sql := TSQLDataSet.Create(nil);
+    sql.SQLConnection := DM.SQLConnection;
+    sql.CommandText := 'INSERT INTO IVENDAS_SB (CODIGO, VENDA, PRODUTO, SERVICO, VALOR, UNIDADE, QUANTIDADE, OBSERVACAO) VALUES (0,:VENDA, :PRODUTO,:SERVICO, :VALOR, :UNIDAE, :QUANTIDADE, :OBSERVACAO)';
+    sql.Params[0].AsInteger := venda;
+    sql.Params[1].AsInteger := produto;
+    sql.Params[2].AsInteger := servico;
+    sql.Params[3].AsFloat   := valor;
+    sql.Params[4].AsString  := unidade;
+    sql.Params[5].AsFloat    := quantidade;
+    sql.Params[6].AsString  := observacao;
+    sql.ExecSQL;
+
+  except
+    Result := False;
+  end;
+  Result := True;
+end;
+
+end.

@@ -1,0 +1,57 @@
+unit uSuprimento;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, uPadraoVazio, StdCtrls, Buttons, uTCaixa, uPadrao;
+
+type
+  TFSuprimento = class(TFPadraoVazio)
+    GroupBox1: TGroupBox;
+    edDescricao: TEdit;
+    GroupBox2: TGroupBox;
+    edValor: TEdit;
+    spbConfirmar: TSpeedButton;
+    GroupBox3: TGroupBox;
+    GroupBox4: TGroupBox;
+    lblCaixa: TLabel;
+    lblOperacao: TLabel;
+    procedure FormCreate(Sender: TObject);
+    procedure spbConfirmarClick(Sender: TObject);
+  private
+    { Private declarations }
+    caixa: TFCaixa;
+    padrao: TFPadrao;
+    codCaixa, operacao: Integer;
+  public
+    { Public declarations }
+    procedure entrada(caixa, operacao);
+  end;
+
+var
+  FSuprimento: TFSuprimento;
+
+implementation
+
+
+{$R *.dfm}
+
+procedure TFSuprimento.FormCreate(Sender: TObject);
+begin
+  inherited;
+ caixa := TFCaixa.Create;
+ padrao := TFPadrao.Create;
+end;
+
+procedure TFSuprimento.spbConfirmarClick(Sender: TObject);
+begin
+  inherited;
+ if caixa.setEntradaSuprimento(codCaixa, operacao, StrToFloat(edValor.Text), edDescricao) then
+  begin
+    ShowMessage(padrao.SUCESSO);
+  end;
+
+end;
+
+end.

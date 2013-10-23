@@ -1,0 +1,111 @@
+unit uTConfiguracoes;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, Mask, ComCtrls, FMTBcd, DBCtrls, uDM, CheckLst,
+  SqlExpr, DB, DBGrids, uBusca, IniFiles;
+
+type
+  TConfiguracoes = Class
+  private
+    cliente: Integer;
+  public
+    function permitirDescontoVarejo(valor: Double): Boolean;
+    function permitirDescontoAtacado(valor: Double): Boolean;
+    function getCaminhoBackup(): string;
+    procedure conectar();
+    function getLiberacao(): TDate;
+    procedure setLibercao(vencimento: TDate);
+  End;
+
+implementation
+
+{ TConfiguracoes }
+
+procedure TConfiguracoes.conectar;
+var
+  myini: TMEMInifile;
+  hostName, Porta: string;
+begin
+  myini := TMEMInifile.Create('CONFIG\CONFIG.ini');
+  with myini do
+  begin
+    hostName := Readstring('DATASNAP', 'HOSTNAME', 'LOCALHOST');
+    Porta := Readstring('DATASNAP', 'PORTA', '211');
+    cliente := ReadInteger('LIBERACAO', 'CLIENTE', 0);
+  end;
+    DM.DataSnapConnection.Params.Add('HOSTNAME' + hostName);
+    DM.DataSnapConnection.Params.Add('PORT' + Porta);
+    DM.DataSnapConnection.Connected := True;
+end;
+
+function TConfiguracoes.getCaminhoBackup: string;
+var
+  sql: TSQLDataSet;
+begin
+  sql := TSQLDataSet.Create(nil);
+  sql.SQLConnection := DM.SQLConnection;
+  sql.CommandText := 'SELECT CAMINHOBACKUP FROM CONFIGURACOES';
+  sql.Open;
+
+  Result := sql.FieldByName('CAMINHOBACKUP').AsString;
+end;
+
+function TConfiguracoes.getLiberacao: TDate;
+var
+  sqlsm: TSqlServerMethod;
+begin
+  sqlsm := TSqlServerMethod.Create(nil);
+  sqlsm.SQLConnection := DM.DataSnapConnection;
+  sqlsm.ServerMethodName := 'TsmLiberacoes.getLiberacao';
+  sqlsm.Params[0].AsInteger := cliente;
+  sqlsm.ExecuteMethod;
+
+  Result := StrToDate(sqlsm.Params[1].AsString);
+end;
+
+function TConfiguracoes.permitirDescontoAtacado(valor: Double): Boolean;
+var
+  sql: TSQLDataSet;
+begin
+  sql := TSQLDataSet.Create(nil);
+  sql.SQLConnection := DM.SQLConnection;
+  sql.CommandText := 'SELECT DESCONTOATACADO FROM CONFIGURACOES';
+  sql.Open;
+
+  if valor > sql.FieldByName('DESCONTOATACADO').AsFloat then
+    Result := False
+  else
+    Result := True;
+end;
+
+function TConfiguracoes.permitirDescontoVarejo(valor: Double): Boolean;
+var
+  sql: TSQLDataSet;
+begin
+  sql := TSQLDataSet.Create(nil);
+  sql.SQLConnection := DM.SQLConnection;
+  sql.CommandText := 'SELECT DESCONTOVAREJO FROM CONFIGURACOES';
+  sql.Open;
+
+  if valor > sql.FieldByName('DESCONTOVAREJO').AsFloat then
+    Result := False
+  else
+    Result := True;
+end;
+
+procedure TConfiguracoes.setLibercao(vencimento: TDate);
+var
+  sql: TSQLDataSet;
+begin
+  sql := TSQLDataSet.Create(nil);
+  sql.SQLConnection := DM.SQLConnection;
+  sql.CommandText :=
+    'INSERT INTO LIBERACOES (CODIGO, VENCIMENTO) VALUES (0, :VENCIMENTO)';
+  sql.Params[0].AsDate := vencimento;
+  sql.ExecSQL();
+end;
+
+end.

@@ -1,0 +1,21 @@
+unit uOcorrencias;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, Datasnap.DSServer, Datasnap.DSAuth;
+
+type
+  TsmOcorrencias = class(TDSServerModule)
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+implementation
+
+{$R *.dfm}
+
+end.
+

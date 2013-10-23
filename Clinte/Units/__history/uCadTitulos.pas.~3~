@@ -1,0 +1,34 @@
+unit uCadTitulos;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uCadastroPadrao, Data.DB,
+  Datasnap.DBClient, Datasnap.DSConnect, Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask,
+  Vcl.DBCtrls;
+
+type
+  TFCadTitulos = class(TFCadastroPadrao)
+    cdsCadastroCODIGO: TIntegerField;
+    cdsCadastroSIGLA: TStringField;
+    cdsCadastroNOME: TStringField;
+    cdsCadastroDESCRICAO: TStringField;
+    Label1: TLabel;
+    dbNome: TDBEdit;
+    Label2: TLabel;
+    dbSigla: TDBEdit;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FCadTitulos: TFCadTitulos;
+
+implementation
+
+{$R *.dfm}
+
+end.

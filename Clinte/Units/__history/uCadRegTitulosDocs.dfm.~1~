@@ -1,0 +1,52 @@
+inherited FCadRegTitulosDocs: TFCadRegTitulosDocs
+  Caption = 'Cadastro de t'#237'tulos e documentos'
+  ExplicitWidth = 434
+  ExplicitHeight = 250
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited cdsCadastro: TClientDataSet
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'codigo'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspCadastro'
+    object cdsCadastroCODIGO: TIntegerField
+      FieldName = 'CODIGO'
+      Required = True
+    end
+    object cdsCadastroNOME: TStringField
+      DisplayLabel = 'Nome'
+      FieldName = 'NOME'
+      Required = True
+      Size = 100
+    end
+    object cdsCadastroDESCRICAO: TStringField
+      DisplayLabel = 'Descri'#231#227'o'
+      FieldName = 'DESCRICAO'
+      Size = 100
+    end
+    object cdsCadastroDATA: TDateField
+      FieldName = 'DATA'
+    end
+    object cdsCadastroUSUARIO: TIntegerField
+      FieldName = 'USUARIO'
+      Required = True
+    end
+    object cdsCadastroTIPO: TSmallintField
+      DisplayLabel = 'Tipo'
+      FieldName = 'TIPO'
+    end
+    object cdsCadastroLIVRO: TSmallintField
+      DisplayLabel = 'Livro'
+      FieldName = 'LIVRO'
+    end
+    object cdsCadastroPROTOCOLO: TIntegerField
+      FieldName = 'PROTOCOLO'
+    end
+  end
+  inherited dspConection: TDSProviderConnection
+    ServerClassName = 'TsmRegTitulosDocs'
+  end
+end

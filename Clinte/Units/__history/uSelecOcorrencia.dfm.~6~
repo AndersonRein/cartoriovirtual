@@ -1,0 +1,62 @@
+inherited FSelecOcorrencia: TFSelecOcorrencia
+  Caption = 'Selecionar uma ocorr'#234'ncia'
+  OnShow = FormShow
+  ExplicitWidth = 380
+  PixelsPerInch = 96
+  TextHeight = 13
+  object GroupBox1: TGroupBox
+    Left = 0
+    Top = 0
+    Width = 374
+    Height = 41
+    Align = alTop
+    Caption = 'Ocorr'#234'ncia'
+    TabOrder = 0
+    ExplicitLeft = 16
+    ExplicitTop = 32
+    ExplicitWidth = 185
+    object dbOcorrencia: TDBLookupComboBox
+      Left = 8
+      Top = 15
+      Width = 361
+      Height = 21
+      KeyField = 'CODIGO'
+      ListField = 'NOME'
+      ListSource = dsOcorrencia
+      TabOrder = 0
+    end
+  end
+  object cdsOcorrencia: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftString
+        Name = 'nome'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspConsulta'
+    RemoteServer = dspConnection
+    Left = 96
+    Top = 72
+    object cdsOcorrenciaCODIGO: TIntegerField
+      FieldName = 'CODIGO'
+      Required = True
+    end
+    object cdsOcorrenciaNOME: TStringField
+      FieldName = 'NOME'
+      Size = 100
+    end
+  end
+  object dsOcorrencia: TDataSource
+    DataSet = cdsOcorrencia
+    Left = 128
+    Top = 72
+  end
+  object dspConnection: TDSProviderConnection
+    ServerClassName = 'TsmOcorrencias'
+    Connected = True
+    SQLConnection = DM.SQLConnection
+    Left = 184
+    Top = 56
+  end
+end

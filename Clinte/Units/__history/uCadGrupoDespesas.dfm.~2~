@@ -1,0 +1,94 @@
+inherited FCadGrupoDespesas: TFCadGrupoDespesas
+  Caption = 'Cadastro de grupo de despesas'
+  ClientHeight = 106
+  ExplicitWidth = 434
+  ExplicitHeight = 134
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited gpbCadastro: TGroupBox
+    Height = 60
+    ExplicitHeight = 60
+    object lbl1: TLabel
+      Left = 8
+      Top = 15
+      Width = 27
+      Height = 13
+      Caption = 'Nome'
+      FocusControl = dbNOME
+    end
+    object lbl2: TLabel
+      Left = 312
+      Top = 15
+      Width = 106
+      Height = 13
+      Caption = 'C'#243'digo do Carne Le'#227'o'
+      FocusControl = dbCarneLeao
+    end
+    object dbNOME: TDBEdit
+      Left = 8
+      Top = 31
+      Width = 300
+      Height = 21
+      DataField = 'NOME'
+      DataSource = dsCadastro
+      TabOrder = 0
+    end
+    object dbCarneLeao: TDBEdit
+      Left = 312
+      Top = 31
+      Width = 110
+      Height = 21
+      DataField = 'CARNELEAO'
+      DataSource = dsCadastro
+      TabOrder = 1
+    end
+  end
+  inherited btSalvar: TBitBtn
+    Left = 120
+    Top = 70
+    ExplicitLeft = 120
+    ExplicitTop = 70
+  end
+  inherited btCancelar: TBitBtn
+    Left = 223
+    Top = 70
+    ExplicitLeft = 223
+    ExplicitTop = 70
+  end
+  inherited cdsCadastro: TClientDataSet
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'codigo'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspCadastro'
+    Left = 160
+    object cdsCadastroCODIGO: TIntegerField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'CODIGO'
+      Required = True
+    end
+    object cdsCadastroNOME: TStringField
+      DisplayLabel = 'Nome'
+      FieldName = 'NOME'
+      Required = True
+      Size = 100
+    end
+    object cdsCadastroSTATUS: TSmallintField
+      FieldName = 'STATUS'
+    end
+    object cdsCadastroCARNELEAO: TIntegerField
+      DisplayLabel = 'C'#243'digo do Carne Le'#227'o'
+      FieldName = 'CARNELEAO'
+    end
+  end
+  inherited dsCadastro: TDataSource
+    Left = 128
+    Top = 24
+  end
+  inherited dspConection: TDSProviderConnection
+    ServerClassName = 'TsmGrupoDespesas'
+    Left = 192
+  end
+end

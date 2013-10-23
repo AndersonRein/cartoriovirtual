@@ -1,0 +1,54 @@
+unit uOcorrencias;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uAcessoPadrao, Data.DB,
+  Datasnap.DBClient, Datasnap.DSConnect, Vcl.StdCtrls, Vcl.Buttons, Vcl.Grids,
+  Vcl.DBGrids;
+
+type
+  TFOcorrencias = class(TFAcessoCadPadrao)
+    cdsConsultaCODIGO: TIntegerField;
+    cdsConsultaNOME: TStringField;
+    procedure btbInserirClick(Sender: TObject);
+    procedure btbAlterarClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FOcorrencias: TFOcorrencias;
+
+implementation
+
+{$R *.dfm}
+
+uses uDM, uCadOcorrencia;
+
+procedure TFOcorrencias.btbAlterarClick(Sender: TObject);
+var
+cadOcorrencia: TFCadOcorrencia;
+begin
+  inherited;
+cadOcorrencia := TFCadOcorrencia.Create(nil);
+cadOcorrencia.alterar(cdsConsultaCODIGO.AsInteger);
+cadOcorrencia.Free;
+cdsConsulta.Refresh;
+end;
+
+procedure TFOcorrencias.btbInserirClick(Sender: TObject);
+var
+cadOcorrencia: TFCadOcorrencia;
+begin
+  inherited;
+cadOcorrencia := TFCadOcorrencia.Create(nil);
+cadOcorrencia.inserir;
+cadOcorrencia.Free;
+cdsConsulta.Refresh;
+end;
+
+end.

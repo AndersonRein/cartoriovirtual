@@ -1,0 +1,45 @@
+unit uSelecOcorrencia;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uPadraoVazio, Vcl.StdCtrls, Data.DB,
+  Datasnap.DBClient, Datasnap.DSConnect, Vcl.DBCtrls, Vcl.Buttons;
+
+type
+  TFSelecOcorrencia = class(TFPadraoVazio)
+    GroupBox1: TGroupBox;
+    dbOcorrencia: TDBLookupComboBox;
+    cdsOcorrencia: TClientDataSet;
+    dsOcorrencia: TDataSource;
+    dspConnection: TDSProviderConnection;
+    cdsOcorrenciaCODIGO: TIntegerField;
+    cdsOcorrenciaNOME: TStringField;
+    btSalvar: TBitBtn;
+    btCancelar: TBitBtn;
+    procedure FormShow(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FSelecOcorrencia: TFSelecOcorrencia;
+
+implementation
+
+{$R *.dfm}
+
+uses uDM;
+
+procedure TFSelecOcorrencia.FormShow(Sender: TObject);
+begin
+  inherited;
+ cdsOcorrencia.Close;
+ cdsOcorrencia.Params[0].AsString := '%';
+ cdsOcorrencia.Open;
+end;
+
+end.

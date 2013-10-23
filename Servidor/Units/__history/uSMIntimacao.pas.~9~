@@ -1,0 +1,52 @@
+unit uSMIntimacao;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, Datasnap.DSServer, Datasnap.DSAuth,
+  Data.FMTBcd, Data.DB, Data.SqlExpr, Datasnap.Provider, uTIntimacao;
+
+type
+  TsmIntimacao = class(TDSServerModule)
+    dspConsulta: TDataSetProvider;
+    sqsConsulta: TSQLDataSet;
+    procedure DSServerModuleCreate(Sender: TObject);
+  private
+    { Private declarations }
+    intimacao: TIntimacao;
+  public
+    { Public declarations }
+    procedure intimar(protesto, aceite:Integer; selo:string; protocolo:Integer);
+    function protestoIntimado(protesto:Integer):Boolean;
+    procedure concluir(intimacao:Integer; selo:string);
+  end;
+
+implementation
+
+{$R *.dfm}
+
+uses uDM;
+
+
+procedure TsmIntimacao.concluir(intimacao: Integer; selo: string);
+begin
+ Self.intimacao.concluir(intimacao,selo);
+end;
+
+procedure TsmIntimacao.DSServerModuleCreate(Sender: TObject);
+begin
+ intimacao := TIntimacao.Create;
+end;
+
+procedure TsmIntimacao.intimar(protesto, aceite: Integer; selo:string; protocolo:Integer);
+begin
+intimacao.intimar(protesto, aceite, selo, protocolo);
+end;
+
+function TsmIntimacao.protestoIntimado(protesto: Integer): Boolean;
+begin
+Result := intimacao.protestoIntimado(protesto);
+end;
+
+end.
+

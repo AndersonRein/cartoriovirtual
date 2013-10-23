@@ -1,0 +1,7 @@
+inherited FCaixaTabNotas: TFCaixaTabNotas
+  Caption = 'Caixa do tabelionato de notas'
+  ExplicitWidth = 742
+  ExplicitHeight = 503
+  PixelsPerInch = 96
+  TextHeight = 13
+end

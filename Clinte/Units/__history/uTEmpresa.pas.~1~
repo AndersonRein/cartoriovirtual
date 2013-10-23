@@ -1,0 +1,46 @@
+unit uTEmpresa;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, Mask, ComCtrls, FMTBcd, DBCtrls, uDM, CheckLst,
+  SqlExpr, DB;
+
+type
+  TEmpresa = Class
+  private
+    nome: string;
+    codigo: Integer;
+  public
+    function getNome():string;
+    procedure setNome(nome: string);
+    procedure setCodigo(codigo: Integer);
+    function getCodigo():Integer;
+  End;
+
+implementation
+
+{ TFCliente }
+
+function TEmpresa.getNome: string;
+begin
+Result := nome;
+end;
+
+function TEmpresa.getCodigo: Integer;
+begin
+Result := codigo;
+end;
+
+procedure TEmpresa.setCodigo(codigo: Integer);
+begin
+  Self.codigo := codigo;
+end;
+
+procedure TEmpresa.setNome(nome: string);
+begin
+  Self.nome := nome;
+end;
+
+end.

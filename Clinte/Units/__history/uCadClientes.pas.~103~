@@ -1,0 +1,180 @@
+unit uCadClientes;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, uCadastroPadrao, StdCtrls, Buttons, FMTBcd, DB, Provider, DBClient,
+  SqlExpr, Mask, DBCtrls, ExtCtrls, uTCidade, uPadrao;
+
+type
+  TFCadClientes = class(TFCadastroPadrao)
+    Label1: TLabel;
+    dbNome: TDBEdit;
+    dbPessoa: TDBRadioGroup;
+    lblCPF_CNPJ: TLabel;
+    dbCPF_CNPJ: TDBEdit;
+    lblID_IE: TLabel;
+    dbID_IE: TDBEdit;
+    Label4: TLabel;
+    dbEndereco: TDBEdit;
+    Label5: TLabel;
+    dbNumero: TDBEdit;
+    Label6: TLabel;
+    dbBairro: TDBEdit;
+    Label7: TLabel;
+    dbCidade: TDBEdit;
+    edCidade: TEdit;
+    Label9: TLabel;
+    dbEmail: TDBEdit;
+    Label2: TLabel;
+    dbTelefone: TDBEdit;
+    Label3: TLabel;
+    dbCEP: TDBEdit;
+    Label8: TLabel;
+    dbComplemento: TDBEdit;
+    Label10: TLabel;
+    dbNascimento: TDBEdit;
+    cdsCadastroCODIGO: TIntegerField;
+    cdsCadastroNOME: TStringField;
+    cdsCadastroCPF_CNPJ: TStringField;
+    cdsCadastroIDENT_IEST: TStringField;
+    cdsCadastroENDERECO: TStringField;
+    cdsCadastroBAIRRO: TStringField;
+    cdsCadastroNUMERO: TStringField;
+    cdsCadastroCIDADE: TIntegerField;
+    cdsCadastroTELEFONE: TStringField;
+    cdsCadastroEMAIL: TStringField;
+    cdsCadastroTIPOPESSOA: TSmallintField;
+    cdsCadastroSTATUS: TSmallintField;
+    cdsCadastroCEP: TStringField;
+    cdsCadastroCOMPLEMENTO: TStringField;
+    cdsCadastroNASCIMENTO: TDateField;
+    cdsCadastroDATACADASTRO: TDateField;
+    procedure btSalvarClick(Sender: TObject);
+    procedure dbCPF_CNPJEnter(Sender: TObject);
+    procedure dbEmailKeyPress(Sender: TObject; var Key: Char);
+    procedure dbNumeroExit(Sender: TObject);
+    procedure dbID_IEExit(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure dbCidadeClick(Sender: TObject);
+    procedure cdsCadastroAfterEdit(DataSet: TDataSet);
+    procedure dbPessoaClick(Sender: TObject);
+    procedure dbPessoaChange(Sender: TObject);
+  private
+    { Private declarations }
+    modo: Integer;
+    cidade: TCidade;
+    procedure formatacao;
+  public
+    { Public declarations }
+    procedure inserir();
+    procedure alterar(codRegistro: Integer);
+  end;
+
+var
+  FCadClientes: TFCadClientes;
+
+implementation
+
+uses uDM;
+{$R *.dfm}
+
+procedure TFCadClientes.alterar(codRegistro: Integer);
+begin
+  modo := 1;
+  codAlteracao := codRegistro;
+  editarCadastro;
+  Self.ShowModal;
+end;
+
+procedure TFCadClientes.formatacao;
+begin
+if dbPessoa.ItemIndex = 0 then
+  begin
+    cdsCadastroCPF_CNPJ.EditMask := '000.000.000-00;0;_';
+    lblCPF_CNPJ.Caption := 'CPF';
+  end;
+  if dbPessoa.ItemIndex = 1 then
+  begin
+    cdsCadastroCPF_CNPJ.EditMask := '00.000.000/0000-00;0;_';
+    lblCPF_CNPJ.Caption := 'CNPJ';
+  end;
+end;
+
+procedure TFCadClientes.FormCreate(Sender: TObject);
+begin
+  inherited;
+ cidade := TCidade.Create;
+end;
+
+procedure TFCadClientes.btSalvarClick(Sender: TObject);
+begin
+  inherited;
+  salvar;
+  if modo = 0 then
+    abrirCadastro
+  else
+    editarCadastro;
+end;
+
+procedure TFCadClientes.cdsCadastroAfterEdit(DataSet: TDataSet);
+begin
+  inherited;
+formatacao;
+edCidade.Text := cidade.getNomeCidade(cdsCadastroCIDADE.AsInteger);
+end;
+
+procedure TFCadClientes.dbCidadeClick(Sender: TObject);
+begin
+  inherited;
+cdsCadastroCIDADE.AsInteger := cidade.getCidade(edCidade);
+end;
+
+procedure TFCadClientes.dbCPF_CNPJEnter(Sender: TObject);
+begin
+  inherited;
+  formatacao;
+end;
+
+procedure TFCadClientes.dbEmailKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+ if Key = #13 then
+    btSalvarClick(Sender);
+end;
+
+procedure TFCadClientes.dbID_IEExit(Sender: TObject);
+begin
+  inherited;
+  if dbID_IE.Text = '' then
+    cdsCadastroIDENT_IEST.AsString := 'ISENTO';
+end;
+
+procedure TFCadClientes.dbNumeroExit(Sender: TObject);
+begin
+  inherited;
+  if dbNumero.Text = '' then
+     dbNumero.Text := 'S/N';
+end;
+
+procedure TFCadClientes.dbPessoaChange(Sender: TObject);
+begin
+  inherited;
+formatacao;
+end;
+
+procedure TFCadClientes.dbPessoaClick(Sender: TObject);
+begin
+  inherited;
+formatacao;
+end;
+
+procedure TFCadClientes.inserir();
+begin
+  modo := 0;
+  abrirCadastro;
+  Self.ShowModal;
+end;
+
+end.

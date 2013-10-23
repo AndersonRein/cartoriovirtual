@@ -1,0 +1,163 @@
+inherited FProdutos: TFProdutos
+  Caption = 'Produtos'
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited dbgCadastros: TDBGrid
+    DataSource = dsCadastro
+    Columns = <
+      item
+        Alignment = taCenter
+        Expanded = False
+        FieldName = 'CODIGO'
+        Width = 80
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'NOME'
+        Width = 250
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'NCM'
+        Width = 80
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ICMS'
+        Width = 50
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'IPI'
+        Width = 50
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'UNIDADE'
+        Width = 80
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'VALOR'
+        Visible = True
+      end>
+  end
+  inherited gpbCadastro: TGroupBox
+    inherited btbInserir: TBitBtn
+      OnClick = btbInserirClick
+    end
+    inherited btbAlterar: TBitBtn
+      OnClick = btbAlterarClick
+    end
+    inherited btbExcluir: TBitBtn
+      OnClick = btbExcluirClick
+    end
+  end
+  inherited dsCadastro: TDataSource
+    DataSet = cdsCadastro
+  end
+  inherited cdsCadastro: TClientDataSet
+    Params = <
+      item
+        DataType = ftString
+        Name = 'NOME'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspCadastro'
+    object cdsCadastroCODIGO: TIntegerField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'CODIGO'
+    end
+    object cdsCadastroNOME: TStringField
+      DisplayLabel = 'Produto'
+      FieldName = 'NOME'
+      Size = 100
+    end
+    object cdsCadastroNCM: TStringField
+      FieldName = 'NCM'
+    end
+    object cdsCadastroICMS: TFMTBCDField
+      DisplayLabel = 'ICMS (%)'
+      FieldName = 'ICMS'
+      Precision = 15
+      Size = 2
+    end
+    object cdsCadastroIPI: TFMTBCDField
+      DisplayLabel = 'IPI (%)'
+      FieldName = 'IPI'
+      Precision = 15
+      Size = 2
+    end
+    object cdsCadastroUNIDADE: TStringField
+      DisplayLabel = 'Unidade'
+      FieldName = 'UNIDADE'
+    end
+    object cdsCadastroVALOR: TFMTBCDField
+      DisplayLabel = 'Valor R$'
+      FieldName = 'VALOR'
+      currency = True
+      Precision = 15
+      Size = 2
+    end
+  end
+  inherited dspCadastro: TDataSetProvider
+    DataSet = sqsCadastro
+  end
+  inherited sqsCadastro: TSQLDataSet
+    CommandText = 'select * from VPRODUTOS WHERE NOME LIKE :NOME'
+    Params = <
+      item
+        DataType = ftString
+        Name = 'NOME'
+        ParamType = ptInput
+      end>
+  end
+  inherited sqsExcluir: TSQLDataSet
+    SchemaName = 'sysdba'
+    CommandText = 'select * from PRODUTOS where codigo =:codigo'
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'codigo'
+        ParamType = ptInput
+      end>
+  end
+  inherited cdsExcluir: TClientDataSet
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'codigo'
+        ParamType = ptInput
+      end>
+    object cdsExcluirCODIGO: TIntegerField
+      FieldName = 'CODIGO'
+      Required = True
+    end
+    object cdsExcluirNOME: TStringField
+      FieldName = 'NOME'
+      Size = 100
+    end
+    object cdsExcluirNCM: TStringField
+      FieldName = 'NCM'
+    end
+    object cdsExcluirICMS: TFMTBCDField
+      FieldName = 'ICMS'
+      Precision = 15
+      Size = 2
+    end
+    object cdsExcluirIPI: TFMTBCDField
+      FieldName = 'IPI'
+      Precision = 15
+      Size = 2
+    end
+    object cdsExcluirUNIDADE: TStringField
+      FieldName = 'UNIDADE'
+    end
+  end
+end

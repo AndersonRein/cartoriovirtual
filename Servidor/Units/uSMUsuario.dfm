@@ -1,0 +1,72 @@
+object smUsuario: TsmUsuario
+  OldCreateOrder = False
+  OnCreate = DSServerModuleCreate
+  Height = 307
+  Width = 373
+  object sqsCadastro: TSQLDataSet
+    SchemaName = 'sysdba'
+    CommandText = 'select * from USUARIOS where codigo =:codigo'
+    DbxCommandType = 'Dbx.SQL'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'codigo'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.SQLConnection
+    Left = 40
+    Top = 24
+  end
+  object dspCadastro: TDataSetProvider
+    DataSet = sqsCadastro
+    Left = 96
+    Top = 24
+  end
+  object dspConsulta: TDataSetProvider
+    DataSet = sqsConsulta
+    Left = 96
+    Top = 72
+  end
+  object sqsConsulta: TSQLDataSet
+    SchemaName = 'sysdba'
+    CommandText = 'select * from VUSUARIOS where usuario like :usuairo'
+    DbxCommandType = 'Dbx.SQL'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftString
+        Name = 'usuairo'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.SQLConnection
+    Left = 40
+    Top = 72
+  end
+  object sqsLogin: TSQLDataSet
+    CommandText = 
+      'SELECT * FROM VUSUARIOS WHERE USUARIO =:USUARIO AND SENHA =:SENH' +
+      'A AND CODSTATUS = 0'
+    DbxCommandType = 'Dbx.SQL'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftString
+        Name = 'USUARIO'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'SENHA'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.SQLConnection
+    Left = 40
+    Top = 128
+  end
+  object dspLogins: TDataSetProvider
+    DataSet = sqsLogin
+    Left = 96
+    Top = 128
+  end
+end

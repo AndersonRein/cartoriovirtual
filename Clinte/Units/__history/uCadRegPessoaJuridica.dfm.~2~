@@ -1,0 +1,95 @@
+inherited FCadRegPessoaJuridica: TFCadRegPessoaJuridica
+  Caption = 'Registro de pessoa juridica'
+  ClientHeight = 101
+  ExplicitWidth = 434
+  ExplicitHeight = 129
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited gpbCadastro: TGroupBox
+    Height = 57
+    ExplicitHeight = 57
+    object Label1: TLabel
+      Left = 8
+      Top = 12
+      Width = 27
+      Height = 13
+      Caption = 'Nome'
+      FocusControl = dbNome
+    end
+    object Label2: TLabel
+      Left = 322
+      Top = 12
+      Width = 25
+      Height = 13
+      Caption = 'Ficha'
+      FocusControl = dbFicha
+    end
+    object dbNome: TDBEdit
+      Left = 8
+      Top = 28
+      Width = 310
+      Height = 21
+      CharCase = ecUpperCase
+      DataField = 'NOME'
+      DataSource = dsCadastro
+      TabOrder = 0
+    end
+    object dbFicha: TDBEdit
+      Left = 322
+      Top = 28
+      Width = 100
+      Height = 21
+      CharCase = ecUpperCase
+      DataField = 'FICHA'
+      DataSource = dsCadastro
+      TabOrder = 1
+    end
+  end
+  inherited btSalvar: TBitBtn
+    Left = 111
+    Top = 65
+    ExplicitLeft = 111
+    ExplicitTop = 65
+  end
+  inherited btCancelar: TBitBtn
+    Left = 217
+    Top = 65
+    ExplicitLeft = 217
+    ExplicitTop = 65
+  end
+  inherited cdsCadastro: TClientDataSet
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'CODIGO'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspCadastro'
+    Left = 104
+    object cdsCadastroCODIGO: TIntegerField
+      FieldName = 'CODIGO'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object cdsCadastroNOME: TStringField
+      DisplayLabel = 'Nome'
+      FieldName = 'NOME'
+      Size = 100
+    end
+    object cdsCadastroFICHA: TIntegerField
+      DisplayLabel = 'Ficha'
+      FieldName = 'FICHA'
+    end
+    object cdsCadastroDATA: TDateField
+      FieldName = 'DATA'
+    end
+  end
+  inherited dsCadastro: TDataSource
+    Left = 136
+    Top = 24
+  end
+  inherited dspConection: TDSProviderConnection
+    ServerClassName = 'TsmRegPessoaJuridica'
+    Left = 72
+  end
+end

@@ -1,0 +1,455 @@
+inherited FCadRegistroCivil: TFCadRegistroCivil
+  Caption = 'Cadastro geral'
+  ClientHeight = 260
+  ClientWidth = 654
+  OnCreate = FormCreate
+  ExplicitWidth = 660
+  ExplicitHeight = 288
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited gpbCadastro: TGroupBox
+    Width = 654
+    Height = 220
+    ExplicitWidth = 654
+    ExplicitHeight = 220
+    object Label1: TLabel
+      Left = 8
+      Top = 13
+      Width = 27
+      Height = 13
+      Caption = 'Nome'
+      FocusControl = dbNome
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label2: TLabel
+      Left = 412
+      Top = 13
+      Width = 55
+      Height = 13
+      Caption = 'Nascimento'
+      FocusControl = dbNascimento
+    end
+    object lblCPF: TLabel
+      Left = 8
+      Top = 54
+      Width = 19
+      Height = 13
+      Caption = 'CPF'
+      FocusControl = dbCPF_CNPJ
+    end
+    object lblGR: TLabel
+      Left = 213
+      Top = 54
+      Width = 14
+      Height = 13
+      Caption = 'RG'
+      FocusControl = dbRG
+    end
+    object Label3: TLabel
+      Left = 412
+      Top = 54
+      Width = 66
+      Height = 13
+      Caption = 'Nacionalidade'
+      FocusControl = dbNacionalidade
+    end
+    object Label5: TLabel
+      Left = 412
+      Top = 95
+      Width = 12
+      Height = 13
+      Caption = 'N'#186
+      FocusControl = dbNumero
+    end
+    object Label6: TLabel
+      Left = 472
+      Top = 95
+      Width = 28
+      Height = 13
+      Caption = 'Bairro'
+      FocusControl = dbBairro
+    end
+    object Label10: TLabel
+      Left = 213
+      Top = 95
+      Width = 19
+      Height = 13
+      Caption = 'CEP'
+      FocusControl = dbCep
+    end
+    object Label4: TLabel
+      Left = 8
+      Top = 95
+      Width = 45
+      Height = 13
+      Caption = 'Endere'#231'o'
+      FocusControl = dbEndereco
+    end
+    object Label9: TLabel
+      Left = 8
+      Top = 136
+      Width = 33
+      Height = 13
+      Caption = 'Cidade'
+      FocusControl = dbCidade
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label8: TLabel
+      Left = 412
+      Top = 136
+      Width = 44
+      Height = 13
+      Caption = 'Profiss'#227'o'
+      FocusControl = dbProfissao
+    end
+    object Label13: TLabel
+      Left = 412
+      Top = 175
+      Width = 28
+      Height = 13
+      Caption = 'E-Mail'
+      FocusControl = dbEmail
+    end
+    object Label12: TLabel
+      Left = 213
+      Top = 175
+      Width = 33
+      Height = 13
+      Caption = 'Celular'
+      FocusControl = dbCelular
+    end
+    object Label11: TLabel
+      Left = 8
+      Top = 175
+      Width = 42
+      Height = 13
+      Caption = 'Telefone'
+      FocusControl = dbTelefone
+    end
+    object dbNome: TDBEdit
+      Left = 8
+      Top = 29
+      Width = 400
+      Height = 21
+      CharCase = ecUpperCase
+      DataField = 'NOME'
+      DataSource = dsCadastro
+      TabOrder = 0
+    end
+    object dbNascimento: TDBEdit
+      Left = 412
+      Top = 29
+      Width = 100
+      Height = 21
+      CharCase = ecUpperCase
+      DataField = 'NASCIMENTO'
+      DataSource = dsCadastro
+      TabOrder = 1
+    end
+    object dbCPF_CNPJ: TDBEdit
+      Left = 8
+      Top = 70
+      Width = 200
+      Height = 21
+      DataField = 'CPF_CNPJ'
+      DataSource = dsCadastro
+      TabOrder = 3
+    end
+    object dbRG: TDBEdit
+      Left = 213
+      Top = 70
+      Width = 195
+      Height = 21
+      DataField = 'RG_IE'
+      DataSource = dsCadastro
+      TabOrder = 4
+    end
+    object dbNacionalidade: TDBEdit
+      Left = 412
+      Top = 70
+      Width = 237
+      Height = 21
+      CharCase = ecUpperCase
+      DataField = 'NACIONALIDADE'
+      DataSource = dsCadastro
+      TabOrder = 5
+    end
+    object dbNumero: TDBEdit
+      Left = 412
+      Top = 111
+      Width = 55
+      Height = 21
+      CharCase = ecUpperCase
+      DataField = 'NUMERO'
+      DataSource = dsCadastro
+      TabOrder = 8
+    end
+    object dbBairro: TDBEdit
+      Left = 472
+      Top = 111
+      Width = 177
+      Height = 21
+      CharCase = ecUpperCase
+      DataField = 'BAIRRO'
+      DataSource = dsCadastro
+      TabOrder = 9
+    end
+    object dbCep: TDBEdit
+      Left = 213
+      Top = 111
+      Width = 195
+      Height = 21
+      CharCase = ecUpperCase
+      DataField = 'CEP'
+      DataSource = dsCadastro
+      TabOrder = 7
+    end
+    object dbEndereco: TDBEdit
+      Left = 8
+      Top = 111
+      Width = 200
+      Height = 21
+      CharCase = ecUpperCase
+      DataField = 'ENDERECO'
+      DataSource = dsCadastro
+      TabOrder = 6
+    end
+    object dbCidade: TDBEdit
+      Left = 8
+      Top = 152
+      Width = 40
+      Height = 21
+      CharCase = ecUpperCase
+      Color = clSilver
+      DataField = 'CIDADE'
+      DataSource = dsCadastro
+      ReadOnly = True
+      TabOrder = 10
+      OnClick = dbCidadeClick
+      OnEnter = dbCidadeClick
+    end
+    object edCidade: TEdit
+      Left = 47
+      Top = 152
+      Width = 161
+      Height = 21
+      TabStop = False
+      CharCase = ecUpperCase
+      ReadOnly = True
+      TabOrder = 11
+      OnClick = dbCidadeClick
+    end
+    object dbEstadoCivil: TDBRadioGroup
+      Left = 213
+      Top = 132
+      Width = 195
+      Height = 41
+      Caption = 'Estado civil'
+      Columns = 2
+      DataField = 'ESTADOCIVIL'
+      DataSource = dsCadastro
+      Items.Strings = (
+        'Solteiro'
+        'Casado'
+        'Divorciado'
+        'Vi'#250'vo')
+      ParentBackground = True
+      TabOrder = 12
+      Values.Strings = (
+        '0'
+        '1'
+        '2'
+        '3')
+    end
+    object dbProfissao: TDBEdit
+      Left = 412
+      Top = 152
+      Width = 237
+      Height = 21
+      CharCase = ecUpperCase
+      DataField = 'PROFISSAO'
+      DataSource = dsCadastro
+      TabOrder = 13
+    end
+    object dbEmail: TDBEdit
+      Left = 412
+      Top = 191
+      Width = 237
+      Height = 21
+      CharCase = ecLowerCase
+      DataField = 'EMAIL'
+      DataSource = dsCadastro
+      TabOrder = 16
+    end
+    object dbCelular: TDBEdit
+      Left = 213
+      Top = 191
+      Width = 195
+      Height = 21
+      CharCase = ecUpperCase
+      DataField = 'CELULAR'
+      DataSource = dsCadastro
+      TabOrder = 15
+    end
+    object dbTelefone: TDBEdit
+      Left = 8
+      Top = 191
+      Width = 200
+      Height = 21
+      CharCase = ecUpperCase
+      DataField = 'TELEFONE'
+      DataSource = dsCadastro
+      TabOrder = 14
+    end
+    object dbTipoPessoa: TDBRadioGroup
+      Left = 518
+      Top = 13
+      Width = 131
+      Height = 37
+      Caption = 'Tipo de pessoa'
+      Columns = 2
+      DataField = 'PESSOA'
+      DataSource = dsCadastro
+      Items.Strings = (
+        'Fis'#237'ca'
+        'Juridica')
+      ParentBackground = True
+      TabOrder = 2
+      TabStop = True
+      Values.Strings = (
+        '0'
+        '1')
+      OnClick = dbTipoPessoaClick
+    end
+  end
+  inherited btSalvar: TBitBtn
+    Left = 211
+    Top = 224
+    ExplicitLeft = 211
+    ExplicitTop = 224
+  end
+  inherited btCancelar: TBitBtn
+    Left = 312
+    Top = 224
+    ExplicitLeft = 312
+    ExplicitTop = 224
+  end
+  inherited cdsCadastro: TClientDataSet
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'CODIGO'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspCadastro'
+    AfterEdit = cdsCadastroAfterEdit
+    object cdsCadastroCODIGO: TIntegerField
+      FieldName = 'CODIGO'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object cdsCadastroNOME: TStringField
+      FieldName = 'NOME'
+      Required = True
+      Size = 100
+    end
+    object cdsCadastroENDERECO: TStringField
+      FieldName = 'ENDERECO'
+      Size = 100
+    end
+    object cdsCadastroNUMERO: TStringField
+      FieldName = 'NUMERO'
+    end
+    object cdsCadastroBAIRRO: TStringField
+      FieldName = 'BAIRRO'
+      Size = 100
+    end
+    object cdsCadastroNASCIMENTO: TDateField
+      FieldName = 'NASCIMENTO'
+      EditMask = '99/99/0000;1;_'
+    end
+    object cdsCadastroRG_IE: TStringField
+      FieldName = 'RG_IE'
+    end
+    object cdsCadastroCPF_CNPJ: TStringField
+      FieldName = 'CPF_CNPJ'
+      EditMask = '000.000.000-00;1;_'
+    end
+    object cdsCadastroPROFISSAO: TStringField
+      FieldName = 'PROFISSAO'
+      Size = 100
+    end
+    object cdsCadastroNACIONALIDADE: TStringField
+      FieldName = 'NACIONALIDADE'
+      Size = 100
+    end
+    object cdsCadastroCADASTRO: TDateField
+      FieldName = 'CADASTRO'
+    end
+    object cdsCadastroCELULAR: TStringField
+      FieldName = 'CELULAR'
+      EditMask = '(99)0000-0000;1;_'
+    end
+    object cdsCadastroEMAIL: TStringField
+      FieldName = 'EMAIL'
+      Size = 100
+    end
+    object cdsCadastroCEP: TStringField
+      FieldName = 'CEP'
+      EditMask = '00000-999;1;_'
+    end
+    object cdsCadastroCIDADE: TIntegerField
+      FieldName = 'CIDADE'
+      Required = True
+    end
+    object cdsCadastroPESSOA: TSmallintField
+      FieldName = 'PESSOA'
+    end
+    object cdsCadastroTELEFONE: TStringField
+      FieldName = 'TELEFONE'
+      EditMask = '(99)0000-0000;1;_'
+    end
+    object cdsCadastroSEQ: TStringField
+      FieldName = 'SEQ'
+      Size = 50
+    end
+    object cdsCadastroESTADOCIVIL: TSmallintField
+      FieldName = 'ESTADOCIVIL'
+    end
+    object cdsCadastroIMAGEM1: TBlobField
+      FieldName = 'IMAGEM1'
+      Size = 1
+    end
+    object cdsCadastroIMAGEM2: TBlobField
+      FieldName = 'IMAGEM2'
+      Size = 1
+    end
+    object cdsCadastroIMAGEM3: TBlobField
+      FieldName = 'IMAGEM3'
+      Size = 1
+    end
+    object cdsCadastroIMAGEM4: TBlobField
+      FieldName = 'IMAGEM4'
+      Size = 1
+    end
+    object cdsCadastroREGIMECASAMENTO: TSmallintField
+      FieldName = 'REGIMECASAMENTO'
+    end
+    object cdsCadastroCIDADEATUAL: TIntegerField
+      FieldName = 'CIDADEATUAL'
+    end
+  end
+  inherited dspConection: TDSProviderConnection
+    ServerClassName = 'TsmRegistroCivil'
+  end
+end

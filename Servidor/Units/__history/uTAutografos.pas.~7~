@@ -1,0 +1,79 @@
+unit uTAutografos;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, Mask, ComCtrls, FMTBcd, DBCtrls, uDM, CheckLst,
+  SqlExpr, DB, DBGrids;
+
+type
+  TAutografos = class
+
+  private
+
+  public
+    procedure excluir(codigo: Integer);
+    function getNome(codigo: Integer): string;
+    function seqEmUso(seq:Integer):Boolean;
+    procedure setConjuge(conjuge, codigo:Integer);
+  end;
+
+implementation
+
+{ TUnidadeMedida }
+
+procedure TAutografos.excluir(codigo: Integer);
+var
+  sql: TSQLDataSet;
+begin
+    sql := TSQLDataSet.Create(nil);
+    sql.SQLConnection := DM.SQLConnection;
+    sql.CommandText := 'DELETE FROM AUTOGRAFOS WHERE CODIGO =:CODIGO';
+    sql.Params[0].AsInteger := codigo;
+    sql.ExecSQL;
+end;
+
+function TAutografos.getNome(codigo: Integer): string;
+var
+  sql: TSQLDataSet;
+begin
+  sql := TSQLDataSet.Create(nil);
+  sql.SQLConnection := DM.SQLConnection;
+  sql.CommandText := 'SELECT NOME FROM VAUTOGRAFOS WHERE CODIGO =:CODIGO';
+  sql.Params[0].AsInteger := codigo;
+  sql.Open;
+
+  Result := sql.FieldByName('NOME').AsString;
+end;
+
+function TAutografos.seqEmUso(seq: Integer): Boolean;
+var
+  sql: TSQLDataSet;
+begin
+  sql := TSQLDataSet.Create(nil);
+  sql.SQLConnection := DM.SQLConnection;
+  sql.CommandText := 'SELECT SEQ FROM AUTOGRAFOS WHERE SEQ =:SEQ';
+  sql.Params[0].AsInteger := seq;
+  sql.Open;
+
+  if sql.FieldByName('SEQ').AsInteger > 0 then
+    Result := True
+ else
+    Result := False;
+
+end;
+
+procedure TAutografos.setConjuge(conjuge, codigo: Integer);
+var
+  sql: TSQLDataSet;
+begin
+  sql := TSQLDataSet.Create(nil);
+  sql.SQLConnection := DM.SQLConnection;
+  sql.CommandText := 'UPDATE AUTOGRAFOS SET AUTOGRAFOS.CONJUGE =:CODIGO WHERE AUTOGRAFOS.CODIGO =:CONJUGE';
+  sql.Params[0].AsInteger := codigo;
+  sql.Params[1].AsInteger := conjuge;
+  sql.Open;
+end;
+
+end.

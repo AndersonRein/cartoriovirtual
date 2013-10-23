@@ -1,0 +1,26 @@
+object smIntimacao: TsmIntimacao
+  OldCreateOrder = False
+  OnCreate = DSServerModuleCreate
+  Height = 441
+  Width = 686
+  object dspConsulta: TDataSetProvider
+    DataSet = sqsConsulta
+    Left = 88
+    Top = 32
+  end
+  object sqsConsulta: TSQLDataSet
+    SchemaName = 'sysdba'
+    CommandText = 'SELECT * FROM VINTIMACAO WHERE PROTESTO =:PROTESTO'
+    DbxCommandType = 'Dbx.SQL'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'PROTESTO'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.SQLConnection
+    Left = 48
+    Top = 32
+  end
+end

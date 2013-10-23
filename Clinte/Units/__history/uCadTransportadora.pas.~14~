@@ -1,0 +1,68 @@
+unit uCadTransportadora;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, uCadastroPadrao, StdCtrls, Buttons, FMTBcd, DB, SqlExpr, Provider,
+  DBClient, Mask, DBCtrls;
+
+type
+  TFCadTransportadora = class(TFCadastroPadrao)
+    cdsTransportadora: TClientDataSet;
+    dspTransportadora: TDataSetProvider;
+    dsTransportadora: TDataSource;
+    sqsTransportadora: TSQLDataSet;
+    cdsTransportadoraCODIGO: TIntegerField;
+    cdsTransportadoraRAZAOSOCIAL: TStringField;
+    cdsTransportadoraCNPJ: TStringField;
+    cdsTransportadoraISCEST: TStringField;
+    cdsTransportadoraENDERECO: TStringField;
+    cdsTransportadoraCIDADE: TIntegerField;
+    cdsTransportadoraTELEFONE: TStringField;
+    cdsTransportadoraANTT: TStringField;
+    cdsTransportadoraPLACA: TStringField;
+    Label1: TLabel;
+    dbRazaoSocial: TDBEdit;
+    Label2: TLabel;
+    dbCNPJ: TDBEdit;
+    Label3: TLabel;
+    dbInscEst: TDBEdit;
+    Label4: TLabel;
+    dbEndereco: TDBEdit;
+    Label5: TLabel;
+    dbCidade: TDBEdit;
+    edCidade: TEdit;
+    Label6: TLabel;
+    dbTelefone: TDBEdit;
+    Label7: TLabel;
+    dbANTT: TDBEdit;
+    Label8: TLabel;
+    dbPlaca: TDBEdit;
+  private
+    { Private declarations }
+    modo, codAlteracao : Integer;
+  public
+    { Public declarations }
+    procedure inserir(md: Integer);
+  end;
+
+var
+  FCadTransportadora: TFCadTransportadora;
+
+implementation
+
+uses uPadrao, uDM;
+
+{$R *.dfm}
+
+{ TFCadTransportadora }
+
+procedure TFCadTransportadora.inserir(md: Integer);
+begin
+modo := md;
+abrirCadastro;
+Self.ShowModal;
+end;
+
+end.

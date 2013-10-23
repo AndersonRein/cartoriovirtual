@@ -1,0 +1,27 @@
+unit uRelatorioPadrao;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, uPadraoVazio, StdCtrls, ComCtrls;
+
+type
+  TFRelPadrao = class(TFPadraoVazio)
+    Data: TGroupBox;
+    DateTimePicker1: TDateTimePicker;
+    lblDataini: TLabel;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FRelPadrao: TFRelPadrao;
+
+implementation
+
+{$R *.dfm}
+
+end.

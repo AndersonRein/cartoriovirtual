@@ -1,0 +1,34 @@
+unit uCadServicos;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, uCadastroPadrao, StdCtrls, Buttons, FMTBcd, DB, Provider, DBClient,
+  SqlExpr;
+
+type
+  TFCadServicos = class(TFCadastroPadrao)
+    sqsServicos: TSQLDataSet;
+    cdsServicos: TClientDataSet;
+    dspServicos: TDataSetProvider;
+    dsServicos: TDataSource;
+    cdsServicosCODIGO: TIntegerField;
+    cdsServicosNOME: TStringField;
+    cdsServicosVALOR: TFMTBCDField;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FCadServicos: TFCadServicos;
+
+implementation
+
+uses uDM;
+
+{$R *.dfm}
+
+end.

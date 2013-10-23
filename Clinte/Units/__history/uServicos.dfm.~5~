@@ -1,0 +1,68 @@
+﻿inherited FServiços: TFServiços
+  Caption = 'Servi'#231'os'
+  ExplicitWidth = 742
+  ExplicitHeight = 503
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited dbgCadastros: TDBGrid
+    DataSource = dsCadastro
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'CODIGO'
+        Width = 80
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'NOME'
+        Width = 400
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'VALOR'
+        Visible = True
+      end>
+  end
+  inherited dsCadastro: TDataSource
+    DataSet = cdsCadastro
+  end
+  inherited cdsCadastro: TClientDataSet
+    Params = <
+      item
+        DataType = ftString
+        Name = 'NOME'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspCadastro'
+    object cdsCadastroCODIGO: TIntegerField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'CODIGO'
+    end
+    object cdsCadastroNOME: TStringField
+      DisplayLabel = 'Servi'#231'o'
+      FieldName = 'NOME'
+      Size = 100
+    end
+    object cdsCadastroVALOR: TFMTBCDField
+      DisplayLabel = 'Valor'
+      FieldName = 'VALOR'
+      currency = True
+      Precision = 15
+      Size = 2
+    end
+  end
+  inherited dspCadastro: TDataSetProvider
+    DataSet = sqsCadastro
+  end
+  inherited sqsCadastro: TSQLDataSet
+    CommandText = 'select * from VSERVICOS_SB WHERE NOME LIKE :NOME'
+    Params = <
+      item
+        DataType = ftString
+        Name = 'NOME'
+        ParamType = ptInput
+      end>
+  end
+end

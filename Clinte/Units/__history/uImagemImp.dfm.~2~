@@ -1,0 +1,85 @@
+inherited FImagensImp: TFImagensImp
+  Caption = 'Imagens'
+  ClientHeight = 529
+  ClientWidth = 888
+  ExplicitWidth = 894
+  ExplicitHeight = 558
+  PixelsPerInch = 96
+  TextHeight = 13
+  object GroupBox1: TGroupBox
+    Left = 0
+    Top = 0
+    Width = 440
+    Height = 260
+    Caption = 'Imagem 1'
+    TabOrder = 0
+    object Image1: TImage
+      Left = 2
+      Top = 15
+      Width = 436
+      Height = 243
+      Align = alClient
+      ExplicitLeft = 288
+      ExplicitTop = 144
+      ExplicitWidth = 105
+      ExplicitHeight = 105
+    end
+  end
+  object GroupBox2: TGroupBox
+    Left = 446
+    Top = 0
+    Width = 440
+    Height = 260
+    Caption = 'Imagem 2'
+    TabOrder = 1
+    object Image2: TImage
+      Left = 2
+      Top = 15
+      Width = 436
+      Height = 243
+      Align = alClient
+      ExplicitLeft = 192
+      ExplicitTop = 24
+      ExplicitWidth = 105
+      ExplicitHeight = 105
+    end
+  end
+  object GroupBox3: TGroupBox
+    Left = 0
+    Top = 266
+    Width = 440
+    Height = 260
+    Caption = 'Imagem 3'
+    TabOrder = 2
+    object Image3: TImage
+      Left = 2
+      Top = 15
+      Width = 436
+      Height = 243
+      Align = alClient
+      ExplicitLeft = 296
+      ExplicitTop = 48
+      ExplicitWidth = 105
+      ExplicitHeight = 105
+    end
+  end
+  object GroupBox4: TGroupBox
+    Left = 444
+    Top = 266
+    Width = 440
+    Height = 260
+    Caption = 'Imagem 4'
+    TabOrder = 3
+    object Image4: TImage
+      Left = 2
+      Top = 15
+      Width = 436
+      Height = 243
+      Align = alClient
+      ExplicitLeft = 280
+      ExplicitTop = 32
+      ExplicitWidth = 105
+      ExplicitHeight = 105
+    end
+  end
+end

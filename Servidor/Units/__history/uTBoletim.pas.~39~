@@ -1,0 +1,189 @@
+unit uTBoletim;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, Mask, ComCtrls, FMTBcd, DBCtrls, uDM, CheckLst,
+  SqlExpr, DB, DBGrids, Math;
+
+type
+  TBoletim = class
+
+  private
+
+  public
+   function getTotalFerj(boletim:Integer):Double;
+   function getTotalFerc(boletim:Integer):Double;
+   procedure excluirItem(codigo:Integer);
+   procedure excluirItemTotal(codigo:Integer);
+   procedure lancIndividual(codLei, selo:string; emolumento, tipoSelo, boletim, fPag:Integer; valorTransacao, vlrEmolumento, vlrFerj, vlrFerc: Double);
+   function getTotalSelosLancTotal(boletim:Integer):Double;
+   function getTotalRecitasFerjDia(data: TDate):Double;
+   function getTotalRecitasFerjSemana(dtIni, dtFim: TDate):Double;
+   function getTotalCaixaMes(mes, ano:Integer):Double;
+   function getBletim():Integer;
+   function getVlrFerj(vlrEmolumento:Double):Double;
+   procedure fechar(codigo:Integer);
+  end;
+
+implementation
+
+{ TBoletim }
+
+
+procedure TBoletim.excluirItem(codigo: Integer);
+var
+  sql: TSQLDataSet;
+begin
+    sql := TSQLDataSet.Create(nil);
+    sql.SQLConnection := DM.SQLConnection;
+    sql.CommandText := 'DELETE FROM LANCBOLEINDIVIDUAL WHERE CODIGO =:CODIGO';
+    sql.Params[0].AsInteger := codigo;
+    sql.ExecSQL;
+    sql.Free;
+end;
+
+procedure TBoletim.excluirItemTotal(codigo: Integer);
+var
+  sql: TSQLDataSet;
+begin
+    sql := TSQLDataSet.Create(nil);
+    sql.SQLConnection := DM.SQLConnection;
+    sql.CommandText := 'DELETE FROM LANCBOLETIMTOTAL WHERE CODIGO =:CODIGO';
+    sql.Params[0].AsInteger := codigo;
+    sql.ExecSQL;
+    sql.Free;
+end;
+
+procedure TBoletim.fechar(codigo: Integer);
+var
+  sql: TSQLDataSet;
+begin
+    sql := TSQLDataSet.Create(nil);
+    sql.SQLConnection := DM.SQLConnection;
+    sql.CommandText := 'UPDATE BOLETIM SET STATUS = 1 WHERE CODIGO =:CODIGO';
+    sql.Params[0].AsInteger := codigo;
+    sql.ExecSQL;
+    sql.Free;
+end;
+
+function TBoletim.getBletim: Integer;
+var
+  sql: TSQLDataSet;
+begin
+    sql := TSQLDataSet.Create(nil);
+    sql.SQLConnection := DM.SQLConnection;
+    sql.CommandText := 'SELECT MAX(CODIGO) AS CODIGO FROM VBOLETIM WHERE STATUS = 0';
+    sql.Open;
+    Result := sql.FieldByName('CODIGO').AsInteger;
+    sql.Free;
+end;
+
+function TBoletim.getTotalCaixaMes(mes, ano: Integer): Double;
+var
+  sql: TSQLDataSet;
+begin
+    sql := TSQLDataSet.Create(nil);
+    sql.SQLConnection := DM.SQLConnection;
+    sql.CommandText := 'SELECT COALESCE(SUM(RECEITASFERJ),0) AS TOTAL FROM VCAIXABOLINDIVIDUAL WHERE TIPO = 1 AND EXTRACT(MONTH FROM DATAATO) =:MES AND EXTRACT(YEAR FROM DATAATO) =:ANO';
+    sql.Params[0].AsInteger := mes;
+    sql.Params[1].AsInteger := ano;
+    sql.Open;
+    Result := sql.FieldByName('TOTAL').AsFloat;
+    sql.Free;
+end;
+
+function TBoletim.getTotalFerc(boletim: Integer): Double;
+var
+  sql: TSQLDataSet;
+begin
+    sql := TSQLDataSet.Create(nil);
+    sql.SQLConnection := DM.SQLConnection;
+    sql.CommandText := 'SELECT COALESCE(SUM(VLANCBOLEINDIVIDUAL.VLRFERC),0) + (SELECT COALESCE(SUM(VLANCBOLETIMTOTAL.VLRFERC),0) FROM VLANCBOLETIMTOTAL WHERE VLANCBOLETIMTOTAL.BOLETIM =:BOLETIM) AS TOTAL FROM VLANCBOLEINDIVIDUAL WHERE VLANCBOLEINDIVIDUAL.BOLETIM =:BOLETIM';
+    sql.Params[0].AsInteger := boletim;
+    sql.Open;
+    Result := sql.FieldByName('TOTAL').AsFloat;
+    sql.Free;
+end;
+
+function TBoletim.getTotalFerj(boletim: Integer): Double;
+var
+  sql: TSQLDataSet;
+begin
+    sql := TSQLDataSet.Create(nil);
+    sql.SQLConnection := DM.SQLConnection;
+    sql.CommandText := 'SELECT COALESCE(SUM(VLANCBOLEINDIVIDUAL.VLRFERJ),0) + (SELECT COALESCE(SUM(VLANCBOLETIMTOTAL.VLRFERJ),0) FROM VLANCBOLETIMTOTAL WHERE VLANCBOLETIMTOTAL.BOLETIM =:BOLETIM) AS TOTAL FROM VLANCBOLEINDIVIDUAL WHERE VLANCBOLEINDIVIDUAL.BOLETIM =:BOLETIM';
+    sql.Params[0].AsInteger := boletim;
+    sql.Open;
+    Result := sql.FieldByName('TOTAL').AsFloat;
+    sql.Free;
+end;
+
+function TBoletim.getTotalRecitasFerjDia(data: TDate): Double;
+var
+  sql: TSQLDataSet;
+begin
+    sql := TSQLDataSet.Create(nil);
+    sql.SQLConnection := DM.SQLConnection;
+    sql.CommandText := 'SELECT SUM(RECEITASFERJ) + (SELECT SUM(RECEITASFERJ) FROM VCAIXABOLETIMTOTAL WHERE DATAATO =:DATA) AS TOTAL FROM VCAIXABOLINDIVIDUAL WHERE DATAATO =:DATA';
+    sql.Params[0].AsDate := data;
+    sql.Open;
+    Result := sql.FieldByName('TOTAL').AsFloat;
+    sql.Free;
+end;
+
+function TBoletim.getTotalRecitasFerjSemana(dtIni, dtFim: TDate): Double;
+var
+  sql: TSQLDataSet;
+begin
+    sql := TSQLDataSet.Create(nil);
+    sql.SQLConnection := DM.SQLConnection;
+    sql.CommandText := 'SELECT SUM(RECEITASFERJ) + (SELECT SUM(RECEITASFERJ) FROM VCAIXABOLETIMTOTAL WHERE DATAATO BETWEEN :INI AND :FIM) AS TOTAL FROM VCAIXABOLINDIVIDUAL WHERE DATAATO BETWEEN :INI AND :FIM';
+    sql.Params[0].AsDate := dtIni;
+    sql.Params[1].AsDate := dtFim;
+    sql.Open;
+    Result := sql.FieldByName('TOTAL').AsFloat;
+    sql.Free;
+end;
+
+function TBoletim.getTotalSelosLancTotal(boletim: Integer): Double;
+var
+  sql: TSQLDataSet;
+begin
+    sql := TSQLDataSet.Create(nil);
+    sql.SQLConnection := DM.SQLConnection;
+    sql.CommandText := 'SELECT SUM(QUANTIDADE) AS TOTAL FROM VLANCBOLETIMTOTAL WHERE BOLETIM =:BOLETIM';
+    sql.Params[0].AsInteger := boletim;
+    sql.Open;
+    Result := sql.FieldByName('TOTAL').AsFloat;
+    sql.Free;
+end;
+
+function TBoletim.getVlrFerj(vlrEmolumento: Double): Double;
+begin
+Result := RoundTo((vlrEmolumento * 12)/100, -2);
+end;
+
+procedure TBoletim.lancIndividual(codLei, selo: string; emolumento, tipoSelo, boletim, fPag:Integer; valorTransacao, vlrEmolumento, vlrFerj, vlrFerc: Double);
+var
+  sql: TSQLDataSet;
+begin
+    sql := TSQLDataSet.Create(nil);
+    sql.SQLConnection := DM.SQLConnection;
+    sql.CommandText := 'INSERT INTO LANCBOLEINDIVIDUAL (CODIGO,CODLEI,EMOLUMENTO,TIPOSELO,VALORTRANSACAO,VLREMOLUMENTOS,SELO,VLRFERJ,VLRFERC,DATAATO,BOLETIM,FORMAPAGAMENTO,NUMFOLHA,NUMLIVRO) VALUES (0,:A,:B,:C,:D,:E,:F,:G,:H,CURRENT_DATE,:I,:J,:K,1)';
+    sql.Params[0].AsString := CodLei;
+    sql.Params[1].AsInteger := emolumento;
+    sql.Params[2].AsInteger := tipoSelo;
+    sql.Params[3].AsFloat := valorTransacao;
+    sql.Params[4].AsFloat := vlrEmolumento;
+    sql.Params[5].AsString := SELO;
+    sql.Params[6].AsFloat := vlrFerj;
+    sql.Params[7].AsFloat := vlrFerc;
+    sql.Params[8].AsInteger := boletim;
+    sql.Params[9].AsInteger := fPag;
+    sql.ExecSQL;
+    sql.Free;
+end;
+
+end.

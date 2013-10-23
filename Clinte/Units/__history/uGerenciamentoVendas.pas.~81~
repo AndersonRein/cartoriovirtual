@@ -1,0 +1,315 @@
+unit uGerenciamentoVendas;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, uPadraoVazio, Grids, DBGrids, StdCtrls, FMTBcd, DB, SqlExpr,
+  Provider, DBClient, Mask, ExtCtrls, Buttons, uTVenda, uTCaixa, uPadrao,
+  frxClass, frxDBSet;
+
+type
+  TFGerenciamentoVendas = class(TFPadraoVazio)
+    GroupBox1: TGroupBox;
+    GroupBox2: TGroupBox;
+    GroupBox3: TGroupBox;
+    DBGrid1: TDBGrid;
+    cdsVendas: TClientDataSet;
+    dspVendas: TDataSetProvider;
+    dsVendas: TDataSource;
+    sqsVendas: TSQLDataSet;
+    cdsVendasCODIGO: TIntegerField;
+    cdsVendasCODCLIENTE: TIntegerField;
+    cdsVendasCLIENTE: TStringField;
+    cdsVendasDATA: TDateField;
+    cdsVendasDESCONTO: TFMTBCDField;
+    cdsVendasSTATUS: TStringField;
+    edBusca: TEdit;
+    GroupBox4: TGroupBox;
+    dtInicio: TMaskEdit;
+    dtFinal: TMaskEdit;
+    Label1: TLabel;
+    GroupBox5: TGroupBox;
+    lblTotal: TLabel;
+    RadioGroup: TRadioGroup;
+    cdsVendasCODSTATUS: TSmallintField;
+    spbNovo: TSpeedButton;
+    spbCancelar: TSpeedButton;
+    spbFaturar: TSpeedButton;
+    cdsVendasTOTAL: TFloatField;
+    spbEditar: TSpeedButton;
+    Recibo: TfrxReport;
+    dbRecibo: TfrxDBDataset;
+    dbItens: TfrxDBDataset;
+    sqsItens: TSQLDataSet;
+    cdsItens: TClientDataSet;
+    dspItens: TDataSetProvider;
+    cdsItensPRODUTO: TStringField;
+    cdsItensSERVICO: TStringField;
+    cdsItensQUANTIDADE: TSingleField;
+    cdsItensVALOR: TFMTBCDField;
+    cdsItensTOTAL: TFloatField;
+    spbImprimir: TSpeedButton;
+    cdsVendasDATAFATURA: TSQLTimeStampField;
+    cdsVendasCAIXA: TIntegerField;
+    cdsItensCODPRODUTO: TIntegerField;
+    procedure FormShow(Sender: TObject);
+    procedure cdsVendasAfterScroll(DataSet: TDataSet);
+    procedure FormCreate(Sender: TObject);
+    procedure dtInicioKeyPress(Sender: TObject; var Key: Char);
+    procedure RadioGroupClick(Sender: TObject);
+    procedure spbSairClick(Sender: TObject);
+    procedure spbNovoClick(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure spbEditarClick(Sender: TObject);
+    procedure DBGrid1KeyPress(Sender: TObject; var Key: Char);
+    procedure spbFaturarClick(Sender: TObject);
+    procedure edBuscaKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure spbCancelarClick(Sender: TObject);
+    procedure ReciboGetValue(const VarName: string; var Value: Variant);
+    procedure spbImprimirClick(Sender: TObject);
+  private
+    { Private declarations }
+    vendas: TFVenda;
+    caixa: TFCaixa;
+    padrao: TFPadrao;
+    procedure mostraDados;
+  public
+    { Public declarations }
+  end;
+
+var
+  FGerenciamentoVendas: TFGerenciamentoVendas;
+
+implementation
+
+uses uDM, uNovaVenda, uFaturamento, uTProdutos;
+{$R *.dfm}
+
+procedure TFGerenciamentoVendas.cdsVendasAfterScroll(DataSet: TDataSet);
+begin
+  inherited;
+  lblTotal.Caption := FormatFloat('###.00',
+    cdsVendasTOTAL.AsFloat - cdsVendasDESCONTO.AsFloat);
+  cdsItens.Close;
+  cdsItens.Params[0].AsInteger := cdsVendasCODIGO.AsInteger;
+  cdsItens.Open;
+end;
+
+procedure TFGerenciamentoVendas.DBGrid1KeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+  if Key = #13 then
+    spbEditarClick(Sender);
+end;
+
+procedure TFGerenciamentoVendas.dtInicioKeyPress
+  (Sender: TObject; var Key: Char);
+begin
+  inherited;
+  if Key = #13 then
+    mostraDados;
+end;
+
+procedure TFGerenciamentoVendas.edBuscaKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  mostraDados;
+end;
+
+procedure TFGerenciamentoVendas.FormCreate(Sender: TObject);
+begin
+  inherited;
+  vendas := TFVenda.Create;
+  caixa := TFCaixa.Create;
+  padrao := TFPadrao.Create;
+  dtInicio.Text := DateToStr(Date - 3);
+  dtFinal.Text := DateToStr(Date);
+end;
+
+procedure TFGerenciamentoVendas.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  if Key = VK_INSERT then
+    spbNovoClick(Sender);
+end;
+
+procedure TFGerenciamentoVendas.FormShow(Sender: TObject);
+begin
+  inherited;
+  mostraDados;
+end;
+
+procedure TFGerenciamentoVendas.mostraDados;
+begin
+  cdsVendas.Close;
+  cdsVendas.Params[0].AsString := '%' + edBusca.Text + '%';
+  cdsVendas.Params[1].AsDate := StrToDate(dtInicio.Text);
+  cdsVendas.Params[2].AsDate := StrToDate(dtFinal.Text);
+  if RadioGroup.ItemIndex = 3 then
+    cdsVendas.Params[3].AsString := '%'
+  else
+    cdsVendas.Params[3].AsString := IntToStr(RadioGroup.ItemIndex);
+  cdsVendas.Open;
+end;
+
+procedure TFGerenciamentoVendas.RadioGroupClick(Sender: TObject);
+begin
+  inherited;
+  mostraDados;
+end;
+
+procedure TFGerenciamentoVendas.ReciboGetValue(const VarName: string;
+  var Value: Variant);
+begin
+  inherited;
+  if VarName = 'EMPRESA' then
+    Value := padrao.getEmpresa;
+  if VarName = 'CLIENTE' then
+    Value := cdsVendasCLIENTE.AsString;
+  if VarName = 'DATAFATURA' then
+    Value := cdsVendasDATAFATURA.AsDateTime;
+  if VarName = 'TOTAL' then
+    Value := lblTotal.Caption;
+end;
+
+procedure TFGerenciamentoVendas.spbCancelarClick(Sender: TObject);
+begin
+  inherited;
+  if cdsVendasCODSTATUS.AsInteger = 2 then
+  begin
+    ShowMessage('Esta venda já esta cancelada.');
+    Exit;
+  end;
+
+  if Application.MessageBox(padrao.DESEJA_REALMENTE_EXECUTAR_ESTA_OPERACAO,
+    'Confirmação', MB_YESNO) = IDYES then
+  begin
+    if cdsVendasCODSTATUS.AsInteger = 1 then
+    begin
+      vendas.excluirVenda(cdsVendasCODIGO.AsInteger);
+      ShowMessage(padrao.SUCESSO);
+      mostraDados;
+    end
+    else
+    begin
+      if vendas.cancelarVenda(cdsVendasCODIGO.AsInteger) then
+      begin
+        ShowMessage(padrao.SUCESSO);
+        mostraDados;
+      end
+      else
+        ShowMessage(padrao.ERRO);
+    end;
+  end;
+end;
+
+procedure TFGerenciamentoVendas.spbEditarClick(Sender: TObject);
+var
+  venda: TFNovaVenda;
+begin
+  inherited;
+  if cdsVendasCODSTATUS.AsInteger = 0 then
+  begin
+    ShowMessage(padrao.VENDA_FINALIZADA);
+    Exit;
+  end;
+
+  if cdsVendasCODSTATUS.AsInteger = 2 then
+  begin
+    ShowMessage('Esta venda encontra-se cancelada.');
+    Exit;
+  end;
+
+  venda := TFNovaVenda.Create(nil);
+  venda.alterar(cdsVendasCODIGO.AsInteger);
+  mostraDados;
+end;
+
+procedure TFGerenciamentoVendas.spbFaturarClick(Sender: TObject);
+var
+  faturamento: TFFaturamento;
+  prodoto: TFProduto;
+begin
+  inherited;
+  faturamento := TFFaturamento.Create(nil);
+  prodoto := TFProduto.Create;
+
+  if cdsVendasCODSTATUS.AsInteger = 0 then
+  begin
+    ShowMessage(padrao.VENDA_FINALIZADA);
+    Exit;
+  end;
+
+  if cdsVendasCODSTATUS.AsInteger = 2 then
+  begin
+    ShowMessage('Esta venda encontra-se cancelada, não pode ser finalizada.');
+    Exit;
+  end;
+
+  if caixa.temCaixaAberto then
+  begin
+    if Application.MessageBox(padrao.DESEJA_REALMENTE_EXECUTAR_ESTA_OPERACAO,
+      'Confirmação', MB_YESNO) = IDYES then
+    begin
+      faturamento.new(lblTotal.Caption);
+
+      if faturamento.getCancelou then
+        Exit;
+
+      if vendas.faturarVenda(cdsVendasCODIGO.AsInteger) then
+      begin
+        if faturamento.eDinheiro then
+          vendas.setFormaPagamento(cdsVendasCODIGO.AsInteger, 0,
+            faturamento.getDinheiro);
+        if faturamento.eCartao then
+          vendas.setFormaPagamento(cdsVendasCODIGO.AsInteger, 1, StrToFloat
+              (faturamento.edCartao.Text));
+        if faturamento.eCheque then
+          vendas.setFormaPagamento(cdsVendasCODIGO.AsInteger, 2, StrToFloat
+              (faturamento.edCheque.Text));
+        if not cdsItens.Eof then
+          begin
+            prodoto.baixaEstoque(cdsItensCODPRODUTO.AsInteger, cdsItensQUANTIDADE);
+            cdsItens.Next;
+          end;
+
+        spbImprimirClick(Sender);
+        ShowMessage(padrao.SUCESSO);
+        mostraDados;
+      end;
+    end;
+  end
+  else
+  begin
+    ShowMessage(caixa.NAO_EXISTE_CAIXA_ABERTO);
+  end;
+  faturamento.Free;
+  prodoto.Free;
+end;
+
+procedure TFGerenciamentoVendas.spbNovoClick(Sender: TObject);
+var
+  venda: TFNovaVenda;
+begin
+  inherited;
+  venda := TFNovaVenda.Create(nil);
+  venda.inserir;
+  mostraDados;
+end;
+
+procedure TFGerenciamentoVendas.spbSairClick(Sender: TObject);
+begin
+  inherited;
+  Close;
+end;
+
+procedure TFGerenciamentoVendas.spbImprimirClick(Sender: TObject);
+begin
+  inherited;
+  Recibo.ShowReport();
+end;
+
+end.

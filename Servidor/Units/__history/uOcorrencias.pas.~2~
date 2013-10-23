@@ -1,0 +1,26 @@
+unit uOcorrencias;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, Datasnap.DSServer, Datasnap.DSAuth,
+  Data.FMTBcd, Data.DB, Data.SqlExpr;
+
+type
+  TsmOcorrencias = class(TDSServerModule)
+    sqsCadastro: TSQLDataSet;
+    sqsConsulta: TSQLDataSet;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+implementation
+
+{$R *.dfm}
+
+uses uDM;
+
+end.
+

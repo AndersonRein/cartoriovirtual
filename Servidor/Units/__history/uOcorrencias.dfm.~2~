@@ -1,0 +1,5 @@
+object smOcorrencias: TsmOcorrencias
+  OldCreateOrder = False
+  Height = 375
+  Width = 489
+end

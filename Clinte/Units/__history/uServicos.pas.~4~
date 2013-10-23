@@ -1,0 +1,67 @@
+unit uServicos;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, uAcessoPadrao, FMTBcd, DB, SqlExpr, Provider, DBClient, StdCtrls,
+  Buttons, Grids, DBGrids, uPadrao;
+
+type
+  TFServiços = class(TFAcessoCadPadrao)
+    cdsCadastroCODIGO: TIntegerField;
+    cdsCadastroNOME: TStringField;
+    cdsCadastroVALOR: TFMTBCDField;
+    cdsExcluirCODIGO: TIntegerField;
+    cdsExcluirNOME: TStringField;
+    cdsExcluirVALOR: TFMTBCDField;
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure btbExcluirClick(Sender: TObject);
+  private
+    { Private declarations }
+    padrao : TFPadrao;
+  public
+    { Public declarations }
+  end;
+
+var
+  FServiços: TFServiços;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFServiços.btbExcluirClick(Sender: TObject);
+begin
+  inherited;
+  if Application.MessageBox(padrao.DESEJA_REALMENTE_EXCLUIR_REGISTRO,
+    'Confirmação', MB_YESNO) = idYES then
+  begin
+    try
+      cdsExcluir.Close;
+      cdsExcluir.Params[0].AsInteger := cdsCadastroCODIGO.AsInteger;
+      cdsExcluir.Open;
+      cdsExcluir.Delete;
+      cdsExcluir.ApplyUpdates(-1);
+      ShowMessage(padrao.CADASTRO_EXCLUIDO_SUCESSO);
+      atualizaGrid;
+    except
+      ShowMessage(padrao.CADASTRO_POSSUI_DEPENDENCIA);
+      Exit;
+    end;
+  end;
+end;
+
+procedure TFServiços.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  if Key = VK_DELETE then
+    btbExcluirClick(Sender);
+  if Key = VK_INSERT then
+    btbInserirClick(Sender);
+  if Key = VK_RETURN then
+    btbAlterarClick(Sender);
+end;
+
+end.

@@ -1,0 +1,69 @@
+unit uDM;
+
+interface
+
+uses
+  SysUtils, Classes, WideStrings, DB, SqlExpr, DBXInterbase, DBXFirebird,
+  DBXTrace, Dialogs, inifiles;
+
+type
+  TDM = class(TDataModule)
+    SQLConnection: TSQLConnection;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    procedure conectar();
+  end;
+
+var
+  DM: TDM;
+
+implementation
+
+{$R *.dfm}
+
+{ TDM }
+
+procedure TDM.conectar;
+var
+  myini: TMEMInifile;
+  endereco:string;
+begin
+  myini:=TMEMInifile.Create('CONFIG\CONFIG.ini');
+  SQLConnection.connected := false;
+
+  if SQLConnection.Connected then
+    SQLConnection.Connected:=false;
+
+  if FileExists('CONFIG\CONFIG.ini') then
+   begin
+     with myini do
+       try
+         endereco:= Readstring('BASEDEDADOS','ENDERECO','');
+         if (endereco='') then
+           begin
+             showmessage('Falha ao carregar arquivo de configuração.');
+             Abort;
+            end;
+
+       finally
+         free;
+       end;
+   end;
+
+  try
+    SQLConnection.Params.Values['DATABASE']:= endereco;
+    SQLConnection.Connected := True;
+
+  except
+   on E: Exception do
+     begin
+       ShowMessage(e.Message);
+       showmessage('Falha ao carregar arquivo de configuração');
+     end;
+  end;
+
+end;
+
+end.

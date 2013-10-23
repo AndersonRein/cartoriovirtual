@@ -1,0 +1,21 @@
+unit uTCliente;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, Mask, ComCtrls, FMTBcd, DBCtrls, uDM, CheckLst,
+  SqlExpr, DB;
+
+type
+ TFCliente = Class
+   private
+
+   public
+
+
+ End;
+
+implementation
+
+end.

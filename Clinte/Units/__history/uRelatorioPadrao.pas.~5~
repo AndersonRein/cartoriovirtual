@@ -1,0 +1,32 @@
+unit uRelatorioPadrao;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, uPadraoVazio, StdCtrls, ComCtrls, Buttons, frxClass, frxDBSet;
+
+type
+  TFRelatorioPadrao = class(TFPadraoVazio)
+    gpbData: TGroupBox;
+    dataInicio: TDateTimePicker;
+    lblDataini: TLabel;
+    DateTimePicker1: TDateTimePicker;
+    Label1: TLabel;
+    spbImprimir: TSpeedButton;
+    Relatorio: TfrxReport;
+    dbRelatorio: TfrxDBDataset;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FRelatorioPadrao: TFRelatorioPadrao;
+
+implementation
+
+{$R *.dfm}
+
+end.

@@ -1,0 +1,94 @@
+inherited FMarcas: TFMarcas
+  Caption = 'Marcas'
+  ExplicitWidth = 742
+  ExplicitHeight = 503
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited dbgCadastros: TDBGrid
+    DataSource = dsCadastro
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'CODIGO'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'NOME'
+        Visible = True
+      end>
+  end
+  inherited gpbCadastro: TGroupBox
+    inherited btbSair: TBitBtn
+      Left = 465
+      ExplicitLeft = 465
+    end
+  end
+  inherited gpbBuscar: TGroupBox
+    inherited lbNomeBuscar: TLabel
+      Width = 37
+      Caption = 'Marca.:'
+      ExplicitWidth = 37
+    end
+  end
+  inherited dsCadastro: TDataSource
+    DataSet = cdsCadastro
+  end
+  inherited cdsCadastro: TClientDataSet
+    Params = <
+      item
+        DataType = ftString
+        Name = 'NOME'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspCadastro'
+    object cdsCadastroCODIGO: TIntegerField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'CODIGO'
+    end
+    object cdsCadastroNOME: TStringField
+      DisplayLabel = 'Marca'
+      FieldName = 'NOME'
+      Size = 100
+    end
+  end
+  inherited dspCadastro: TDataSetProvider
+    DataSet = sqsCadastro
+  end
+  inherited sqsCadastro: TSQLDataSet
+    SchemaName = 'sysdba'
+    CommandText = 'select * from VMARCAS_SB WHERE NOME LIKE :NOME'
+    Params = <
+      item
+        DataType = ftString
+        Name = 'NOME'
+        ParamType = ptInput
+      end>
+  end
+  inherited sqsExcluir: TSQLDataSet
+    SchemaName = 'sysdba'
+    CommandText = 'select * from MARCAS_SB where codigo =:codigo'
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'codigo'
+        ParamType = ptInput
+      end>
+  end
+  inherited cdsExcluir: TClientDataSet
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'codigo'
+        ParamType = ptInput
+      end>
+    object cdsExcluirCODIGO: TIntegerField
+      FieldName = 'CODIGO'
+      Required = True
+    end
+    object cdsExcluirNOME: TStringField
+      FieldName = 'NOME'
+      Size = 100
+    end
+  end
+end

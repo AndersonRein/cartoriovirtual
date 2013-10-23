@@ -1,0 +1,25 @@
+object smKitSelo: TsmKitSelo
+  OldCreateOrder = False
+  Height = 482
+  Width = 819
+  object dspCadastro: TDataSetProvider
+    Left = 43
+    Top = 16
+  end
+  object dspConsulta: TDataSetProvider
+    Left = 160
+    Top = 16
+  end
+  object sqsCadastro: TSQLDataSet
+    DbxCommandType = 'Dbx.SQL'
+    Params = <>
+    Left = 12
+    Top = 16
+  end
+  object sqsConsulta: TSQLDataSet
+    DbxCommandType = 'Dbx.SQL'
+    Params = <>
+    Left = 128
+    Top = 17
+  end
+end

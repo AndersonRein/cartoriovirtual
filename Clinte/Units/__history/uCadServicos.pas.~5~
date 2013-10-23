@@ -1,0 +1,56 @@
+unit uCadServicos;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, uCadastroPadrao, StdCtrls, Buttons, FMTBcd, DB, Provider, DBClient,
+  SqlExpr, Mask, DBCtrls, uPadrao;
+
+type
+  TFCadServicos = class(TFCadastroPadrao)
+    sqsServicos: TSQLDataSet;
+    cdsServicos: TClientDataSet;
+    dspServicos: TDataSetProvider;
+    dsServicos: TDataSource;
+    cdsServicosCODIGO: TIntegerField;
+    cdsServicosNOME: TStringField;
+    cdsServicosVALOR: TFMTBCDField;
+    Label1: TLabel;
+    dbNome: TDBEdit;
+    Label2: TLabel;
+    dbValor: TDBEdit;
+  private
+    { Private declarations }
+    modo, codAlteracao: Integer;
+    procedure abrirCadastro;
+    procedure editarCadastro;
+  public
+    { Public declarations }
+  end;
+
+var
+  FCadServicos: TFCadServicos;
+
+implementation
+
+uses uDM;
+
+{$R *.dfm}
+
+{ TFCadServicos }
+
+procedure TFCadServicos.abrirCadastro;
+begin
+cdsServicos.Close;
+cdsServicos.Params[0].AsInteger 0;
+cdsServicos.Open;
+cdsServicos.Insert;
+end;
+
+procedure TFCadServicos.editarCadastro;
+begin
+
+end;
+
+end.

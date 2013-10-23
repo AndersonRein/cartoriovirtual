@@ -1,0 +1,169 @@
+unit uTFuncionario;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, Mask, ComCtrls, FMTBcd, DBCtrls, uDM, CheckLst,
+  SqlExpr, DB, uBusca, DBGrids;
+
+type
+  TFuncionario = class
+
+  private
+
+  public
+    function getBusca(edit: TEdit): Integer;
+    function excluir(codigo: Integer): Boolean;
+    function getNome(codigo: Integer): string;
+    function getTotalFuncionarios():Integer;
+    function getPermissao(usuario: Integer; campo: string): Boolean;
+    function eOPCaixa(usuario: Integer): Boolean;
+    const
+  end;
+
+implementation
+
+{ TUnidadeMedida }
+
+function TFuncionario.eOPCaixa(usuario: Integer): Boolean;
+var
+  sql: TSQLDataSet;
+begin
+  sql := TSQLDataSet.Create(nil);
+  sql.SQLConnection := DM.SQLConnection;
+  sql.CommandText := 'SELECT OPCAIXA FROM VFUNCIONARIOS WHERE CODIGO =:CODIGO';
+  sql.Params[0].AsInteger := usuario;
+  sql.Open;
+
+  if sql.FieldByName('OPCAIXA').AsInteger = 1 then
+    Result := False
+  ELSE
+    Result := True;
+end;
+
+function TFuncionario.excluir(codigo: Integer): Boolean;
+var
+  sql: TSQLDataSet;
+begin
+  try
+    sql := TSQLDataSet.Create(nil);
+    sql.SQLConnection := DM.SQLConnection;
+    sql.CommandText :=
+      'UPDATE FUNCIONARIOS SET STATUS = 0 WHERE CODIGO =:CODIGO';
+    sql.Params[0].AsInteger := codigo;
+    sql.ExecSQL;
+
+    Result := True;
+  except
+    Result := False;
+  end;
+end;
+
+function TFuncionario.getNome(codigo: Integer): string;
+var
+  sql: TSQLDataSet;
+begin
+  sql := TSQLDataSet.Create(nil);
+  sql.SQLConnection := DM.SQLConnection;
+  sql.CommandText := 'SELECT NOME FROM VFUNCIONARIOS WHERE CODIGO =:CODIGO';
+  sql.Params[0].AsInteger := codigo;
+  sql.Open;
+
+  Result := sql.FieldByName('NOME').AsString;
+end;
+
+function TFuncionario.getPermissao(usuario: Integer; campo: string): Boolean;
+var
+  sql: TSQLDataSet;
+begin
+  sql := TSQLDataSet.Create(nil);
+  sql.SQLConnection := DM.SQLConnection;
+  sql.CommandText := 'SELECT ' + campo + ' FROM VFUNCIONARIOS WHERE CODIGO =:CODIGO';
+  sql.Params[0].AsInteger := usuario;
+  sql.Open;
+
+  if sql.FieldByName(campo).AsInteger = 0 then
+    Result := True
+  else
+    Result := False;
+end;
+
+function TFuncionario.getTotalFuncionarios: Integer;
+var
+  sql: TSQLDataSet;
+begin
+  sql := TSQLDataSet.Create(nil);
+  sql.SQLConnection := DM.SQLConnection;
+  sql.CommandText := 'SELECT COUNT(CODIGO) AS TOTAL FROM VFUNCIONARIOS';
+  sql.Open;
+
+  Result := sql.FieldByName('TOTAL').AsInteger;
+  sql.Free;
+end;
+
+function TFuncionario.getBusca(edit: TEdit): Integer;
+var
+  busca: TFBusca;
+  gride: TDBGrid;
+begin
+  inherited;
+  gride := TDBGrid.Create(nil);
+  gride.Columns.Insert(0);
+  gride.Columns.Insert(1);
+  gride.Columns[0].Width := 80;
+  gride.Columns[1].Width := 400;
+  busca := TFBusca.Create(nil);
+  busca.setPropriedades(gride);
+  busca.new('Funcionarios', 'FUNCIONARIOS');
+  if busca.getCancelou then
+    begin
+    Result := 0;
+    Exit;
+  end;
+  Result := busca.getCodigo;
+  edit.Text := busca.getNome;
+  busca.Free;
+end;
+
+function TFuncionario.getCodigoUsuario(usuario, senha: string): Integer;
+var
+  sql: TSQLDataSet;
+begin
+  sql := TSQLDataSet.Create(nil);
+  sql.SQLConnection := DM.SQLConnection;
+  sql.CommandText := 'SELECT CODIGO, USUARIO, SENHA FROM VFUNCIONARIOS WHERE USUARIO =:USUAIRO AND SENHA =:SENHA AND STATUS = 1';
+  sql.Params[0].AsString := usuario;
+  sql.Params[1].AsString := senha;
+  sql.Open;
+
+  Result := sql.FieldByName('CODIGO').AsInteger;
+end;
+
+function TFuncionario.getComissaoAP(codigo: Integer): Double;
+var
+  sql: TSQLDataSet;
+begin
+  sql := TSQLDataSet.Create(nil);
+  sql.SQLConnection := DM.SQLConnection;
+  sql.CommandText := 'SELECT COMISSAOAP FROM VFUNCIONARIOS WHERE CODIGO =:CODIGO';
+  sql.Params[0].AsInteger := codigo;
+  sql.Open;
+
+  Result := sql.FieldByName('COMISSAOAP').AsFloat;
+end;
+
+function TFuncionario.getComissaoAV(codigo: Integer): Double;
+var
+  sql: TSQLDataSet;
+begin
+  sql := TSQLDataSet.Create(nil);
+  sql.SQLConnection := DM.SQLConnection;
+  sql.CommandText := 'SELECT COMISSAO FROM VFUNCIONARIOS WHERE CODIGO =:CODIGO';
+  sql.Params[0].AsInteger := codigo;
+  sql.Open;
+
+  Result := sql.FieldByName('COMISSAO').AsFloat;
+end;
+
+end.

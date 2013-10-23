@@ -1,0 +1,99 @@
+inherited FRegBoletos: TFRegBoletos
+  Caption = 'Registro de Boletim'
+  ExplicitWidth = 742
+  ExplicitHeight = 503
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited dbgCadastros: TDBGrid
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'CODIGO'
+        Width = 80
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'TIPOBOLETO'
+        Width = 80
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ENTREGA'
+        Width = 80
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'SERIEINI'
+        Width = 100
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'SERIEFIM'
+        Width = 100
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'QUANTIDADE'
+        Width = 80
+        Visible = True
+      end>
+  end
+  inherited gpbCadastro: TGroupBox
+    inherited btbInserir: TBitBtn
+      OnClick = btbInserirClick
+    end
+    inherited btbAlterar: TBitBtn
+      OnClick = btbAlterarClick
+    end
+    inherited btbExcluir: TBitBtn
+      OnClick = btbExcluirClick
+    end
+  end
+  inherited cdsConsulta: TClientDataSet
+    Params = <
+      item
+        DataType = ftString
+        Name = 'NOME'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspConsulta'
+    RemoteServer = dspConection
+    object cdsConsultaCODIGO: TIntegerField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'CODIGO'
+    end
+    object cdsConsultaENTREGA: TDateField
+      DisplayLabel = 'Entrega'
+      FieldName = 'ENTREGA'
+    end
+    object cdsConsultaQUANTIDADE: TIntegerField
+      DisplayLabel = 'Quantidade'
+      FieldName = 'QUANTIDADE'
+    end
+    object cdsConsultaSERIEFIM: TLargeintField
+      DisplayLabel = 'S'#233'rie final'
+      FieldName = 'SERIEFIM'
+    end
+    object cdsConsultaSERIEINI: TLargeintField
+      DisplayLabel = 'S'#233'rie final'
+      FieldName = 'SERIEINI'
+    end
+    object cdsConsultaCODTIPOBOLETO: TSmallintField
+      FieldName = 'CODTIPOBOLETO'
+    end
+    object cdsConsultaTIPOBOLETO: TStringField
+      DisplayLabel = 'Tipo de Boleto'
+      FieldName = 'TIPOBOLETO'
+      FixedChar = True
+      Size = 4
+    end
+  end
+  inherited dspConection: TDSProviderConnection
+    ServerClassName = 'TsmRegBoletos'
+  end
+end

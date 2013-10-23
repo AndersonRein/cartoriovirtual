@@ -1,0 +1,39 @@
+unit uEmolumentos;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uAcessoPadrao, Data.DB,
+  Datasnap.DBClient, Datasnap.DSConnect, Vcl.StdCtrls, Vcl.Buttons, Vcl.Grids,
+  Vcl.DBGrids;
+
+type
+  TFEmolumentos = class(TFAcessoCadPadrao)
+    cdsConsultaCODIGO: TIntegerField;
+    cdsConsultaGRUPOLEI: TSmallintField;
+    cdsConsultaTIPOATO: TStringField;
+    cdsConsultaLEI: TStringField;
+    cdsConsultaATOGERAL: TStringField;
+    cdsConsultaATOFIXO: TStringField;
+    cdsConsultaTIPOSELO: TIntegerField;
+    cdsConsultaVALOR: TFMTBCDField;
+    cdsConsultaEDITAVEL: TStringField;
+    cdsConsultaATIVO: TStringField;
+    cdsConsultaVLRTRANSACAO: TFMTBCDField;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FEmolumentos: TFEmolumentos;
+
+implementation
+
+{$R *.dfm}
+
+uses uDM, uCadEmolumentos;
+
+end.

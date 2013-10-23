@@ -1,0 +1,11 @@
+object smTitulos: TsmTitulos
+  OldCreateOrder = False
+  Height = 450
+  Width = 685
+  object SQLDataSet1: TSQLDataSet
+    DbxCommandType = 'Dbx.SQL'
+    Params = <>
+    Left = 40
+    Top = 40
+  end
+end

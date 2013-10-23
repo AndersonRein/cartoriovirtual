@@ -1,0 +1,49 @@
+unit uUsuarios;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uAcessoPadrao, Data.DB,
+  Datasnap.DBClient, Datasnap.DSConnect, Vcl.StdCtrls, Vcl.Buttons, Vcl.Grids,
+  Vcl.DBGrids;
+
+type
+  TFUsuarios = class(TFAcessoCadPadrao)
+    cdsConsultaCODIGO: TIntegerField;
+    cdsConsultaCODFUNCIONARIO: TIntegerField;
+    cdsConsultaFUNCIONARIO: TStringField;
+    cdsConsultaUSUARIO: TStringField;
+    cdsConsultaSENHA: TStringField;
+    cdsConsultaCODSTATUS: TSmallintField;
+    cdsConsultaSTATUS: TStringField;
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FUsuarios: TFUsuarios;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFUsuarios.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+ if Key = VK_INSERT then
+  btbInserirClick(Sender);
+ if dbgCadastros.Focused then
+    begin
+      if key = VK_RETURN then
+        btbAlterarClick(Sender);
+      if key = VK_DELETE then
+        btbExcluirClick(Sender);
+    end;
+end;
+
+end.

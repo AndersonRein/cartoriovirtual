@@ -1,0 +1,5 @@
+object smRegBoletos: TsmRegBoletos
+  OldCreateOrder = False
+  Height = 442
+  Width = 796
+end

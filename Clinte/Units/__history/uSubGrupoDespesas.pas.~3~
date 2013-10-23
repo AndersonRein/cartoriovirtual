@@ -1,0 +1,57 @@
+unit uSubGrupoDespesas;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uAcessoPadrao, Data.DB,
+  Datasnap.DBClient, Datasnap.DSConnect, Vcl.StdCtrls, Vcl.Buttons, Vcl.Grids,
+  Vcl.DBGrids;
+
+type
+  TFSubGrupoDespesas = class(TFAcessoCadPadrao)
+    cdsConsultaCODIGO: TIntegerField;
+    cdsConsultaNOME: TStringField;
+    cdsConsultaCODGRUPO: TIntegerField;
+    cdsConsultaGRUPO: TStringField;
+    cdsConsultaCARNELEAO: TIntegerField;
+    procedure btbInserirClick(Sender: TObject);
+    procedure btbAlterarClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FSubGrupoDespesas: TFSubGrupoDespesas;
+
+implementation
+
+{$R *.dfm}
+
+uses uCadSubgrupoDespesas;
+
+procedure TFSubGrupoDespesas.btbAlterarClick(Sender: TObject);
+var
+subGrupo: TFCadSubgrupoDespesas;
+begin
+  inherited;
+  subGrupo := TFCadSubgrupoDespesas.Create(nil);
+  subGrupo.alterar(cdsConsultaCODIGO.AsInteger);
+  subGrupo.Free;
+  atualizaGrid;
+end;
+
+procedure TFSubGrupoDespesas.btbInserirClick(Sender: TObject);
+var
+subGrupo: TFCadSubgrupoDespesas;
+begin
+  inherited;
+  subGrupo := TFCadSubgrupoDespesas.Create(nil);
+  subGrupo.inserir;
+  subGrupo.Free;
+  atualizaGrid;
+end;
+
+end.

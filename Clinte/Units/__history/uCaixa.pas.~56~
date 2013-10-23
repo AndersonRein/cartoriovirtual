@@ -1,0 +1,191 @@
+unit uCaixa;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, uAcessoPadrao, FMTBcd, DB, SqlExpr, Provider, DBClient, StdCtrls,
+  Buttons, Grids, DBGrids, uTCaixa, uPadrao, frxClass, frxDBSet;
+
+type
+  TFGerenciamentoCaixa = class(TFAcessoCadPadrao)
+    cdsCadastroCODIGO: TIntegerField;
+    cdsCadastroABERTURA: TDateField;
+    cdsCadastroHORAABERTURA: TTimeField;
+    cdsCadastroFECHAMENTO: TDateField;
+    cdsCadastroHORAFECHAMENTO: TTimeField;
+    cdsCadastroOBSERVACAO: TStringField;
+    GroupBox1: TGroupBox;
+    GroupBox2: TGroupBox;
+    GroupBox3: TGroupBox;
+    lblTotalEntradas: TLabel;
+    Label1: TLabel;
+    Label2: TLabel;
+    lblTotalSaida: TLabel;
+    lblTotalLiquido: TLabel;
+    spbImprimir: TSpeedButton;
+    Imprimir: TfrxReport;
+    dbImprimir: TfrxDBDataset;
+    cdsExcluirCODIGO: TIntegerField;
+    cdsExcluirDATAFATURA: TSQLTimeStampField;
+    cdsExcluirCLIENTE: TStringField;
+    cdsExcluirDESCONTO: TFMTBCDField;
+    cdsExcluirTOTAL: TFloatField;
+    cdsExcluirFORMAPAGAMENTO: TStringField;
+    cdsExcluirVALOR: TFloatField;
+    cdsSuprimento: TClientDataSet;
+    dspSuprimento: TDataSetProvider;
+    sqsSuprimento: TSQLDataSet;
+    dbSuprimento: TfrxDBDataset;
+    cdsSuprimentoCODIGO: TIntegerField;
+    cdsSuprimentoVALOR: TFMTBCDField;
+    cdsSuprimentoDESCRICAO: TStringField;
+    cdsSuprimentoOPERACAO: TStringField;
+    procedure FormCreate(Sender: TObject);
+    procedure btbInserirClick(Sender: TObject);
+    procedure btbAlterarClick(Sender: TObject);
+    procedure cdsCadastroAfterScroll(DataSet: TDataSet);
+    procedure btbExcluirClick(Sender: TObject);
+    procedure btbSairClick(Sender: TObject);
+    procedure spbImprimirClick(Sender: TObject);
+    procedure ImprimirGetValue(const VarName: string; var Value: Variant);
+  private
+    { Private declarations }
+    caixa: TFCaixa;
+    procedure mostraDados;
+    procedure totais;
+  public
+    { Public declarations }
+  end;
+
+var
+  FGerenciamentoCaixa: TFGerenciamentoCaixa;
+
+implementation
+
+uses uSuprimento, uDM;
+{$R *.dfm}
+
+procedure TFGerenciamentoCaixa.btbAlterarClick(Sender: TObject);
+var
+  obs: string;
+begin
+  inherited;
+  if cdsCadastroFECHAMENTO.AsDateTime > 2000 then
+  begin
+    ShowMessage(caixa.CAIXA_FECHADO);
+    Exit;
+  end;
+
+  if Application.MessageBox('Deseja realmente fechar o caixa', 'Confirmação',
+    MB_YESNO) = idYES then
+  begin
+    obs := InputBox('Observação', 'Confirmação', '');
+    caixa.fechaCaixa(cdsCadastroCODIGO.AsInteger, obs);
+    ShowMessage(caixa.CAIXA_FECHADO_SUCESSO);
+    mostraDados;
+  end;
+end;
+
+procedure TFGerenciamentoCaixa.btbExcluirClick(Sender: TObject);
+var
+  suprimento: TFSuprimento;
+begin
+  inherited;
+  if cdsCadastroFECHAMENTO.AsDateTime > 2000 then
+  begin
+    ShowMessage(caixa.CAIXA_FECHADO);
+    Exit;
+  end;
+
+  suprimento := TFSuprimento.Create(nil);
+  suprimento.new(cdsCadastroCODIGO.AsInteger, 0);
+  suprimento.Free;
+  totais;
+end;
+
+procedure TFGerenciamentoCaixa.btbInserirClick(Sender: TObject);
+begin
+  inherited;
+  if caixa.temCaixaAberto then
+  begin
+    ShowMessage(caixa.CAIXA_ABERTO);
+    Exit;
+  end;
+  caixa.abrirCaixa(Now);
+  mostraDados;
+end;
+
+procedure TFGerenciamentoCaixa.btbSairClick(Sender: TObject);
+var
+  suprimento: TFSuprimento;
+begin
+  // inherited;
+  if cdsCadastroFECHAMENTO.AsDateTime > 2000 then
+  begin
+    ShowMessage(caixa.CAIXA_FECHADO);
+    Exit;
+  end;
+  suprimento := TFSuprimento.Create(nil);
+  suprimento.new(cdsCadastroCODIGO.AsInteger, 1);
+  suprimento.Free;
+  totais;
+end;
+
+procedure TFGerenciamentoCaixa.cdsCadastroAfterScroll(DataSet: TDataSet);
+begin
+  inherited;
+  totais;
+end;
+
+procedure TFGerenciamentoCaixa.FormCreate(Sender: TObject);
+begin
+  // inherited;
+  caixa := TFCaixa.Create();
+  mostraDados;
+end;
+
+procedure TFGerenciamentoCaixa.ImprimirGetValue
+  (const VarName: string; var Value: Variant);
+begin
+  inherited;
+  if VarName = 'CAIXA' then
+    Value := IntToStr(cdsCadastroCODIGO.AsInteger);
+  if VarName = 'DIACAIXA' then
+    Value := DateToStr(cdsCadastroABERTURA.AsDateTime);
+  if VarName = 'TOTALVENDAS' then
+    Value := lblTotalEntradas.Caption;
+end;
+
+procedure TFGerenciamentoCaixa.mostraDados;
+begin
+  cdsCadastro.Close;
+  cdsCadastro.Open;
+end;
+
+procedure TFGerenciamentoCaixa.spbImprimirClick(Sender: TObject);
+begin
+  inherited;
+  cdsExcluir.Close;
+  cdsExcluir.Params[0].AsInteger := cdsCadastroCODIGO.AsInteger;
+  cdsExcluir.Open;
+
+  cdsSuprimento.Close;
+  cdsSuprimento.Params[0].AsInteger := cdsCadastroCODIGO.AsInteger;
+  cdsSuprimento.Open;
+
+  Imprimir.ShowReport();
+end;
+
+procedure TFGerenciamentoCaixa.totais;
+begin
+  lblTotalEntradas.Caption := FormatFloat('##0.00', caixa.getTotalEntradas
+      (cdsCadastroCODIGO.AsInteger));
+  lblTotalSaida.Caption := FormatFloat('##0.00', caixa.getTotalSaida
+      (cdsCadastroCODIGO.AsInteger));
+  lblTotalLiquido.Caption := FormatFloat('##0.00', caixa.getTotalEntradas
+      (cdsCadastroCODIGO.AsInteger) - caixa.getTotalSaida
+      (cdsCadastroCODIGO.AsInteger));
+end;
+
+end.

@@ -1,0 +1,29 @@
+unit uMarcas;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, uAcessoPadrao, FMTBcd, DB, SqlExpr, Provider, DBClient, StdCtrls,
+  Buttons, Grids, DBGrids;
+
+type
+  TFMarcas = class(TFAcessoCadPadrao)
+    cdsCadastroCODIGO: TIntegerField;
+    cdsCadastroNOME: TStringField;
+    cdsExcluirCODIGO: TIntegerField;
+    cdsExcluirNOME: TStringField;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FMarcas: TFMarcas;
+
+implementation
+
+{$R *.dfm}
+
+end.

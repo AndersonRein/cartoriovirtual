@@ -1,0 +1,138 @@
+unit uTExportacao;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, Mask, ComCtrls, FMTBcd, DBCtrls, uDM, CheckLst,
+  SqlExpr, DB, uBusca, DBGrids, uTData, inifiles, Datasnap.DBClient, Datasnap.DSConnect;
+
+type
+  TExportacao = class
+
+  private
+  datas: TData;
+  nomeArquivo: string;
+  endeAquivo:string;
+  serventia:string;
+  boletim:string;
+  function gerarNomeArquivo():string;
+  function formataAto(lei:string):string;
+  public
+  statusPagFerj:string;
+  totalFERJ: string;
+  boletoFERC:string;
+  dtPagFERC:string;
+  statusPagFerc:string;
+  totalFERC:string;
+  numRemessa:string;
+  procedure SISDFERJ(endereco, dtInicio, dtFinal, boletoFERJ, dtPagFERJ:string; boletim:Integer);
+  procedure criar();
+  function formatarValores(valor:Double):string;
+  end;
+
+implementation
+
+{ TExportacao }
+
+uses uPadrao;
+
+procedure TExportacao.criar;
+begin
+datas := TData.Create;
+nomeArquivo := gerarNomeArquivo;
+end;
+
+function TExportacao.formataAto(lei: string): string;
+begin
+Result := StringReplace(lei,'.','',[rfReplaceAll]);
+end;
+
+function TExportacao.formatarValores(valor: Double): string;
+var
+vlr: string;
+begin
+vlr := FormatFloat('#######0.00',valor);
+vlr := StringReplace(vlr,',','',[rfReplaceAll]);
+Result := vlr;
+end;
+
+function TExportacao.gerarNomeArquivo: string;
+var
+  myini: TMEMInifile;
+begin
+  myini:=TMEMInifile.Create(config);
+
+  if FileExists(config) then
+   begin
+     with myini do
+       try
+         serventia:= Readstring('FERJ','SERVENTIA','1');
+       finally
+         free;
+       end;
+   end;
+   Result := serventia;
+end;
+
+procedure TExportacao.SISDFERJ(endereco, dtInicio, dtFinal, boletoFERJ, dtPagFERJ:string; boletim:Integer);
+var
+arq: TextFile;
+I: Integer;
+cds: TClientDataSet;
+dsp: TDSProviderConnection;
+begin
+  dsp := TDSProviderConnection.Create(nil);
+  dsp.SQLConnection := DM.SQLConnection;
+  dsp.ServerClassName := 'TsmBoletim';
+  dsp.Connected := True;
+
+  cds := TClientDataSet.Create(nil);
+  cds.RemoteServer := dsp;
+  cds.ProviderName := 'dspItensBoletim';
+  cds.FetchParams;
+  cds.Close;
+  cds.Params[0].AsInteger := boletim;
+  cds.Open;
+
+  I := 1;
+  endeAquivo := endereco+nomeArquivo+numRemessa+'.rem';
+  Self.boletim := FormatFloat('000000',boletim);
+  AssignFile(arq,endeAquivo);
+  Rewrite(arq);
+  //cabeçalho
+  Writeln(arq,'00'+delimit+'01'+delimit+'N'+delimit+serventia+delimit+IntToStr(datas.getAno)+IntToStr(datas.getSemanaDoAno(Date))+delimit+DateToStr(Date)+delimit+'CARTORIO VIRTUAL'+delimit+'1.0'+delimit+IntToStr(datas.getAno)+IntToStr(datas.getSemanaDoAno(Date))+delimit);
+  //registro do boletim
+  Write(arq,'01'+delimit+FormatFloat('00000',I)+delimit+FormatFloat('000000',boletim)+delimit+serventia+delimit+dtInicio+delimit+dtFinal+delimit+boletoFERJ+delimit+dtPagFERJ+delimit+statusPagFerj+delimit+totalFERJ+delimit+'N'+delimit+'003'+delimit+usuario.getNome+delimit+boletoFERC+delimit);
+  Writeln(arq,dtPagFERC+delimit+statusPagFerc+delimit+totalFERC+delimit);
+  //atos analiticos
+  cds.First;
+  Inc(I);
+  while not cds.Eof do
+    begin
+      Write(arq,'02'+delimit+FormatFloat('00000',I)+delimit+FormatFloat('000000', cds.FieldByName('CODEMOLUMENTO').AsInteger)+delimit+FormatFloat('000000',boletim)+delimit+FormatFloat('00000', cds.FieldByName('CODIGO').AsInteger)+delimit+formatarValores(cds.FieldByName('VALORTRANSACAO').AsFloat)+delimit+cds.FieldByName('NUMATO').AsString+delimit);
+      Write(arq,FormatFloat('000000000',cds.FieldByName('SELO').AsFloat)+delimit+cds.FieldByName('NUMLIVRO').AsString+delimit+cds.FieldByName('NUMFOLHA').AsString+delimit+formatarValores(cds.FieldByName('VLRFERJ').AsFloat)+delimit+serventia+delimit+cds.FieldByName('CODTIPOSELO').AsString+delimit+formatarValores(cds.FieldByName('VLREMOLUMENTOS').AsFloat)+delimit);
+      Writeln(arq,formatarValores(cds.FieldByName('VLRFERC').AsFloat)+delimit+cds.FieldByName('DATAATO').AsString+delimit);
+      Inc(I);
+      cds.Next;
+    end;
+
+  //atos sinteticos
+  cds.Close;
+  cds.ProviderName := 'dspConsItemTotal';
+  cds.FetchParams;
+  cds.Params[0].AsInteger := boletim;
+  cds.Open;
+  cds.First;
+  while not cds.Eof do
+    begin
+      Write(arq,'03'+delimit+FormatFloat('00000',I)+delimit+FormatFloat('000000',boletim)+delimit+serventia+delimit+formataAto(cds.FieldByName('CODEMOLUMENTO').AsString)+delimit+cds.FieldByName('QUANTIDADE').AsString+delimit+FormatFloat('000000000',cds.FieldByName('SELOINI').AsFloat)+delimit+FormatFloat('000000000',cds.FieldByName('SELOFIM').AsFloat)+delimit);
+      Writeln(arq,cds.FieldByName('QUANTIDADE').AsString+delimit+formatarValores(cds.FieldByName('VLRFERJ').AsFloat)+delimit+cds.FieldByName('CODTIPOSELO').AsString+delimit+formatarValores(cds.FieldByName('EMOLUNIDADE').AsFloat)+delimit+formatarValores(cds.FieldByName('VLRFERC').AsFloat)+delimit);
+      Inc(I);
+      cds.Next;
+    end;
+  Write(arq,'99'+delimit+FormatFloat('00000',I-1)+delimit);
+  CloseFile(arq);
+end;
+
+end.

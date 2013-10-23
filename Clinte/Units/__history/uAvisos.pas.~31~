@@ -1,0 +1,213 @@
+unit uAvisos;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uPadraoVazio, Vcl.ComCtrls, Vcl.StdCtrls,
+  Data.DB, Datasnap.DBClient, Datasnap.DSConnect, Vcl.Grids, Vcl.DBGrids, uTIntimacao,
+  Vcl.Buttons;
+
+type
+  TFAvisos = class(TFPadraoVazio)
+    cdsIntimacaoSemConclusao: TClientDataSet;
+    dsIntimacaoSemConclusao: TDataSource;
+    dspProtestos: TDSProviderConnection;
+    cdsIntimacaoSemConclusaoCODIGO: TIntegerField;
+    cdsIntimacaoSemConclusaoCODACEITE: TSmallintField;
+    cdsIntimacaoSemConclusaoACEITE: TStringField;
+    cdsIntimacaoSemConclusaoCONCLUSAO: TDateField;
+    cdsIntimacaoSemConclusaoDATA: TDateField;
+    cdsIntimacaoSemConclusaoPROTESTO: TIntegerField;
+    cdsIntimacaoSemConclusaoCOD_APRESENTANTE: TIntegerField;
+    cdsIntimacaoSemConclusaoAPRESENTANTE: TStringField;
+    cdsIntimacaoSemConclusaoCPF_CNPJ_APRESENTANTE: TStringField;
+    cdsIntimacaoSemConclusaoEND_APRESENTANTE: TStringField;
+    cdsIntimacaoSemConclusaoNUM_APRESENTANTE: TStringField;
+    cdsIntimacaoSemConclusaoBAIRRO_APRESENTANTE: TStringField;
+    cdsIntimacaoSemConclusaoCOD_CIDADE_APRESENTANTE: TIntegerField;
+    cdsIntimacaoSemConclusaoCIDADE_APRESENTANTE: TStringField;
+    cdsIntimacaoSemConclusaoUF_APRESENTANTE: TStringField;
+    cdsIntimacaoSemConclusaoCOD_DEVEDOR: TIntegerField;
+    cdsIntimacaoSemConclusaoDEVEDOR: TStringField;
+    cdsIntimacaoSemConclusaoCPF_CNPJ_DEVEDOR: TStringField;
+    cdsIntimacaoSemConclusaoEND_DEVEDOR: TStringField;
+    cdsIntimacaoSemConclusaoNUM_DEVEDOR: TStringField;
+    cdsIntimacaoSemConclusaoBAIRRO_DEVEDOR: TStringField;
+    cdsIntimacaoSemConclusaoCOD_CIDADE_DEVEDOR: TIntegerField;
+    cdsIntimacaoSemConclusaoCIDADE_DEVEDOR: TStringField;
+    cdsIntimacaoSemConclusaoUF_DEVEDOR: TStringField;
+    cdsIntimacaoSemConclusaoPROTOCOLO: TIntegerField;
+    cdsIntimacaoSemConclusaoSEQPROTOCOLO: TIntegerField;
+    cdsIntimacaoSemConclusaoSELO1: TStringField;
+    cdsIntimacaoSemConclusaoSELO2: TStringField;
+    cdsIntimacaoSemConclusaoCODSTATUS: TSmallintField;
+    cdsIntimacaoSemConclusaoSTATUS: TStringField;
+    cdsIntimacaoSemConclusaoVALORPROTESTO: TFMTBCDField;
+    cdsIntimacaoSemConclusaoVENCIMENTO: TDateField;
+    cdsIntimacaoSemConclusaoNUMTITULO: TStringField;
+    cdsIntimacaoSemConclusaoTITULO: TStringField;
+    PageControl: TPageControl;
+    tbsProtCadastrados: TTabSheet;
+    tbsIntimacao: TTabSheet;
+    GroupBox1: TGroupBox;
+    DBGrid1: TDBGrid;
+    GroupBox2: TGroupBox;
+    GroupBox3: TGroupBox;
+    DBGrid2: TDBGrid;
+    GroupBox4: TGroupBox;
+    cdsProtestosCadastrados: TClientDataSet;
+    dsProtestosCadastrados: TDataSource;
+    cdsProtestosCadastradosCODIGO: TIntegerField;
+    cdsProtestosCadastradosCODAPRESENTANTE: TIntegerField;
+    cdsProtestosCadastradosAPRESENTANTE: TStringField;
+    cdsProtestosCadastradosCADASTRO: TDateField;
+    cdsProtestosCadastradosCODDEVEDOR: TIntegerField;
+    cdsProtestosCadastradosDEVEDOR: TStringField;
+    cdsProtestosCadastradosCODFALIMENTAR: TSmallintField;
+    cdsProtestosCadastradosFALIMENTAR: TStringField;
+    cdsProtestosCadastradosCODMOTIVOPROTESTO: TIntegerField;
+    cdsProtestosCadastradosMOTIVOPROTESTO: TStringField;
+    cdsProtestosCadastradosNUMTITULO: TStringField;
+    cdsProtestosCadastradosPROTOCOLO: TIntegerField;
+    cdsProtestosCadastradosCODSTATUS: TSmallintField;
+    cdsProtestosCadastradosSTATUS: TStringField;
+    cdsProtestosCadastradosCODTITULO: TIntegerField;
+    cdsProtestosCadastradosTITULO: TStringField;
+    cdsProtestosCadastradosCODUSUARIO: TIntegerField;
+    cdsProtestosCadastradosUSUARIO: TStringField;
+    cdsProtestosCadastradosVALORPROTESTO: TFMTBCDField;
+    cdsProtestosCadastradosVENCIMENTO: TDateField;
+    cdsProtestosCadastradosSEQPROTOCOLO: TIntegerField;
+    btbIntimar: TBitBtn;
+    btbConcluirInt: TBitBtn;
+    procedure btbIntimarClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure btbConcluirIntClick(Sender: TObject);
+  private
+    { Private declarations }
+    intimacao: TIntimacao;
+  public
+    { Public declarations }
+    procedure buscarProtestos();
+    procedure buscarIntimacao();
+    function getProtestos:Integer;
+    function getIntimacao:Integer;
+  end;
+
+var
+  FAvisos: TFAvisos;
+
+implementation
+
+{$R *.dfm}
+
+uses uDM, uTTransacoes, uPadrao, uConclusaoIntimacao, uIntimar;
+
+{ TFAvisos }
+
+procedure TFAvisos.btbConcluirIntClick(Sender: TObject);
+var
+conclusao: TFConclusaoIntimacao;
+begin
+  inherited;
+  if not cdsIntimacaoSemConclusaoCONCLUSAO.IsNull then
+    begin
+      Application.MessageBox(PwideChar('A intimação deste protesto já foi concluida!'),'Aviso',MB_ICONEXCLAMATION);
+      Exit;
+    end;
+
+  if Application.MessageBox(DESEJA_REALMENTE_EXECUTAR_ESTA_OPERACAO,'Confirmação', MB_YESNO + MB_ICONQUESTION) = ID_YES then
+     begin
+       try
+        conclusao := TFConclusaoIntimacao.Create(nil);
+        conclusao.new(cdsIntimacaoSemConclusaoAPRESENTANTE.AsString, cdsIntimacaoSemConclusaoDEVEDOR.AsString);
+        if conclusao.getCancelou then
+        begin
+          conclusao.Free;
+          Exit;
+        end;
+        TTransacao.start;
+        if conclusao.getTipoConclusao <= 1 then
+          intimacao.concluir(cdsIntimacaoSemConclusaoCODIGO.AsInteger, conclusao.getTipoConclusao, cdsIntimacaoSemConclusaoPROTESTO.AsInteger, conclusao.getData)
+        else
+          intimacao.concluir(cdsIntimacaoSemConclusaoCODIGO.AsInteger, conclusao.getTipoConclusao, cdsIntimacaoSemConclusaoPROTESTO.AsInteger);
+        TTransacao.commit;
+        ShowMessage(SUCESSO);
+        cdsIntimacaoSemConclusao.Refresh;
+       except
+        on E: Exception do
+          begin
+            if TTransacao.isStarted then
+              TTransacao.rollback;
+            ShowMessage(ERRO + ' '+ E.Message);
+          end;
+       end;
+     end;
+end;
+
+procedure TFAvisos.btbIntimarClick(Sender: TObject);
+var
+intimar: TFIntimar;
+begin
+  inherited;
+  if cdsProtestosCadastradosCODSTATUS.AsInteger = 1 then
+    begin
+      Application.MessageBox(PWideChar('Este título já esta intimado!'),'Aviso',MB_ICONEXCLAMATION);
+      Exit;
+    end;
+  if Application.MessageBox(DESEJA_REALMENTE_EXECUTAR_ESTA_OPERACAO,'Confirmação', MB_YESNO + MB_ICONQUESTION) = ID_YES then
+     begin
+      try
+        intimar := TFIntimar.Create(nil);
+        intimar.new(cdsProtestosCadastradosAPRESENTANTE.AsString, cdsProtestosCadastradosDEVEDOR.AsString, cdsProtestosCadastradosSEQPROTOCOLO.AsString);
+        if intimar.getCancelou then
+          begin
+            intimar.Free;
+            Exit;
+          end;
+        TTransacao.start;
+        intimacao.intimar(cdsProtestosCadastradosCODIGO.AsInteger, 0, intimar.getSelo, cdsProtestosCadastradosPROTOCOLO.AsInteger, intimar.getFerj);
+        TTransacao.commit;
+        ShowMessage(SUCESSO);
+        cdsProtestosCadastrados.Refresh;
+      except
+        on E: Exception do
+          begin
+            if TTransacao.isStarted then
+              TTransacao.rollback;
+            ShowMessage(ERRO + ' '+E.Message);
+          end;
+    end;
+  end;
+end;
+
+procedure TFAvisos.buscarIntimacao;
+begin
+cdsIntimacaoSemConclusao.Close;
+cdsIntimacaoSemConclusao.Open;
+end;
+
+procedure TFAvisos.buscarProtestos;
+begin
+cdsProtestosCadastrados.Close;
+cdsProtestosCadastrados.Open;
+end;
+
+procedure TFAvisos.FormCreate(Sender: TObject);
+begin
+  inherited;
+  intimacao := TIntimacao.Create;
+end;
+
+function TFAvisos.getIntimacao: Integer;
+begin
+Result := cdsIntimacaoSemConclusao.RecordCount;
+end;
+
+function TFAvisos.getProtestos: Integer;
+begin
+Result := cdsProtestosCadastrados.RecordCount;
+end;
+
+end.

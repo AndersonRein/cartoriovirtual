@@ -1,0 +1,28 @@
+object smOcorrencias: TsmOcorrencias
+  OldCreateOrder = False
+  Height = 375
+  Width = 489
+  object sqsCadastro: TSQLDataSet
+    SchemaName = 'sysdba'
+    CommandText = 'select * from OCORENCIA where codigo =:codigo'
+    DbxCommandType = 'Dbx.SQL'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'codigo'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.SQLConnection
+    Left = 24
+    Top = 16
+  end
+  object sqsConsulta: TSQLDataSet
+    DbxCommandType = 'Dbx.SQL'
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.SQLConnection
+    Left = 24
+    Top = 72
+  end
+end

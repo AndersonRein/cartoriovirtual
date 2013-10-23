@@ -1,0 +1,48 @@
+inherited FCadOcorrencia: TFCadOcorrencia
+  Caption = 'Cadastro de ocorr'#234'ncia'
+  ExplicitWidth = 434
+  ExplicitHeight = 251
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited gpbCadastro: TGroupBox
+    object Label1: TLabel
+      Left = 8
+      Top = 14
+      Width = 27
+      Height = 13
+      Caption = 'Nome'
+      FocusControl = dbNome
+    end
+    object dbNome: TDBEdit
+      Left = 8
+      Top = 30
+      Width = 1304
+      Height = 21
+      CharCase = ecUpperCase
+      DataField = 'NOME'
+      DataSource = dsCadastro
+      TabOrder = 0
+    end
+  end
+  inherited cdsCadastro: TClientDataSet
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'codigo'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspCadastro'
+    object cdsCadastroCODIGO: TIntegerField
+      FieldName = 'CODIGO'
+      Required = True
+    end
+    object cdsCadastroNOME: TStringField
+      DisplayLabel = 'Nome'
+      FieldName = 'NOME'
+      Size = 100
+    end
+  end
+  inherited dspConection: TDSProviderConnection
+    ServerClassName = 'TsmOcorrencias'
+  end
+end

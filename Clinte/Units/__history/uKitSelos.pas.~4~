@@ -1,0 +1,72 @@
+unit uKitSelos;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uAcessoPadrao, Data.DB,
+  Datasnap.DBClient, Datasnap.DSConnect, Vcl.StdCtrls, Vcl.Buttons, Vcl.Grids,
+  Vcl.DBGrids;
+
+type
+  TFKitSelo = class(TFAcessoCadPadrao)
+    cdsConsultaCODIGO: TIntegerField;
+    cdsConsultaNOME: TStringField;
+    cdsConsultaQUANTIDADE: TIntegerField;
+    procedure btbInserirClick(Sender: TObject);
+    procedure btbAlterarClick(Sender: TObject);
+    procedure btbExcluirClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FKitSelo: TFKitSelo;
+
+implementation
+
+{$R *.dfm}
+
+uses uCadKitSelos, uPadrao;
+
+procedure TFKitSelo.btbAlterarClick(Sender: TObject);
+var
+cadKit: TFCadKitSelos;
+begin
+  inherited;
+  cadKit := TFCadKitSelos.Create(nil);
+  cadKit.alterar(cdsConsultaCODIGO.AsInteger);
+  cadKit.Free;
+  atualizaGrid;
+end;
+
+procedure TFKitSelo.btbExcluirClick(Sender: TObject);
+begin
+  inherited;
+  if Application.MessageBox(DESEJA_REALMENTE_EXCLUIR_REGISTRO, 'Confirmação',
+    MB_YESNO) = idYES then
+  begin
+    try
+       autografo.excluir(cdsConsultaCODIGO.AsInteger);
+      ShowMessage(CADASTRO_EXCLUIDO_SUCESSO);
+      atualizaGrid;
+    except
+      ShowMessage(CADASTRO_POSSUI_DEPENDENCIA);
+    end;
+  end;
+end;
+
+procedure TFKitSelo.btbInserirClick(Sender: TObject);
+var
+cadKit: TFCadKitSelos;
+begin
+  inherited;
+  cadKit := TFCadKitSelos.Create(nil);
+  cadKit.inserir;
+  cadKit.Free;
+  atualizaGrid;
+end;
+
+end.

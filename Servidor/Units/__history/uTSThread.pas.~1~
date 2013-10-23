@@ -1,0 +1,34 @@
+unit uTSThread;
+
+interface
+
+  uses
+  Classes, SqlExpr;
+
+  type
+  TSThread = class(TThread)
+
+  protected
+  procedure Execute; override;
+  procedure finalizarDiaSMovProtocolo;
+
+  end;
+
+implementation
+
+{ TSThread }
+
+procedure TSThread.Execute;
+begin
+  inherited;
+ Synchronize(finalizarDiaSMovProtocolo);
+end;
+
+procedure TSThread.finalizarDiaSMovProtocolo;
+var
+sqlConsulta, sqlInserir: TSQLDataSet;
+begin
+
+end;
+
+end.
